@@ -1,5 +1,5 @@
 # DIVID-DJ
-[![Build Status](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ.svg)](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ/)
+[![Build Status](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ.svg?branch=master)](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ/)
 [![Coverage Status](https://coveralls.io/repos/tudarmstadt-lt/DIVID-DJ/badge.svg?branch=master&service=github)](https://coveralls.io/github/tudarmstadt-lt/DIVID-DJ?branch=master)
 [![Project status](https://img.shields.io/badge/status-active-brightgreen.svg)](#status)
 [![Project Licence](https://img.shields.io/badge/licence-AGPL-blue.svg)](#license)
