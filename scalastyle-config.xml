@@ -49,7 +49,7 @@ http://www.scalastyle.org/rules-0.7.0.html
 
  <check level="error" class="org.scalastyle.file.HeaderMatchesChecker" enabled="true">
   <parameters>
-   <parameter name="header"><![CDATA[/* 
+   <parameter name="header"><![CDATA[/*
  * Copyright (C) 2015  Language Technology Group
  *
  * This program is free software: you can redistribute it and/or modify
