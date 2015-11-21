@@ -33,9 +33,10 @@ object Dependencies {
 
     val config   = "com.typesafe" % "config" % "1.3.0"                        // ApacheV2
     val logging  = "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"  // ApacheV2
-    val logback	 = "ch.qos.logback" % "logback-classic" % "1.1.3"             // EPL 1.0 / LGPL 2.1
+    val logback  = "ch.qos.logback" % "logback-classic" % "1.1.3"             // EPL 1.0 / LGPL 2.1
     val scopt    = "com.github.scopt" %% "scopt" % "3.3.0"                    // MIT
     val playJson = "com.typesafe.play" %% "play-json" % "2.4.3"               // ApacheV2
+    val csv      = "com.github.tototoshi" %% "scala-csv" % "1.2.2"            // ApacheV2
 
     val jungApi     = "net.sf.jung" % "jung-api" % "2.0.1"           // BSD
     val jungGraph   = "net.sf.jung" % "jung-graph-impl" % "2.0.1"    // BSD
@@ -59,7 +60,7 @@ object Dependencies {
   val l = libraryDependencies
 
   // Projects
-  val coreDeps = l ++= Seq(config, scopt, playJson, logging, logback,
+  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, logback,
         jungApi, jungGraph, jungAlgo, mysql, hikari, h2database,
         scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
 
