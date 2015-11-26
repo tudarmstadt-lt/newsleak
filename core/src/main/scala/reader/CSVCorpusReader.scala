@@ -67,7 +67,7 @@ class CSVCorpusReader(file: Path) extends CorpusReader with LazyLogging {
             case content :: created :: Nil =>
               val datetime = LocalDateTime.parse(created, formatter)
               Document(lastLineParsed, content, datetime, Map())
-            case content :: created :: metaTriple =>
+            case content :: created :: metaTriple if metaTriple.length % 3 == 0 =>
               val datetime = LocalDateTime.parse(created, formatter)
               val metadata = parseMetadata(metaTriple)
 
@@ -92,7 +92,8 @@ class CSVCorpusReader(file: Path) extends CorpusReader with LazyLogging {
           }
           (datatypes.head, e.map { case Seq(_, value, _) => value })
         }
-        mapping
+        // Force evaluation, because mapValues is lazy
+        mapping.view.force
       }
     }
   }

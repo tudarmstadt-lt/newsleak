@@ -125,10 +125,7 @@ class CSVCorpusReaderTest extends WordSpec with Matchers {
     "throw an error if values with same key have different types" in {
       new ReaderWithOneDocumentIllFormedTypes {
         intercept[IOException] {
-          // scalastyle:off
-          // I have actually no idea, why this test fails without the println
-          println(reader.documents.head)
-          // scalastyle:on
+          reader.documents.head.metadata
         }
       }
     }

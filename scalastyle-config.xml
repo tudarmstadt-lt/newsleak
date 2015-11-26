@@ -144,7 +144,7 @@ http://www.scalastyle.org/rules-0.7.0.html
 
  <check level="error" class="org.scalastyle.scalariform.CyclomaticComplexityChecker" enabled="true">
   <parameters>
-   <parameter name="maximum"><![CDATA[10]]></parameter>
+   <parameter name="maximum"><![CDATA[11]]></parameter>
   </parameters>
  </check>
 
