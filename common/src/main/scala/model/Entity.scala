@@ -17,22 +17,12 @@
 
 package model
 
-import java.time.LocalDateTime
-
-import scala.collection.immutable
-
 /**
- * Common document representation.
- *
- * @param id unique document identifier.
- * @param content document body that contains raw text.
- * @param created creation date of the document.
- * @param metadata returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
- * the type of the meta data associated wih that key and y represents the respective list of meta data values.
+ * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
  */
-case class Document(
-  val id: Int,
-  val content: String,
-  val created: LocalDateTime,
-  val metadata: immutable.Map[String, (String, List[String])]
-)
+object EntityType extends Enumeration {
+  val Person = Value
+  val Organization = Value
+  val Location = Value
+}
+

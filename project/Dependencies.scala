@@ -27,16 +27,18 @@ object Dependencies {
       // scalaTestVersion := ...
   )
 
-
   object Compile {
     // Compile
 
-    val config   = "com.typesafe" % "config" % "1.3.0"                        // ApacheV2
-    val logging  = "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"  // ApacheV2
-    val logback  = "ch.qos.logback" % "logback-classic" % "1.1.3"             // EPL 1.0 / LGPL 2.1
-    val scopt    = "com.github.scopt" %% "scopt" % "3.3.0"                    // MIT
-    val playJson = "com.typesafe.play" %% "play-json" % "2.4.3"               // ApacheV2
-    val csv      = "com.github.tototoshi" %% "scala-csv" % "1.2.2"            // ApacheV2
+    val config      = "com.typesafe" % "config" % "1.3.0"                             // ApacheV2
+    val logging     = "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2" // ApacheV2
+    val slf4jSimple = "org.slf4j"  %  "slf4j-simple" % "1.7.6"                        // MIT
+    val scopt       = "com.github.scopt" %% "scopt" % "3.3.0"                         // MIT
+    val playJson    = "com.typesafe.play" %% "play-json" % "2.4.3"                    // ApacheV2
+    val csv         = "com.github.tototoshi" %% "scala-csv" % "1.2.2"                 // ApacheV2
+
+    val ner      = "org.scalanlp" %% "epic-ner-en-conll" % "2015.1.25" // ApacheV2
+    val scalaNlp = "org.scalanlp" %% "epic" % "0.3" excludeAll(ExclusionRule(organization = "com.typesafe.scala-logging"))  // ApacheV2
 
     val jungApi     = "net.sf.jung" % "jung-api" % "2.0.1"           // BSD
     val jungGraph   = "net.sf.jung" % "jung-graph-impl" % "2.0.1"    // BSD
@@ -60,10 +62,10 @@ object Dependencies {
   val l = libraryDependencies
 
   // Projects
-  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, logback,
-        jungApi, jungGraph, jungAlgo, mysql, hikari, h2database,
+  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple,
+        jungApi, jungGraph, jungAlgo, ner, scalaNlp, mysql, hikari, h2database,
         scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
 
-  val commonDeps = l ++= Seq(playJson, jungApi, jungGraph, jungAlgo, mysql, hikari, h2database,
-        logging, logback, scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
+  val commonDeps = l ++= Seq(playJson, jungApi, scalaNlp, jungGraph, jungAlgo, mysql, hikari,
+        h2database, logging, slf4jSimple, scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
 }

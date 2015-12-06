@@ -17,14 +17,19 @@
 
 import java.nio.file.Paths
 
-import com.typesafe.scalalogging.LazyLogging
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import reader.CSVCorpusReader
 import scopt.OptionParser
 
+/**
+ * Used to parse command line arguments.
+ *
+ * @param sourcefile corpus file to be processed.
+ */
 case class ArgumentOptions(sourcefile: String = "")
 
 /**
- * Contains the main method to start the processing.
+ * Contains the main method to start the processing pipeline.
  */
 object Run extends LazyLogging {
 
@@ -41,12 +46,12 @@ object Run extends LazyLogging {
   private def createOptionParser(): OptionParser[ArgumentOptions] = {
     new OptionParser[ArgumentOptions]("DIVID-DJ") {
       head("DIVID-DJ", "0.1.0-SNAPSHOT")
-      help("help") text "prints this usage text."
-      version("version") text "Version 0.1.0-SNAPSHOT"
+      help("help").text("prints this usage text.")
+      version("version").text("Version 0.1.0-SNAPSHOT")
 
-      opt[String]("sourceFile") required () action { (x, c) =>
+      opt[String]("sourceFile").required().action { (x, c) =>
         c.copy(sourcefile = x)
-      } text """[required] Path, where the input csv file is located."""
+      }.text("[required] Path, where the input csv file is located.")
     }
   }
 }

@@ -19,7 +19,7 @@ package preprocess
 
 import java.nio.file.Path
 
-import com.typesafe.scalalogging.LazyLogging
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import model.Document
 import utils.Benchmark.toBenchmarkable
 import utils.RichString.richString

@@ -15,24 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package ie.ner
 
-import java.time.LocalDateTime
-
-import scala.collection.immutable
+import model.EntityType
 
 /**
- * Common document representation.
- *
- * @param id unique document identifier.
- * @param content document body that contains raw text.
- * @param created creation date of the document.
- * @param metadata returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
- * the type of the meta data associated wih that key and y represents the respective list of meta data values.
+ * Common trait for different named entity extraction algorithms.
  */
-case class Document(
-  val id: Int,
-  val content: String,
-  val created: LocalDateTime,
-  val metadata: immutable.Map[String, (String, List[String])]
-)
+trait NamedEntityExtractor {
+
+  /**
+   * Returns named entities with their types [[EntityType.Value]] from a given text.
+   *
+   * @param text text that should be used to extract named entities from.
+   * @return a list that contains tuple of the following form (named entity name, ne-type).
+   *         If the `text` contains no named entities the list will be empty.
+   */
+  def extractNamedEntities(text: String): List[(String, EntityType.Value)]
+}

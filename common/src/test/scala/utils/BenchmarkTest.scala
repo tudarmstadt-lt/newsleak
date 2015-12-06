@@ -17,7 +17,7 @@
 
 package utils
 
-import com.typesafe.scalalogging.Logger
+import com.typesafe.scalalogging.slf4j.Logger
 import org.slf4j.{Logger => Underlying}
 import testFactories.FlatSpecWithCommonTraits
 

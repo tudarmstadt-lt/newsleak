@@ -19,7 +19,7 @@ package utils.io
 
 import java.nio.file.Path
 
-import com.typesafe.scalalogging.LazyLogging
+import com.typesafe.scalalogging.slf4j.LazyLogging
 
 import scala.io.Source
 
