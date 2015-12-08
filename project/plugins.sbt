@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-resolvers += "sonatype-releases"   at "http://oss.sonatype.org/content/repositories/releases"
+resolvers += "Sonatype-releases"   at "http://oss.sonatype.org/content/repositories/releases"
 resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
 resolvers += Classpaths.sbtPluginReleases
 
@@ -31,7 +31,7 @@ libraryDependencies += "org.scalariform" %% "scalariform" % "0.1.7"
 addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.3.3")
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.3")
 
 
 
