@@ -4,12 +4,12 @@ jdk:
 scala:
 - 2.11.7
 script:
-- sbt clean coverage test && sbt coverageAggregate
+- sbt clean test
 - sbt scalastyle --warn
 - ./scripts/travis/check_codestyle.sh
 - ./scripts/travis/check_commit_msgs.sh
 after_success:
-- sbt coveralls
+- sbt clean coverage test coverageAggregate coveralls
 notifications:
   email:
     recipients: 
