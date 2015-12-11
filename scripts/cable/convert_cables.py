@@ -7,8 +7,10 @@ The original cables.csv should be in the following format:
     <identifier>, <creation-date>, <reference-id>, <origin>, <classification-level>, 
     <references-to-other-cables>, <header>, <body>
 
-The result will be written to './cables.ext.csv'. 
+The module expects two arguments where the first one (args[1]) is the original
+CSV input file and the second one (args[2]) is the CSV output file.
 """
+import sys
 import csv
 import codecs
 import cStringIO
@@ -73,4 +75,4 @@ def generate_csv(filename, out):
 
 
 if __name__ == '__main__':
-    generate_csv('./cables.csv', './cables.ext.csv')
+    generate_csv(sys.argv[1], sys.argv[2])
