@@ -19,21 +19,25 @@ package ie
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import model.graph.CooccurrenceGraph
-import model.{Entity, Relationship}
+import model.{EntityType, Entity, Relationship}
 import utils.Numberer
 
 import scala.collection.mutable
 
-class GraphBuilder(vertexNumberer: Numberer[String], edgeNumberer: Numberer[String]) extends LazyLogging {
+class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNumberer: Numberer[(Int, Int)]) extends LazyLogging {
 
   // We use AnyRefMap, because it performs faster on get and contain queries
-  private val nameToEntity = new mutable.AnyRefMap[String, Entity]()
+  private val nameToEntity = new mutable.AnyRefMap[(String, EntityType.Value), Entity]()
   private val vertexToRelation = new mutable.HashMap[(Int, Int), Relationship]
 
   def addVertex(vertex: Entity): Entity = {
+
     val name = vertex.name
-    vertex.id = Some(vertexNumberer.externalToInternal(name))
-    val entity = nameToEntity.getOrElseUpdate(name.toLowerCase, vertex)
+    val key = (name, vertex.entityType)
+    val entity = nameToEntity.getOrElseUpdate(key, {
+      vertex.id = Some(vertexNumberer.externalToInternal(key))
+      vertex
+    })
     entity.frequency += 1
     entity
   }
@@ -42,10 +46,12 @@ class GraphBuilder(vertexNumberer: Numberer[String], edgeNumberer: Numberer[Stri
     // We use the order of e1.id and e2.id to identify relationships
     require(edge.e1 <= edge.e2)
 
-    val key = Array(edge.e1, edge.e2).mkString(" ")
-    edge.id = Some(vertexNumberer.externalToInternal(key))
+    val key = (edge.e1, edge.e2)
+    val rel = vertexToRelation.getOrElseUpdate(key, {
+      edge.id = Some(edgeNumberer.externalToInternal(key))
+      edge
+    })
 
-    val rel = vertexToRelation.getOrElseUpdate((edge.e1, edge.e2), edge)
     rel.frequency += 1
     rel.docIds ++= edge.docIds
     rel

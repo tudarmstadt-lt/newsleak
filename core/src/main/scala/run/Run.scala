@@ -15,12 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package run
+
 import java.nio.file.Paths
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import ie.GraphBuilder
-import ie.ner.{EnglishEntityExtractor, DocumentCooccurrenceExtractor}
-import reader.CSVCorpusReader
+import ie.ner.{DocumentCooccurrenceExtractor, EnglishEntityExtractor}
+import model.EntityType
+import model.graph.CooccurrenceGraph
+import reader.{CorpusReader, CSVCorpusReader}
 import scopt.OptionParser
 import utils.SequentialNumberer
 
@@ -42,15 +46,18 @@ object Run extends LazyLogging {
       case Some(config) =>
         val file = Paths.get(config.sourcefile)
         val reader = new CSVCorpusReader(file)
-
-        val vertexNumberer = new SequentialNumberer[String]
-        val edgeNumbrerer = new SequentialNumberer[String]
-        val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumbrerer)
-        val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
-        val graph = extractor.extract(reader)
-
+        val graph = createCooccurrenceGraph(reader)
       case None => parser.showUsage
     }
+  }
+
+  private def createCooccurrenceGraph(reader: CorpusReader): CooccurrenceGraph = {
+    val vertexNumberer = new SequentialNumberer[(String, EntityType.Value)]
+    val edgeNumbrerer = new SequentialNumberer[(Int, Int)]
+    val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumbrerer)
+    val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
+
+    extractor.extract(reader)
   }
 
   private def createOptionParser(): OptionParser[ArgumentOptions] = {

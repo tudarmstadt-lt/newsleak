@@ -24,9 +24,9 @@ import utils.nlp.EnglishNLPUtils
 import scala.collection.immutable
 
 /**
- * Named Entity tagger based on ScalaNLP CRF NER tagger. The supplied model supports three different
- * classes: <tt>Person</tt>, <tt>Organization</tt> and <tt>Location<tt>. Longer passages will be segmented
- * to sentences and additionally annotated with token annotations before the tagger is applied. Segmentation
+ * Named Entity tagger based on ScalaNLP CRF NER tagger. The supplied model supports four different
+ * classes: <tt>Person</tt>, <tt>Organization</tt>, <tt>Location</tt> and <tt>Misc</tt>. Longer passages
+ * will be segmented to sentences and additionally annotated with token annotations before the tagger is applied. Segmentation
  * and tokenization capability is served by `nlpUtils`.
  *
  * @param nlpUtils serves segmentation and tokenization capabilities.
@@ -37,7 +37,8 @@ class EnglishEntityExtractor(nlpUtils: EnglishNLPUtils = new EnglishNLPUtils) ex
   private val labelToEntityType = immutable.Map(
     "PER" -> EntityType.Person,
     "ORG" -> EntityType.Organization,
-    "LOC" -> EntityType.Location
+    "LOC" -> EntityType.Location,
+    "MISC" -> EntityType.Misc
   )
 
   /**
@@ -57,7 +58,6 @@ class EnglishEntityExtractor(nlpUtils: EnglishNLPUtils = new EnglishNLPUtils) ex
       case (Some(l), span: Span) =>
         val ne = segments.words.slice(span.begin, span.end).mkString(" ")
         val label = labelToEntityType(l.toString)
-
         (ne, label)
     }
     entityTuple

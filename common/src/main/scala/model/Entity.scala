@@ -24,6 +24,7 @@ object EntityType extends Enumeration {
   val Person = Value
   val Organization = Value
   val Location = Value
+  val Misc = Value
 }
 
 case class Entity(var id: Option[Int] = None, name: String, var frequency: Int = 0, entityType: EntityType.Value)
