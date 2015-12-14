@@ -22,10 +22,10 @@ import model.{Relationship, Entity}
 
 import scala.collection.mutable
 
-class CooccurrenceGraph(
+class CooccurrenceGraph private (
     val graphRepr: UndirectedSparseMultigraph[Int, Int],
-    entities: mutable.Map[Int, Entity],
-    relationships: mutable.Map[Int, Relationship]
+    val entities: mutable.Map[Int, Entity],
+    val relationships: mutable.Map[Int, Relationship]
 ) {
 
   def getEdges: Set[Relationship] = relationships.values.toSet
@@ -48,7 +48,10 @@ class CooccurrenceGraph(
 
   def addEdge(edge: Relationship): Boolean = {
     val id = edge.id.getOrElse(throw new IllegalArgumentException("The value \"None\" for the field id is not allowed."))
-    val isAdded = graphRepr.addEdge(id, edge.e1, edge.e2)
+
+    val containsVertices = entities.contains(edge.e1) && entities.contains(edge.e2)
+    val isAdded = if (containsVertices) graphRepr.addEdge(id, edge.e1, edge.e2) else false
+
     if (isAdded) {
       relationships += (id -> edge)
     }
@@ -57,6 +60,19 @@ class CooccurrenceGraph(
 
   def getEdgeCount: Int = relationships.size
   def getVertexCount: Int = entities.size
+
+  override def equals(other: Any): Boolean = other match {
+    case that: CooccurrenceGraph =>
+      entities == that.entities && relationships == that.relationships
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(graphRepr, entities, relationships)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+
+  override def toString: String = s"Graph($entities, $relationships)"
 }
 
 object CooccurrenceGraph {

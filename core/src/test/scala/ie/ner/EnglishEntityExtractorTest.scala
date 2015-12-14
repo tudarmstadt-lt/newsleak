@@ -71,6 +71,25 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
     assert(expected == actual)
   }
 
+  // TODO: Write misc test
+  /**
+   * it should "assign misc label for miscellaneous" in {
+   * val sentence = ""
+   *
+   * val uut = whenExtractorIsInitialized(
+   * List(sentence),
+   * List(
+   * List()
+   * )
+   * )
+   *
+   * val expected = List(("twitpic.com/999erv", EntityType.Misc))
+   * val actual = uut.extractNamedEntities(sentence)
+   *
+   * assert(expected == actual)
+   * }*
+   */
+
   it should "not split multi word expressions" in {
     val sentence = "Angela Merkel is a woman."
 
