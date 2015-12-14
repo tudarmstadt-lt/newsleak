@@ -17,7 +17,9 @@
 
 package utils.io
 
-import java.nio.file.Path
+import java.io.BufferedWriter
+import java.nio.charset.Charset
+import java.nio.file.{Files, Path}
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 
@@ -27,6 +29,10 @@ import scala.io.Source
  * Provides common io methods.
  */
 class IoUtils extends LazyLogging {
+
+  val Tab = "\t"
+  val Newline = "\n"
+  val Utf8 = "UTF-8"
 
   /**
    *  Opens a file and keeps track of the opened resource i.e. closes it after the operation is finished.
@@ -44,5 +50,35 @@ class IoUtils extends LazyLogging {
     } finally {
       in.close()
     }
+  }
+
+  def withOutputs[B](paths: Path*)(op: Seq[BufferedWriter] => B): B = {
+    val outs = for (path <- paths)
+      yield Files.newBufferedWriter(path, Charset.forName(Utf8))
+    try {
+      op(outs)
+    } finally {
+      for (out <- outs) out.close()
+    }
+  }
+
+  def withOutput[B](path: Path)(op: BufferedWriter => B): B = {
+    withOutputs(path) {
+      case Seq(out) =>
+        op(out)
+    }
+  }
+
+  def toTsv(fields: List[Any]): String = {
+    def filter(l: List[Any]): List[Any] = {
+      l.collect {
+        case Nil => Nil
+        case Some(x) => x
+        case Some(x) :: xs => x :: filter(xs)
+        case x :: xs => x :: filter(xs)
+        case x: Any if x != None => x
+      }
+    }
+    filter(fields).mkString(Tab) + Newline
   }
 }

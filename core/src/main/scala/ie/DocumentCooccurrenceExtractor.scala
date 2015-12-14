@@ -15,17 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ie.ner
+package ie
 
-import ie.GraphBuilder
+import ie.ner.NamedEntityExtractor
 import model.graph.CooccurrenceGraph
 import model.{Relationship, Entity, EntityType, Document}
 import reader.CorpusReader
 
 import scala.collection.mutable
 
+/**
+ * Extracts document co-occurrences and builds [[model.graph.CooccurrenceGraph]] from a given input corpus.
+ *
+ * @param extractor `extractor` is used to extract named-entity instances from each document.
+ * @param builder factory to build the [[model.graph.CooccurrenceGraph]].
+ */
 class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: GraphBuilder) {
 
+  /**
+   * Creates a [[model.graph.CooccurrenceGraph]] with document co-occurrences for a given corpus.
+   *
+   * @param sources [[CorpusReader]] handle for the input corpus.
+   * @return a [[model.graph.CooccurrenceGraph]] with document co-occurrences.
+   */
   def extract(sources: CorpusReader): CooccurrenceGraph = {
     extractCoocurrences(sources.documents)
     builder.getGraph()
@@ -61,6 +73,10 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
     }.toList
   }
 
+  /**
+   * This method creates a relationship with an undefined id and incident entities,
+   * where entity1.id is smaller or equal than entity2.id.
+   */
   private def createRelationship(e1: Entity, e2: Entity, docId: Int): Relationship = {
     val (first, second) = if (e1.id.get < e2.id.get) (e1, e2) else (e2, e1)
     Relationship(e1 = first.id.get, e2 = second.id.get, docIds = mutable.Set(docId))

@@ -63,14 +63,14 @@ class CooccurrenceGraphTest extends FlatSpecWithCommonTraits {
   }
 
   it should "return all edges" in new CooccurrenceGraphFixture {
-    val actual = disjunctGraph.getEdges
-    val expected = Set(r1, r2)
+    val actual = disjunctGraph.getEdges.toList
+    val expected = List(r1, r2).toIterator
     assert(actual == expected)
   }
 
   it should "return all vertices" in new CooccurrenceGraphFixture {
-    val actual = simpleGraph.getVertices
-    val expected = Set(e1, e2)
+    val actual = simpleGraph.getVertices.toList
+    val expected = List(e2, e1)
     assert(actual == expected)
   }
 

@@ -17,6 +17,11 @@
 
 package utils
 
+/**
+ * Maintains a map from `externalId`'s to some `internalId`'s. Implementer
+ * [[SequentialNumberer]] uses this to map each input id to a sequentially
+ * increasing value. Can be used to effectively densify the node id space.
+ */
 trait Numberer[@specialized(Int, Long) T] {
   def externalToInternal(externalId: T): Int
   def internalToExternal(internalId: Int): T

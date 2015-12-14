@@ -19,6 +19,9 @@ package utils
 
 import scala.collection.mutable
 
+/**
+ * Renumbers `externalId`'s to internal sequentially increasing id values.
+ */
 class SequentialNumberer[@specialized(Int, Long) T] extends Numberer[T] {
 
   val externalToInternalMap = mutable.HashMap[T, Int]()

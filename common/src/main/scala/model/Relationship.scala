@@ -19,4 +19,14 @@ package model
 
 import scala.collection.mutable
 
+/**
+ * Object representation for relationships.
+ *
+ * @param id unique id and primary key of the relationship.
+ * @param e1 first entity. The order of entities is determined alphabetically. Especially, if (e1, e2) is a
+ *           relationship, (e2, e1) is not.
+ * @param e2 second entity.
+ * @param frequency frequency of the relationship (i.e. co-occurrence) in the underlying data.
+ * @param docIds list of document ids that represent the occurrence of the relation in the documents.
+ */
 case class Relationship(var id: Option[Int] = None, e1: Int, e2: Int, var frequency: Int = 0, docIds: mutable.Set[Int])

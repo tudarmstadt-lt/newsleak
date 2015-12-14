@@ -20,13 +20,13 @@ package run
 import java.nio.file.Paths
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import ie.GraphBuilder
-import ie.ner.{DocumentCooccurrenceExtractor, EnglishEntityExtractor}
+import ie.{DocumentCooccurrenceExtractor, GraphBuilder}
+import ie.ner.EnglishEntityExtractor
 import model.EntityType
 import model.graph.CooccurrenceGraph
 import reader.{CorpusReader, CSVCorpusReader}
 import scopt.OptionParser
-import utils.SequentialNumberer
+import utils.{GraphUtils, SequentialNumberer}
 
 /**
  * Used to parse command line arguments.
@@ -47,6 +47,8 @@ object Run extends LazyLogging {
         val file = Paths.get(config.sourcefile)
         val reader = new CSVCorpusReader(file)
         val graph = createCooccurrenceGraph(reader)
+
+        new GraphUtils(graph).writeGraphToFile(Paths.get("."))
       case None => parser.showUsage
     }
   }

@@ -22,14 +22,22 @@ import model.{Relationship, Entity}
 
 import scala.collection.mutable
 
+/**
+ * Co-occurrence graph representation that wraps a <tt>Jung-graph</tt> and consists of
+ * [[model.Entity]] and [[model.Relationship]] instances.
+ *
+ * @param graphRepr undirected sparse in memory graph.
+ * @param entities maps id's to entities.
+ * @param relationships maps id's to relationships.
+ */
 class CooccurrenceGraph private (
     val graphRepr: UndirectedSparseMultigraph[Int, Int],
     val entities: mutable.Map[Int, Entity],
     val relationships: mutable.Map[Int, Relationship]
 ) {
 
-  def getEdges: Set[Relationship] = relationships.values.toSet
-  def getVertices: Set[Entity] = entities.values.toSet
+  def getEdges: Iterator[Relationship] = relationships.values.toIterator
+  def getVertices: Iterator[Entity] = entities.values.toIterator
 
   def getEdge(id: Int): Option[Relationship] = relationships.get(id)
   def getVertex(id: Int): Option[Entity] = entities.get(id)
@@ -75,7 +83,15 @@ class CooccurrenceGraph private (
   override def toString: String = s"Graph($entities, $relationships)"
 }
 
+/**
+ * Companion object for [[model.graph.CooccurrenceGraph]].
+ */
 object CooccurrenceGraph {
 
+  /**
+   * Creates an empty [[model.graph.CooccurrenceGraph]].
+   *
+   * @return an empty [[model.graph.CooccurrenceGraph]].
+   */
   def emptyGraph(): CooccurrenceGraph = new CooccurrenceGraph(new UndirectedSparseMultigraph[Int, Int](), mutable.Map(), mutable.Map())
 }

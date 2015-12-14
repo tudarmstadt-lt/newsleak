@@ -24,12 +24,28 @@ import utils.Numberer
 
 import scala.collection.mutable
 
+/**
+ * Factory to create instances of [[model.graph.CooccurrenceGraph]].
+ *
+ * @param vertexNumberer lookup for [[model.Entity]] ids. Provides the same ids for same
+ *                       entities.
+ * @param edgeNumberer lookup for [[model.Relationship]] ids.
+ */
 class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNumberer: Numberer[(Int, Int)]) extends LazyLogging {
 
   // We use AnyRefMap, because it performs faster on get and contain queries
   private val nameToEntity = new mutable.AnyRefMap[(String, EntityType.Value), Entity]()
   private val vertexToRelation = new mutable.HashMap[(Int, Int), Relationship]
 
+  /**
+   * Registers a given [[model.Entity]] to the builder. A `vertex` will be registered by
+   * its name and type.
+   *
+   * @param vertex entity to be registered that has no id assigned yet.
+   * @return If the `vertex` is already registered, its frequency will be updated and the updated
+   *         instance returned. Otherwise an id will be assigned according to the `vertexNumberer`
+   *         strategy.
+   */
   def addVertex(vertex: Entity): Entity = {
 
     val name = vertex.name
@@ -42,6 +58,15 @@ class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNum
     entity
   }
 
+  /**
+   * Registers a given [[model.Relationship]] to the builder. A `edge` will be registered by
+   * its connecting nodes.
+   *
+   * @param edge relationship to be registered that has no id assigned yet.
+   * @return If the `edge` is already registered, its frequency and document origin will be updated.
+   *         The updated instance will be returned. Otherwise an id will be assigned according to
+   *         the `vertexNumberer` strategy.
+   */
   def addEdge(edge: Relationship): Relationship = {
     // We use the order of e1.id and e2.id to identify relationships
     require(edge.e1 <= edge.e2)
@@ -57,6 +82,11 @@ class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNum
     rel
   }
 
+  /**
+   * Creates a [[model.graph.CooccurrenceGraph]] from the registered edges and vertices.
+   *
+   * @return [[model.graph.CooccurrenceGraph]] with document co-occurrences.
+   */
   def getGraph(): CooccurrenceGraph = {
     logger.info("Loading graph")
     val graph = CooccurrenceGraph.emptyGraph()
