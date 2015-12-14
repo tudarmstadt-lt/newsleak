@@ -64,7 +64,7 @@ class CooccurrenceGraphTest extends FlatSpecWithCommonTraits {
 
   it should "return all edges" in new CooccurrenceGraphFixture {
     val actual = disjunctGraph.getEdges.toList
-    val expected = List(r1, r2).toIterator
+    val expected = List(r2, r1)
     assert(actual == expected)
   }
 

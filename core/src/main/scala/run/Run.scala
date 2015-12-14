@@ -55,8 +55,8 @@ object Run extends LazyLogging {
 
   private def createCooccurrenceGraph(reader: CorpusReader): CooccurrenceGraph = {
     val vertexNumberer = new SequentialNumberer[(String, EntityType.Value)]
-    val edgeNumbrerer = new SequentialNumberer[(Int, Int)]
-    val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumbrerer)
+    val edgeNumberer = new SequentialNumberer[(Int, Int)]
+    val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumberer)
     val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
 
     extractor.extract(reader)

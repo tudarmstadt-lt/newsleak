@@ -25,12 +25,12 @@ import utils.io.IoUtils
 
 class GraphUtils(graph: CooccurrenceGraph) extends LazyLogging {
 
-  val ioUtils = new IoUtils()
+  private val ioUtils = new IoUtils()
 
   def writeGraphToFile(file: Path): Unit = {
-
     logger.info(s"Write graph to ${file.toString}")
 
+    // Write entities file
     ioUtils.withOutput(file.resolve("entities.tsv")) { out =>
       graph.getVertices.foreach { e =>
         val line = ioUtils.toTsv(List(e.id, e.name, e.frequency, e.entityType))
@@ -38,6 +38,7 @@ class GraphUtils(graph: CooccurrenceGraph) extends LazyLogging {
       }
     }
 
+    // Write relationship file
     ioUtils.withOutput(file.resolve("relationships.tsv")) { out =>
       graph.getEdges.foreach { rel =>
         val line = ioUtils.toTsv(List(rel.id, rel.e1, rel.e2, rel.frequency))
