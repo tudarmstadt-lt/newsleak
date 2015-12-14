@@ -17,14 +17,6 @@
 
 package model
 
-/**
- * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
- */
-object EntityType extends Enumeration {
-  val Person = Value
-  val Organization = Value
-  val Location = Value
-}
+import scala.collection.mutable
 
-case class Entity(var id: Option[Int] = None, name: String, var frequency: Int = 0, entityType: EntityType.Value)
-
+case class Relationship(var id: Option[Int] = None, e1: Int, e2: Int, var frequency: Int = 0, docIds: mutable.Set[Int])

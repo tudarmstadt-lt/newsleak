@@ -15,16 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package utils
 
-/**
- * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
- */
-object EntityType extends Enumeration {
-  val Person = Value
-  val Organization = Value
-  val Location = Value
+trait Numberer[@specialized(Int, Long) T] {
+  def externalToInternal(externalId: T): Int
+  def internalToExternal(internalId: Int): T
 }
-
-case class Entity(var id: Option[Int] = None, name: String, var frequency: Int = 0, entityType: EntityType.Value)
 

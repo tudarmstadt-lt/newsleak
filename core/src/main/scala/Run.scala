@@ -18,8 +18,11 @@
 import java.nio.file.Paths
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import ie.GraphBuilder
+import ie.ner.{EnglishEntityExtractor, DocumentCooccurrenceExtractor}
 import reader.CSVCorpusReader
 import scopt.OptionParser
+import utils.SequentialNumberer
 
 /**
  * Used to parse command line arguments.
@@ -39,6 +42,13 @@ object Run extends LazyLogging {
       case Some(config) =>
         val file = Paths.get(config.sourcefile)
         val reader = new CSVCorpusReader(file)
+
+        val vertexNumberer = new SequentialNumberer[String]
+        val edgeNumbrerer = new SequentialNumberer[String]
+        val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumbrerer)
+        val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
+        val graph = extractor.extract(reader)
+
       case None => parser.showUsage
     }
   }
