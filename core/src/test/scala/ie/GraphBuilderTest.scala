@@ -28,7 +28,7 @@ import scala.collection.mutable
 
 class GraphBuilderTest extends FlatSpecWithCommonTraits with BeforeAndAfterEach {
 
-  private var uut: GraphBuilder = _
+  var uut: GraphBuilder = _
 
   override def beforeEach(): Unit = {
     uut = new GraphBuilder(new SequentialNumberer[(String, EntityType.Value)], new SequentialNumberer[(Int, Int)])

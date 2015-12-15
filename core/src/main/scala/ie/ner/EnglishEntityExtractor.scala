@@ -18,7 +18,9 @@
 package ie.ner
 
 import epic.trees.Span
-import model.EntityType
+// scalastyle:off
+import model.EntityType._
+// scalastyle:on
 import utils.nlp.EnglishNLPUtils
 
 import scala.collection.immutable
@@ -35,23 +37,23 @@ class EnglishEntityExtractor(nlpUtils: EnglishNLPUtils = new EnglishNLPUtils) ex
 
   private val ner = epic.models.NerSelector.loadNer("en").get
   private val labelToEntityType = immutable.Map(
-    "PER" -> EntityType.Person,
-    "ORG" -> EntityType.Organization,
-    "LOC" -> EntityType.Location,
-    "MISC" -> EntityType.Misc
+    "PER" -> Person,
+    "ORG" -> Organization,
+    "LOC" -> Location,
+    "MISC" -> Misc
   )
 
   /**
    * @inheritdoc
    */
-  override def extractNamedEntities(text: String): List[(String, EntityType.Value)] = {
+  override def extractNamedEntities(text: String): List[(String, Value)] = {
     val sentences = nlpUtils.segmentText(text).map(nlpUtils.tokenize).toIndexedSeq
     val entities = sentences.flatMap(extractFromIndexedSentence)
 
     entities.toList
   }
 
-  private def extractFromIndexedSentence(sentence: IndexedSeq[String]): Iterator[(String, EntityType.Value)] = {
+  private def extractFromIndexedSentence(sentence: IndexedSeq[String]): Iterator[(String, Value)] = {
     val segments = ner.bestSequence(sentence)
 
     val entityTuple = segments.segmentsWithOutside.collect {

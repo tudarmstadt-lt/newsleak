@@ -17,9 +17,11 @@
 
 package ie.ner
 
-import model.EntityType
+// scalastyle:off
+import model.EntityType._
+// scalastyle:on
 import testFactories.FlatSpecWithCommonTraits
-import utils.nlp.{EnglishNLPUtils, EnglishNLPUtilsTest}
+import utils.nlp.EnglishNLPUtils
 
 class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
 
@@ -33,7 +35,7 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
       )
     )
 
-    val expected = List(("Angela", EntityType.Person))
+    val expected = List(("Angela", Person))
     val actual = uut.extractNamedEntities(sentence)
 
     assert(expected == actual)
@@ -49,7 +51,7 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
       )
     )
 
-    val expected = List(("CSU", EntityType.Organization))
+    val expected = List(("CSU", Organization))
     val actual = uut.extractNamedEntities(sentence)
 
     assert(expected == actual)
@@ -65,7 +67,7 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
       )
     )
 
-    val expected = List(("Berlin", EntityType.Location))
+    val expected = List(("Berlin", Location))
     val actual = uut.extractNamedEntities(sentence)
 
     assert(expected == actual)
@@ -100,7 +102,7 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
       )
     )
 
-    val expected = List(("Angela Merkel", EntityType.Person))
+    val expected = List(("Angela Merkel", Person))
     val actual = uut.extractNamedEntities(sentence)
 
     assert(expected == actual)
@@ -119,7 +121,7 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
       )
     )
 
-    val expected = List(("Angela", EntityType.Person), ("CSU", EntityType.Organization))
+    val expected = List(("Angela", Person), ("CSU", Organization))
     val actual = uut.extractNamedEntities(sentences.mkString(" "))
 
     assert(expected == actual)

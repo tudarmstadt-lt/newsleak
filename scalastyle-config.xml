@@ -186,17 +186,6 @@ http://www.scalastyle.org/rules-0.7.0.html
 
  <check level="error" class="org.scalastyle.scalariform.UnderscoreImportChecker" enabled="true"/>
  <check level="error" class="org.scalastyle.scalariform.LowercasePatternMatchChecker" enabled="true"/>
- <!-- This currently fails on the header -->
- <check level="error" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker" enabled="false">
-  <parameters>
-   <parameter name="allowed">
-    <![CDATA[ 2 ]]>
-   </parameter>
-   <parameter name="ignoreRegex">
-    <![CDATA[ ^""$ ]]>
-   </parameter>
-  </parameters>
- </check>
 
  <check level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
   <parameters>
@@ -225,6 +214,17 @@ http://www.scalastyle.org/rules-0.7.0.html
   <parameters>
    <parameter name="regex">
     <![CDATA[ ^[A-Z_]$ ]]>
+   </parameter>
+  </parameters>
+ </check>
+
+ <check level="error" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker" enabled="false">
+  <parameters>
+   <parameter name="allowed">
+    <![CDATA[ 2 ]]>
+   </parameter>
+   <parameter name="ignoreRegex">
+    <![CDATA[ ^""$ ]]>
    </parameter>
   </parameters>
  </check>
