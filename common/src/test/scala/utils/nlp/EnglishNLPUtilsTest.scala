@@ -26,14 +26,13 @@ class EnglishNLPUtilsTest extends FlatSpecWithCommonTraits {
   val uut = new EnglishNLPUtils()
 
   "segmentation" should "split multiple sentences at sentence boundaries" in {
-    val s1 = "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live!"
-    val s2 = "Deleted code is debugged code."
-    val s3 = "Is this a question?"
-    val s4 = "The end."
-
-    val expected = Vector(s1, s2, s3, s4)
+    val expected = Vector(
+      "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live!",
+      "Deleted code is debugged code.",
+      "Is this a question?",
+      "The end."
+    )
     val text = expected.mkString(" ")
-
     val actual = uut.segmentText(text)
 
     assert(expected == actual)
@@ -48,8 +47,15 @@ class EnglishNLPUtilsTest extends FlatSpecWithCommonTraits {
           last line.
       """
 
-    val expected = Vector("First line           second line?", "last line.")
+    val expected = Vector("First line           second line?", "Last line.")
     val actual = uut.segmentText(text)
+
+    assert(expected == actual)
+  }
+
+  "segmentation" should "capitalize first letter in the sentence" in {
+    val expected = Vector("Is this a question?", "The end.")
+    val actual = uut.segmentText("Is this a question? the end.")
 
     assert(expected == actual)
   }

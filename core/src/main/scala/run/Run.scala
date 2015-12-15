@@ -68,7 +68,7 @@ object Run extends LazyLogging {
       help("help").text("prints this usage text.")
       version("version").text("Version 0.1.0-SNAPSHOT")
 
-      opt[String]("sourceFile").required().action { (x, c) =>
+      opt[String]("sourcefile").required().action { (x, c) =>
         c.copy(sourcefile = x)
       }.text("[required] Path, where the input csv file is located.")
     }

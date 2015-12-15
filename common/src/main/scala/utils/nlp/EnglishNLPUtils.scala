@@ -29,12 +29,14 @@ class EnglishNLPUtils {
 
   /**
    * Segments a given text into sentences using ScalaNLP's [[MLSentenceSegmenter]]. Removes also
-   * new lines from the segmented sentences.
+   * new lines from the segmented sentences and ensures that the first character is capitalized.
    *
    * @param text text to be segmented.
    * @return [[IndexedSeq]] with segmented sentences.
    */
-  def segmentText(text: String): IndexedSeq[String] = sentenceSplitter(text).map(_.replaceAll("\n", " ").trim)
+  def segmentText(text: String): IndexedSeq[String] = {
+    sentenceSplitter(text).map(_.replaceAll("\n", " ").trim.capitalize)
+  }
 
   /**
    * Tokenizes a given text into token using ScalaNLP's [[TreebankTokenizer]].
