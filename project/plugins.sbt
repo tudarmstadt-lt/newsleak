@@ -19,7 +19,7 @@ resolvers += "Sonatype-releases"   at "http://oss.sonatype.org/content/repositor
 resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
 resolvers += Classpaths.sbtPluginReleases
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.13.0")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.1")
 
 // Exclude the old version of scalariform and manually use the new one
 // See: https://github.com/scalastyle/scalastyle/issues/156

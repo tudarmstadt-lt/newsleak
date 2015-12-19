@@ -34,11 +34,26 @@ object Dependencies {
     val logging     = "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2" // ApacheV2
     val slf4jSimple = "org.slf4j"  %  "slf4j-simple" % "1.7.6"                        // MIT
     val scopt       = "com.github.scopt" %% "scopt" % "3.3.0"                         // MIT
-    val playJson    = "com.typesafe.play" %% "play-json" % "2.4.3"                    // ApacheV2
+    //val playJson    = "com.typesafe.play" %% "play-json" % "2.4.3"                    // ApacheV2
     val csv         = "com.github.tototoshi" %% "scala-csv" % "1.2.2"                 // ApacheV2
 
     val ner      = "org.scalanlp" %% "epic-ner-en-conll" % "2015.1.25" // ApacheV2
     val scalaNlp = "org.scalanlp" %% "epic" % "0.3" excludeAll(ExclusionRule(organization = "com.typesafe.scala-logging"))  // ApacheV2
+    val spark    = "org.apache.spark" %% "spark-core" % "1.5.2" excludeAll(                                                 // ApacheV2
+      ExclusionRule("commons-beanutils", "commons-beanutils-core"),
+      ExclusionRule("commons-collections", "commons-collections"),
+      ExclusionRule("commons-logging", "commons-logging"),
+      ExclusionRule("org.slf4j", "slf4j-log4j12"),
+      ExclusionRule("org.hamcrest", "hamcrest-core"),
+      //ExclusionRule("junit", "junit"),
+      ExclusionRule("org.jboss.netty", "netty"),
+      ExclusionRule("com.esotericsoftware.minlog", "minlog"),
+      ExclusionRule("org.mortbay.jetty", "servlet-api"),
+      ExclusionRule("commons-collections", "commons-collections"),
+      ExclusionRule("com.esotericsoftware.minlog", "minlog"),
+      ExclusionRule("asm", "asm"),
+      ExclusionRule("org.apache.hadoop", "hadoop-yarn-common")
+    )
 
     val jungApi     = "net.sf.jung" % "jung-api" % "2.0.1"           // BSD
     val jungGraph   = "net.sf.jung" % "jung-graph-impl" % "2.0.1"    // BSD
@@ -62,10 +77,10 @@ object Dependencies {
   val l = libraryDependencies
 
   // Projects
-  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple,
+  val coreDeps = l ++= Seq(config, scopt, /*playJson,*/ csv, logging, slf4jSimple, spark,
         jungApi, jungGraph, jungAlgo, ner, scalaNlp, mysql, hikari, h2database,
         scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
 
-  val commonDeps = l ++= Seq(playJson, jungApi, scalaNlp, jungGraph, jungAlgo, mysql, hikari,
+  val commonDeps = l ++= Seq(/*playJson, */jungApi, scalaNlp, jungGraph, jungAlgo, mysql, hikari,
         h2database, logging, slf4jSimple, scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
 }

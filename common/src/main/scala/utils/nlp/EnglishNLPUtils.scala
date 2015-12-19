@@ -17,7 +17,7 @@
 
 package utils.nlp
 
-import epic.preprocess.{TreebankTokenizer, MLSentenceSegmenter}
+import epic.preprocess.{MLSentenceSegmenter, TreebankTokenizer}
 
 /**
  * Common utility functions to process english text.

@@ -19,7 +19,6 @@ import divid.{DividBuild, Dependencies}
 
 Dependencies.coreDeps
 
-// NER tagger shares common dependencies that cannot be automatically resolved/merged.
 assemblyMergeStrategy in assembly := {
   case "META-INF/MANIFEST.MF" => MergeStrategy.rename
   case x => {

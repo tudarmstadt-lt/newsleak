@@ -25,7 +25,7 @@ import utils.nlp.EnglishNLPUtils
 
 class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
 
-  it should "assign per label for a person" in {
+  /*it should "assign per label for a person" in {
     val sentence = "Angela is the german chancellor"
 
     val uut = whenExtractorIsInitialized(
@@ -137,5 +137,5 @@ class EnglishEntityExtractorTest extends FlatSpecWithCommonTraits {
     }
 
     new EnglishEntityExtractor(nlpUtilsMock)
-  }
+  }*/
 }

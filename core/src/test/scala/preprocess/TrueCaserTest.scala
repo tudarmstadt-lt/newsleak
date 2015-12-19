@@ -112,7 +112,7 @@ class TrueCaserTest extends FlatSpecWithCommonTraits {
       "statistics" -> 1
     )
 
-    (ioUtilsMock.fromFile[String](_: Path)(_: io.Source => String)).expects(*, *).returning(
+    (ioUtilsMock.fromFile[String](_: Path)(_: scala.io.Source => String)).expects(*, *).returning(
       """ Machine learning is
         Machine learning is    related to statistics;
     """

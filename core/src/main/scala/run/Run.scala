@@ -18,15 +18,19 @@
 package run
 
 import java.nio.file.Paths
+import java.time.LocalDateTime
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import ie.{DocumentCooccurrenceExtractor, GraphBuilder}
-import ie.ner.EnglishEntityExtractor
-import model.EntityType
+import ie.ner.{ParallelEnglishEntityExtractor, EnglishEntityExtractor}
+import model.{Document, EntityType}
 import model.graph.CooccurrenceGraph
 import reader.{CorpusReader, CSVCorpusReader}
 import scopt.OptionParser
+import utils.io.IoUtils
+import utils.nlp.EnglishNLPUtils
 import utils.{GraphUtils, SequentialNumberer}
+import utils.Benchmark.toBenchmarkable
 
 /**
  * Used to parse command line arguments.
@@ -46,9 +50,12 @@ object Run extends LazyLogging {
       case Some(config) =>
         val file = Paths.get(config.sourcefile)
         val reader = new CSVCorpusReader(file)
-        val graph = createCooccurrenceGraph(reader)
 
-        new GraphUtils(graph).writeGraphToFile(Paths.get("."))
+        val ner = new ParallelEnglishEntityExtractor(reader)
+        ner.extractNamedEntities(new Document(1, "", LocalDateTime.now, Map()))
+
+      // val graph = createCooccurrenceGraph(reader).withBenchmark("Co-occurrence graph extraction")
+      //  new GraphUtils(graph).writeGraphToFile(Paths.get("."))
       case None => parser.showUsage
     }
   }

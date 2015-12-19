@@ -45,7 +45,7 @@ class DocumentCooccurrenceExtractorTest extends FlatSpecWithCommonTraits with On
     (readerMock.documents _).expects().returning(List(d1, d2).toIterable).once()
   }
 
-  trait GraphBuilderStubFixture extends ReaderMockFixture {
+  /* trait GraphBuilderStubFixture extends ReaderMockFixture {
     val extractorMock = mock[NamedEntityExtractor]
     val builderMock = stub[MockableGraphBuilder]
 
@@ -95,5 +95,5 @@ class DocumentCooccurrenceExtractorTest extends FlatSpecWithCommonTraits with On
 
     uut.extract(readerMock)
     (builderMock.addEdge _).verify(Relationship(e1 = 1, e2 = 2, docIds = mutable.Set(2)))
-  }
+  }*/
 }

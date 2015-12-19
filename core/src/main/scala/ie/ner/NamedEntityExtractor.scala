@@ -17,7 +17,7 @@
 
 package ie.ner
 
-import model.EntityType
+import model.{Document, EntityType}
 
 /**
  * Common trait for different named entity extraction algorithms.
@@ -25,11 +25,11 @@ import model.EntityType
 trait NamedEntityExtractor {
 
   /**
-   * Returns named entities with their types [[EntityType.Value]] from a given text.
+   * Returns named entities with their types [[EntityType.Value]] from a given [[model.Document]].
    *
-   * @param text text that should be used to extract named entities from.
+   * @param doc document that should be used to extract named entities from.
    * @return a list that contains tuple of the following form (named entity name, ne-type).
-   *         If the `text` contains no named entities the list will be empty.
+   *         If the `doc` contains no named entities the list will be empty.
    */
-  def extractNamedEntities(text: String): List[(String, EntityType.Value)]
+  def extractNamedEntities(doc: Document): List[(String, EntityType.Value)]
 }

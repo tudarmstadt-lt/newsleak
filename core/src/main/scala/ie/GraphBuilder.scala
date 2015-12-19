@@ -47,7 +47,6 @@ class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNum
    *         strategy.
    */
   def addVertex(vertex: Entity): Entity = {
-
     val name = vertex.name
     val key = (name, vertex.entityType)
     val entity = nameToEntity.getOrElseUpdate(key, {

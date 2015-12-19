@@ -17,6 +17,7 @@
 
 package ie
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import ie.ner.NamedEntityExtractor
 import model.graph.CooccurrenceGraph
 import model.{Relationship, Entity, EntityType, Document}
@@ -30,7 +31,9 @@ import scala.collection.mutable
  * @param extractor `extractor` is used to extract named-entity instances from each document.
  * @param builder factory to build the [[model.graph.CooccurrenceGraph]].
  */
-class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: GraphBuilder) {
+class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: GraphBuilder) extends LazyLogging {
+
+  private val processLoggingInterval = 100000
 
   /**
    * Creates a [[model.graph.CooccurrenceGraph]] with document co-occurrences for a given corpus.
@@ -39,19 +42,25 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
    * @return a [[model.graph.CooccurrenceGraph]] with document co-occurrences.
    */
   def extract(sources: CorpusReader): CooccurrenceGraph = {
-    extractCoocurrences(sources.documents)
+    extractCoocurrences(sources.documents.view.take(15000))
     builder.getGraph()
   }
 
   private def extractCoocurrences(documents: Iterable[Document]): Unit = {
-    documents.foreach { doc =>
-      val result = extractor.extractNamedEntities(doc.content)
-      // We count co-occurrences: This means if an entity occurs
-      // two or multiple times in a document, we count the observation
-      // as one experiment.
-      val unique = result.distinct
-      val entities = addEntities(unique)
-      addRelationships(doc.id, entities)
+    documents.view.zipWithIndex.foreach {
+      case (doc: Document, id: Int) =>
+
+        if (id > 0 && (id % processLoggingInterval) == 0) {
+          print(id)
+          logger.info("Process next 100 000 documents.")
+        }
+        val result = extractor.extractNamedEntities(doc)
+        // We count co-occurrences: This means if an entity occurs
+        // two or multiple times in a document, we count the observation
+        // as one experiment.
+        val unique = result.distinct
+        val entities = addEntities(unique)
+        addRelationships(doc.id, entities)
     }
   }
 
