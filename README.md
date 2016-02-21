@@ -9,6 +9,8 @@ Science and Data-Driven Journalism: Data Extraction and Interactive Visualizatio
 
 * Web site: [Project Description](https://www.lt.informatik.tu-darmstadt.de/de/research/divid-djdata-extraction-and-interactive-visualization-of-unexplored-textual-datasets-for-investigative-data-driven-journalism/)
 
+![newsleak](http://maggie.lt.informatik.tu-darmstadt.de/divid/wp-content/uploads/2016/02/cropped-logo-draft-2.png)
+
 ## 1. Build Instructions
 
 The DIVID-DJ project consists of two dependent sub-projects (common and core) linked via a multi-sbt-project build. Run `sbt clean compile assembly` to compile and assembly all sub-projects. In case the build is successful, the jar files can be found in the projects `target/scala-2.11/` folder.
