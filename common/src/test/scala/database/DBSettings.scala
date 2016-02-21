@@ -15,27 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package database
 
-import org.joda.time.LocalDateTime
+import scalikejdbc.{ConnectionPool, LoanPattern}
 
-import testFactories.FlatSpecWithCommonTraits
-
-class DocumentTest extends FlatSpecWithCommonTraits {
-
-  val uut = Document(2, "This is a sample \n 12%&/", LocalDateTime.parse("2007-12-03T10:15:30"))
-
-  behavior of "Document"
-
-  it should "has correct id" in {
-    assert(uut.id == 2)
-  }
-
-  it should "has correct content" in {
-    assert(uut.content == "This is a sample \n 12%&/")
-  }
-
-  it should "has correct datetime" in {
-    assert(uut.created == LocalDateTime.parse("2007-12-03T10:15:30"))
+trait DBSettings extends LoanPattern {
+  try {
+    using(ConnectionPool.borrow()) { conn => }
+  } catch {
+    case e: Exception =>
+      Class.forName("org.h2.Driver")
+      ConnectionPool.singleton("jdbc:h2:mem:db", "", "")
+      ConnectionPool.add('newsleakTestDB, "jdbc:h2:mem:db2", "", "")
   }
 }
+

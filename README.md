@@ -1,5 +1,5 @@
 # NEW/S/LEAK
-[![Build Status](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ.svg?branch=master)](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ/)
+[![Build Status](https://travis-ci.org/tudarmstadt-lt/DIVID-DJ.svg?branch=master)](https://travis-ci.org/tudarmstadt-lt/newsleak/)
 [![Coverage Status](https://coveralls.io/repos/tudarmstadt-lt/DIVID-DJ/badge.svg?branch=master&service=github)](https://coveralls.io/github/tudarmstadt-lt/DIVID-DJ?branch=master)
 [![Project status](https://img.shields.io/badge/status-active-brightgreen.svg)](#status)
 [![Project Licence](https://img.shields.io/badge/licence-AGPL-blue.svg)](#license)
@@ -14,7 +14,7 @@ Science and Data-Driven Journalism: Data Extraction and Interactive Visualizatio
 
 ## 1. Build Instructions
 
-The DIVID-DJ project consists of two dependent sub-projects (common and core) linked via a multi-sbt-project build. Run `sbt clean compile assembly` to compile and assembly all sub-projects. In case the build is successful, the jar files can be found in the projects `target/scala-2.11/` folder.
+The newsleak project consists of two dependent sub-projects (common and core) linked via a multi-sbt-project build. Run `sbt clean compile assembly` to compile and assembly all sub-projects. In case the build is successful, the jar files can be found in the projects `target/scala-2.11/` folder.
 
 Make sure you have the build tool `sbt` installed. It can be downloaded [here](http://www.scala-sbt.org/). To change the build process or add/remove dependencies have a look in the `project` folder.
 

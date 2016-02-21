@@ -70,7 +70,7 @@ case class TrueCaser(termFreq: Map[String, Int]) extends LazyLogging {
    */
   def applyTrueCasing(document: Document): Document = {
     val trueCasedContent = applyTrueCasing(document.content)
-    Document(document.id, trueCasedContent, document.created, document.metadata)
+    Document(document.id, trueCasedContent, document.created)
   }
 }
 

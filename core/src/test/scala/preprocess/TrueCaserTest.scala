@@ -18,9 +18,9 @@
 package preprocess
 
 import java.nio.file.{Path, Paths}
-import java.time.LocalDateTime
 
 import model.Document
+import org.joda.time.LocalDateTime
 import testFactories.FlatSpecWithCommonTraits
 import utils.io.IoUtils
 
@@ -55,10 +55,10 @@ class TrueCaserTest extends FlatSpecWithCommonTraits {
     val uut = TrueCaser(tf)
 
     val date: LocalDateTime = LocalDateTime.parse("2007-12-03T10:15:30")
-    val document = Document(1, "MachIne LEaRniNg", date, Map())
+    val document = Document(1, "MachIne LEaRniNg", date)
 
     val actual = uut.applyTrueCasing(document)
-    val expected = Document(1, "Machine learning", date, Map())
+    val expected = Document(1, "Machine learning", date)
 
     assert(actual == expected)
   }

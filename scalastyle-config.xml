@@ -117,7 +117,7 @@ http://www.scalastyle.org/rules-0.7.0.html
 
  <check level="error" class="org.scalastyle.scalariform.MagicNumberChecker" enabled="true">
   <parameters>
-   <parameter name="ignore"><![CDATA[-1,0,1,2,3]]></parameter>
+   <parameter name="ignore"><![CDATA[-1,0,1,2,3,4,5,6,7]]></parameter>
   </parameters>
  </check>
 

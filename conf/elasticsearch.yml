@@ -1,0 +1,38 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please see the documentation for further information on configuration options:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration.html>
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+ cluster.name: NewsLeaksCluster
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+ node.name: NewsLeaksNode-1
+
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+ network.host: 0.0.0.0
+#
+
+# Set a custom port for the node to node communication (9300 by default):
+#
+ transport.tcp.port: 9501
+# Set a custom port for HTTP:
+#
+ http.port: 9500
+#
+

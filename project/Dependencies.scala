@@ -23,37 +23,36 @@ import Keys._
 object Dependencies {
 
   val Versions = Seq(
-      scalaVersion := "2.11.7"
-      // scalaTestVersion := ...
+    scalaVersion := "2.11.7"
+    // scalaTestVersion := ...
   )
 
   object Compile {
     // Compile
 
-    val config      = "com.typesafe" % "config" % "1.3.0"                             // ApacheV2
-    val logging     = "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2" // ApacheV2
-    val slf4jSimple = "org.slf4j"  %  "slf4j-simple" % "1.7.6"                        // MIT
-    val scopt       = "com.github.scopt" %% "scopt" % "3.3.0"                         // MIT
-    val playJson    = "com.typesafe.play" %% "play-json" % "2.4.3"                    // ApacheV2
-    val csv         = "com.github.tototoshi" %% "scala-csv" % "1.2.2"                 // ApacheV2
+    val config = "com.typesafe" % "config" % "1.3.0" // ApacheV2
+    val logging = "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2" // ApacheV2
+    val slf4jSimple = "org.slf4j" % "slf4j-simple" % "1.7.6" // MIT
+    val scopt = "com.github.scopt" %% "scopt" % "3.3.0" // MIT
+    val playJson = "com.typesafe.play" %% "play-json" % "2.4.3" // ApacheV2
+    val csv = "com.github.tototoshi" %% "scala-csv" % "1.2.2" // ApacheV2
 
-    val ner      = "org.scalanlp" %% "epic-ner-en-conll" % "2015.1.25" // ApacheV2
-    val scalaNlp = "org.scalanlp" %% "epic" % "0.3" excludeAll(ExclusionRule(organization = "com.typesafe.scala-logging"))  // ApacheV2
+    val ner = "org.scalanlp" %% "epic-ner-en-conll" % "2015.1.25" // ApacheV2
+    val scalaNlp = "org.scalanlp" %% "epic" % "0.3" excludeAll (ExclusionRule(organization = "com.typesafe.scala-logging")) // ApacheV2
 
-    val jungApi     = "net.sf.jung" % "jung-api" % "2.0.1"           // BSD
-    val jungGraph   = "net.sf.jung" % "jung-graph-impl" % "2.0.1"    // BSD
-    val jungAlgo    = "net.sf.jung" % "jung-algorithms" % "2.0.1"    // BSD
+    val hikari = "com.zaxxer" % "HikariCP" % "2.4.2" // ApacheV2
+    val h2database = "com.h2database" % "h2" % "1.4.190" // MPLV2 / EPL 1.0
+    val postgresql = "org.postgresql" % "postgresql" % "9.4-1200-jdbc41" // PostgreSQL Licence
 
-    val mysql         = "mysql" % "mysql-connector-java" % "5.1.37"  // GPL
-    val hikari        = "com.zaxxer" % "HikariCP" % "2.4.2"          // ApacheV2
-    val h2database    = "com.h2database" % "h2" % "1.4.190"          // MPLV2 / EPL 1.0
-    val scalalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % "2.2.+" // ApacheV2
+    val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % "2.3.5" // ApacheV2
+    val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % "2.3.5" // ApacheV2
 
+    val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-core" % "2.2.0" // ApacheV2
 
     object Test {
-      val scalalikejdbc = "org.scalikejdbc" %% "scalikejdbc-test" % "2.2.+" % "test"          // ApacheV2
-      val scalatest     = "org.scalatest" %% "scalatest" % "2.2.5" % "test"                   // ApacheV2
-      val scalamock     = "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test" // BSD
+      val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc-test" % "2.3.+" % "test" // ApacheV2
+      val scalatest = "org.scalatest" %% "scalatest" % "2.2.5" % "test" // ApacheV2
+      val scalamock = "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test" // BSD
     }
   }
 
@@ -62,10 +61,10 @@ object Dependencies {
   val l = libraryDependencies
 
   // Projects
-  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple,
-        jungApi, jungGraph, jungAlgo, ner, scalaNlp, mysql, hikari, h2database,
-        scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
+  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple, elastic4s,
+    ner, scalaNlp, h2database, Test.scalikejdbc, Test.scalatest, Test.scalamock)
 
-  val commonDeps = l ++= Seq(playJson, jungApi, scalaNlp, jungGraph, jungAlgo, mysql, hikari,
-        h2database, logging, slf4jSimple, scalalikejdbc, Test.scalalikejdbc, Test.scalatest, Test.scalamock)
+  val commonDeps = l ++= Seq(playJson, scalaNlp, elastic4s,
+    postgresql, scalikejdbc, scalikejdbcConfig, h2database, logging, slf4jSimple,
+    Test.scalikejdbc, Test.scalatest, Test.scalamock)
 }

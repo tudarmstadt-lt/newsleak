@@ -19,15 +19,15 @@ package reader
 
 import java.io.IOException
 import java.nio.file.Path
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 import com.github.tototoshi.csv.CSVReader
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import model.Document
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
 
-import scala.util.control.NonFatal
 import scala.collection.immutable
+import scala.util.control.NonFatal
 
 /**
  * Reads csv files and returns iterable of [[model.Document]]. The csv file should be in the following format
@@ -48,7 +48,7 @@ class CSVCorpusReader(file: Path) extends CorpusReader with LazyLogging {
     val reader = CSVReader.open(file.toFile)
     val lines = reader.iterator.map { x => { lastLineParsed += 1; x } }
 
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
 
     override def iterator: Iterator[Document] = new Iterator[Document] {
 
@@ -66,12 +66,13 @@ class CSVCorpusReader(file: Path) extends CorpusReader with LazyLogging {
             // No metadata provided
             case content :: created :: Nil =>
               val datetime = LocalDateTime.parse(created, formatter)
-              Document(lastLineParsed, content, datetime, Map())
+              Document(lastLineParsed, content, datetime)
             case content :: created :: metaTriple if metaTriple.length % 3 == 0 =>
               val datetime = LocalDateTime.parse(created, formatter)
-              val metadata = parseMetadata(metaTriple)
+              // TODO: Needs to be adapted to the new structure
+              // val metadata = parseMetadata(metaTriple)
 
-              Document(lastLineParsed, content, datetime, metadata)
+              Document(lastLineParsed, content, datetime)
             case _ => throw new IOException("Line does not match <content>, <date>, <metadata>")
           }
         } catch {
