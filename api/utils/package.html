@@ -1,0 +1,209 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>utils - utils</title>
+          <meta name="description" content="utils - utils" />
+          <meta name="keywords" content="utils utils" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../index.html';
+            var hash = 'utils.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../lib/package_big.png" />
+        
+        <h1>utils</h1><span class="permalink">
+      <a href="../index.html#utils.package" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">utils</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="utils.Benchmarkable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Benchmarkable[B]extendsLazyLogging"></a>
+      <a id="Benchmarkable[B]:Benchmarkable[B]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Benchmarkable.html"><span class="name">Benchmarkable</span></a><span class="tparams">[<span name="B">B</span>]</span><span class="result"> extends <span class="extype" name="com.typesafe.scalalogging.slf4j.LazyLogging">LazyLogging</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@Benchmarkable[B]extendsLazyLogging" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Provides a method to wrap operations and measure there execution time.</p><div class="fullcomment"><div class="comment cmt"><p>Provides a method to wrap operations and measure there execution time.
+</p></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>return type of the given method.</p></dd></dl></div>
+    </li><li name="utils.RichString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RichStringextendsAnyRef"></a>
+      <a id="RichString:RichString"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="RichString.html"><span class="name">RichString</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@RichStringextendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Implements additional methods for <span class="extype" name="String">String</span>.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="utils.Benchmark" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Benchmark"></a>
+      <a id="Benchmark:Benchmark"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Benchmark$.html"><span class="name">Benchmark</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@Benchmark" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion object for <a href="Benchmarkable.html" class="extype" name="utils.Benchmarkable">Benchmarkable</a> that provides a convenient method
+to measure execution time.</p>
+    </li><li name="utils.RichString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RichString"></a>
+      <a id="RichString:RichString"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RichString$.html"><span class="name">RichString</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@RichString" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion object for <a href="RichString.html" class="extype" name="utils.RichString">RichString</a> that provides a convenient method
+to wrap a instance of <span class="extype" name="String">String</span>.</p>
+    </li><li name="utils.io" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="io"></a>
+      <a id="io:io"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="io/package.html"><span class="name">io</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@io" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="utils.nlp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="nlp"></a>
+      <a id="nlp:nlp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="nlp/package.html"><span class="name">nlp</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@nlp" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
