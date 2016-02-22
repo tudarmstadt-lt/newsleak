@@ -8,6 +8,7 @@
 Science and Data-Driven Journalism: Data Extraction and Interactive Visualization of Unexplored Textual Datasets for Investigative Data-Driven Journalism (DIVID-DJ)
 
 * Web site: [Project Description](https://www.lt.informatik.tu-darmstadt.de/de/research/divid-djdata-extraction-and-interactive-visualization-of-unexplored-textual-datasets-for-investigative-data-driven-journalism/)
+* Web site: [Project scala documentation](http://tudarmstadt-lt.github.io/newsleak)
 
 ![newsleak](http://maggie.lt.informatik.tu-darmstadt.de/divid/wp-content/uploads/2016/02/cropped-logo-draft-2.png)
 
