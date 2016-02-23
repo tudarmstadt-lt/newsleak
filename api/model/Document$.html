@@ -466,7 +466,59 @@
     </span>
       <p class="shortcomment cmt">Get all <a href="Document.html" class="extype" name="model.Document">Document</a> IDs of a collation
 </p><div class="fullcomment"><div class="comment cmt"><p>Get all <a href="Document.html" class="extype" name="model.Document">Document</a> IDs of a collation
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[Long]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
+    </li><li name="model.Document#getDocuments" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDocuments(name1:String,name2:String):String"></a>
+      <a id="getDocuments(String,String):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocuments</span><span class="params">(<span name="name1">name1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="name2">name2: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Document$@getDocuments(name1:String,name2:String):String" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get mappings of a given document from ES index (This is ES specific method)
+</p>
+    </li><li name="model.Document#getDocuments" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDocuments(id1:Long,id2:Long):List[Object]"></a>
+      <a id="getDocuments(Long,Long):List[AnyRef]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocuments</span><span class="params">(<span name="id1">id1: <span class="extype" name="scala.Long">Long</span></span>, <span name="id2">id2: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.AnyRef">AnyRef</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Document$@getDocuments(id1:Long,id2:Long):List[Object]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get <a href="Document.html" class="extype" name="model.Document">Document</a>s containing this pair of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s</p><div class="fullcomment"><div class="comment cmt"><p>Get <a href="Document.html" class="extype" name="model.Document">Document</a>s containing this pair of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s</p></div><dl class="paramcmts block"><dt class="param">id1</dt><dd class="cmt"><p>first <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd><dt class="param">id2</dt><dd class="cmt"><p>second <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
+    </li><li name="model.Document#getDocuments" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDocuments(id:Long):List[Object]"></a>
+      <a id="getDocuments(Long):List[AnyRef]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocuments</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.AnyRef">AnyRef</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Document$@getDocuments(id:Long):List[Object]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get  <a href="Document.html" class="extype" name="model.Document">Document</a>s containing this <a href="Entity.html" class="extype" name="model.Entity">Entity</a> (given an id id)</p><div class="fullcomment"><div class="comment cmt"><p>Get  <a href="Document.html" class="extype" name="model.Document">Document</a>s containing this <a href="Entity.html" class="extype" name="model.Entity">Entity</a> (given an id id)</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the <a href="Entity.html" class="extype" name="model.Entity">Entity</a> id</p></dd><dt>returns</dt><dd class="cmt"><p>List[Object]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
     </li><li name="model.Document#getMappings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getMappings():String"></a>
       <a id="getMappings():String"></a>
@@ -483,8 +535,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get mappings of a given document from ES index (This is ES specific method)
-</p>
+      
     </li><li name="model.Document#getMetadataKeyValue" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getMetadataKeyValue(id:Long):List[model.MetadataKeyValue]"></a>
       <a id="getMetadataKeyValue(Long):List[MetadataKeyValue]"></a>
@@ -504,6 +555,23 @@
       <p class="shortcomment cmt">Get list of all the key,value pair of metadata for a given collection (given an id)
 </p><div class="fullcomment"><div class="comment cmt"><p>Get list of all the key,value pair of metadata for a given collection (given an id)
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id to get list of metadta key,value lists</p></dd><dt>returns</dt><dd class="cmt"><p>List[MetadataKeyValue]. Example: [MetadataKeyValue(SignedBy,HECK), MetadataKeyValue(Tags,IR), MetadataKeyValue(Tags,MASS) ...]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
+    </li><li name="model.Document#getMetadataKeys" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataKeys():List[String]"></a>
+      <a id="getMetadataKeys():List[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataKeys</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Document$@getMetadataKeys():List[String]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of metadata keys</p><div class="fullcomment"><div class="comment cmt"><p>Get list of metadata keys</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[String]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
     </li><li name="model.Document#getMetadataType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getMetadataType(id:Long):List[model.MetadataType]"></a>
       <a id="getMetadataType(Long):List[MetadataType]"></a>
@@ -541,6 +609,23 @@
     </span>
       <p class="shortcomment cmt">Get list of metadata key and their types in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of metadata key and their types in the collection.
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[MetadataType] Example: [<code>Subject</code>:<code>string</code>, <code>id</code>:<code>long</code>]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
+    </li><li name="model.Document#getMetadataTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataTypes():List[String]"></a>
+      <a id="getMetadataTypes():List[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataTypes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Document$@getMetadataTypes():List[String]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of metadata types</p><div class="fullcomment"><div class="comment cmt"><p>Get list of metadata types</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[String]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Document">Document</a> → <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a></dd></dl></div>
     </li><li name="model.Document#getMetadataValue" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getMetadataValue(key:String,id:Long):List[Object]"></a>
       <a id="getMetadataValue(String,Long):List[AnyRef]"></a>
