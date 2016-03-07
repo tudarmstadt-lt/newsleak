@@ -47,13 +47,14 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Relationship</span><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>] with <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Relationship</span><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Companion object for <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> instances.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a>, <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a>, <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.Relationship"><span>Relationship</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="model.RelationshipQueryable"><span>RelationshipQueryable</span></li><li class="in" name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport"><span>SQLSyntaxSupport</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.Relationship"><span>Relationship</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="model.queryable.RelationshipQueryable"><span>RelationshipQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -147,40 +148,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="model.Relationship#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(rs:scalikejdbc.WrappedResultSet):model.Relationship"></a>
-      <a id="apply(WrappedResultSet):Relationship"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="rs">rs: <span class="extype" name="scalikejdbc.WrappedResultSet">WrappedResultSet</span></span>)</span><span class="result">: <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@apply(rs:scalikejdbc.WrappedResultSet):model.Relationship" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#as" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="as(provider:&lt;?&gt;):SQLSyntaxSupportFeature.this.TableAsAliasSQLSyntax"></a>
-      <a id="as(scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Relationship],Relationship]):scalikejdbc.TableAsAliasSQLSyntax"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">as</span><span class="params">(<span name="provider">provider: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:&lt;?&gt;,A&lt;:&lt;?&gt;]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>], <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>)</span><span class="result">: <a href="../scalikejdbc/package.html#TableAsAliasSQLSyntaxextendsSQLSyntaxSupportFeature.this.SQLSyntaxwithProductwithSerializable" class="extmbr" name="scalikejdbc.TableAsAliasSQLSyntax">scalikejdbc.TableAsAliasSQLSyntax</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@as(provider:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]):SQLSyntaxSupportFeature.this.TableAsAliasSQLSyntax" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -198,40 +165,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#autoSession" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="autoSession:scalikejdbc.DBSession"></a>
-      <a id="autoSession:DBSession"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">autoSession</span><span class="result">: <span class="extype" name="scalikejdbc.DBSession">DBSession</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@autoSession:scalikejdbc.DBSession" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#clearLoadedColumns" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clearLoadedColumns():Unit"></a>
-      <a id="clearLoadedColumns():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">clearLoadedColumns</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@clearLoadedColumns():Unit" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -255,91 +188,23 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#column" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="column:SQLSyntaxSupportFeature.this.ColumnName[A]"></a>
-      <a id="column:scalikejdbc.ColumnName[Relationship]"></a>
+    </li><li name="model.Relationship#connector" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="connector:scalikejdbc.NamedDB"></a>
+      <a id="connector:NamedDB"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">column</span><span class="result">: <a href="../scalikejdbc/package.html#ColumnName[A&lt;:&lt;?&gt;]=SQLSyntaxSupportFeature.this.ColumnSQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" class="extmbr" name="scalikejdbc.ColumnName">scalikejdbc.ColumnName</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">connector</span><span class="result">: <span class="extype" name="scalikejdbc.NamedDB">NamedDB</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@column:SQLSyntaxSupportFeature.this.ColumnName[A]" title="Permalink" target="_top">
+      <a href="../index.html#model.Relationship$@connector:scalikejdbc.NamedDB" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#columnNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="columnNames:Seq[String]"></a>
-      <a id="columnNames:Seq[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">columnNames</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@columnNames:Seq[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#columns" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="columns:Seq[String]"></a>
-      <a id="columns:Seq[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">columns</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@columns:Seq[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#connectionPoolName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="connectionPoolName:Any"></a>
-      <a id="connectionPoolName:Any"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">connectionPoolName</span><span class="result">: <span class="extype" name="scala.Any">Any</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@connectionPoolName:Any" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#delimiterForResultName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="delimiterForResultName:String"></a>
-      <a id="delimiterForResultName:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">delimiterForResultName</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@delimiterForResultName:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -397,40 +262,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="model.Relationship#findAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="findAll():List[model.Relationship]"></a>
-      <a id="findAll():List[Relationship]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">findAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@findAll():List[model.Relationship]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Find all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s</p><div class="fullcomment"><div class="comment cmt"><p>Find all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#forceUpperCase" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="forceUpperCase:Boolean"></a>
-      <a id="forceUpperCase:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">forceUpperCase</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@forceUpperCase:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -448,59 +279,75 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="model.Relationship#getDocumentEntityRelation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentEntityRelation(id:Long,docId:Long):List[model.Relationship]"></a>
-      <a id="getDocumentEntityRelation(Long,Long):List[Relationship]"></a>
+    </li><li name="model.Relationship#getRelationshipByDocument" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByDocument(docId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByDocument(Long):List[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDocumentEntityRelation</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getRelationshipByDocument</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@getDocumentEntityRelation(id:Long,docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../index.html#model.Relationship$@getRelationshipByDocument(docId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> participates</p><div class="fullcomment"><div class="comment cmt"><p>Get all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> participates</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the <a href="Entity.html" class="extype" name="model.Entity">Entity</a> id</p></dd><dt class="param">docId</dt><dd class="cmt"><p>the <a href="Document.html" class="extype" name="model.Document">Document</a> id</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
-    </li><li name="model.Relationship#getDocumentRelation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentRelation(docId:Long):List[model.Relationship]"></a>
-      <a id="getDocumentRelation(Long):List[Relationship]"></a>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.
+</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>the document id</p></dd><dt>returns</dt><dd class="cmt"><p>List<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.Relationship#getRelationshipByEntity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByEntity(Long,Long):List[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDocumentRelation</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>, <span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@getDocumentRelation(docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../index.html#model.Relationship$@getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in this collection
-</p><div class="fullcomment"><div class="comment cmt"><p>Get all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in this collection
-</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>the document id</p></dd><dt>returns</dt><dd class="cmt"><p>List<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
-    </li><li name="model.Relationship#getEntityRelation" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEntityRelation(id:Long):List[model.Relationship]"></a>
-      <a id="getEntityRelation(Long):List[Relationship]"></a>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt class="param">docId</dt><dd class="cmt"><p>the <a href="Document.html" class="extype" name="model.Document">model.Document</a> id</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.Relationship#getRelationshipByEntity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByEntity(entityId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByEntity(Long):List[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getEntityRelation</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@getEntityRelation(id:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../index.html#model.Relationship$@getRelationshipByEntity(entityId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get all  <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> participates</p><div class="fullcomment"><div class="comment cmt"><p>Get all  <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> participates</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the id of the <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to search for</p></dd><dt>returns</dt><dd class="cmt"><p>List[Relationship]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the id of the <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to search for.</p></dd><dt>returns</dt><dd class="cmt"><p>List[Relationship]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.Relationship#getRelationships" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationships():List[model.Relationship]"></a>
+      <a id="getRelationships():List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationships</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Relationship$@getRelationships():List[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s available in the collection.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Relationship">Relationship</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -535,23 +382,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#nameConverters" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="nameConverters:Map[String,String]"></a>
-      <a id="nameConverters:Map[String,String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">nameConverters</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@nameConverters:Map[String,String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -603,36 +433,19 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#schemaName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="schemaName:Option[String]"></a>
-      <a id="schemaName:Option[String]"></a>
+    </li><li name="model.Relationship#rowParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowParser:scalikejdbc.WrappedResultSet=&gt;model.Relationship"></a>
+      <a id="rowParser:(WrappedResultSet)⇒Relationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">schemaName</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@schemaName:Option[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="model.Relationship#session" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="session:scalikejdbc.DBSession"></a>
-      <a id="session:DBSession"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">session</span><span class="result">: <span class="extype" name="scalikejdbc.DBSession">DBSession</span></span>
+        <span class="name">rowParser</span><span class="result">: (<span class="extype" name="scalikejdbc.WrappedResultSet">WrappedResultSet</span>) ⇒ <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@session:scalikejdbc.DBSession" title="Permalink" target="_top">
+      <a href="../index.html#model.Relationship$@rowParser:scalikejdbc.WrappedResultSet=&gt;model.Relationship" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -654,91 +467,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#syntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="syntax(name:&lt;?&gt;):SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]"></a>
-      <a id="syntax(String):scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Relationship],Relationship]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">syntax</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>], <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@syntax(name:String):SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#syntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="syntax:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]"></a>
-      <a id="syntax:scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Relationship],Relationship]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">syntax</span><span class="result">: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>], <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@syntax:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#table" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="table:SQLSyntaxSupportFeature.this.TableDefSQLSyntax"></a>
-      <a id="table:scalikejdbc.TableDefSQLSyntax"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">table</span><span class="result">: <a href="../scalikejdbc/package.html#TableDefSQLSyntaxextendsSQLSyntaxSupportFeature.this.SQLSyntaxwithProductwithSerializable" class="extmbr" name="scalikejdbc.TableDefSQLSyntax">scalikejdbc.TableDefSQLSyntax</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@table:SQLSyntaxSupportFeature.this.TableDefSQLSyntax" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#tableName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tableName:String"></a>
-      <a id="tableName:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tableName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@tableName:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#tableNameWithSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tableNameWithSchema:String"></a>
-      <a id="tableNameWithSchema:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tableNameWithSchema</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@tableNameWithSchema:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -756,40 +484,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#useShortenedResultName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="useShortenedResultName:Boolean"></a>
-      <a id="useShortenedResultName:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">useShortenedResultName</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@useShortenedResultName:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#useSnakeCaseColumnName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="useSnakeCaseColumnName:Boolean"></a>
-      <a id="useSnakeCaseColumnName:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">useSnakeCaseColumnName</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Relationship$@useSnakeCaseColumnName:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -872,10 +566,10 @@
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
-            </div><div class="parent" name="model.RelationshipQueryable">
-              <h3>Inherited from <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a></h3>
-            </div><div class="parent" name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport">
-              <h3>Inherited from <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</h3>
+            </div><div class="parent" name="utils.DBSettings">
+              <h3>Inherited from <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></h3>
+            </div><div class="parent" name="model.queryable.RelationshipQueryable">
+              <h3>Inherited from <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

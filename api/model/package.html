@@ -75,35 +75,16 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Document.html"><span class="name">Document</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDateTime">LocalDateTime</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>])]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Document.html"><span class="name">Document</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="org.joda.time.LocalDateTime">LocalDateTime</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@DocumentextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Common document representation
-</p><div class="fullcomment"><div class="comment cmt"><p>Common document representation
-</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date of the document.</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
-                the type of the meta data associated wih that key and y represents the respective list of meta data values.</p></dd></dl></div>
-    </li><li name="model.DocumentQueryable" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DocumentQueryableextendsAnyRef"></a>
-      <a id="DocumentQueryable:DocumentQueryable"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="DocumentQueryable.html"><span class="name">DocumentQueryable</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@DocumentQueryableextendsAnyRef" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="model.Entity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Document representation.</p><div class="fullcomment"><div class="comment cmt"><p>Document representation.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date and time of the document.</p></dd></dl></div>
+    </li><li name="model.Entity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="EntityextendsProductwithSerializable"></a>
       <a id="Entity:Entity"></a>
       <h4 class="signature">
@@ -112,65 +93,15 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Entity.html"><span class="name">Entity</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="frequency">frequency: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Entity.html"><span class="name">Entity</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entityType">entityType: <a href="EntityType$.html#ValueextendsOrdered[Enumeration.this.Value]withSerializable" class="extmbr" name="model.EntityType.Value">EntityType.Value</a></span>, <span name="frequency">frequency: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@EntityextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="model.EntityQueryable" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityQueryableextendsAnyRef"></a>
-      <a id="EntityQueryable:EntityQueryable"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="EntityQueryable.html"><span class="name">EntityQueryable</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@EntityQueryableextendsAnyRef" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="model.MetadataKeyValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MetadataKeyValueextendsProductwithSerializable"></a>
-      <a id="MetadataKeyValue:MetadataKeyValue"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="MetadataKeyValue.html"><span class="name">MetadataKeyValue</span></a><span class="params">(<span name="key">key: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@MetadataKeyValueextendsProductwithSerializable" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="model.MetadataType" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MetadataTypeextendsProductwithSerializable"></a>
-      <a id="MetadataType:MetadataType"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="MetadataType.html"><span class="name">MetadataType</span></a><span class="params">(<span name="key">key: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="mType">mType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@MetadataTypeextendsProductwithSerializable" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">Representation for entities.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for entities.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the entity.</p></dd><dt class="param">name</dt><dd class="cmt"><p>the entity name.</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the entity type.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>the frequency (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
     </li><li name="model.Relationship" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RelationshipextendsProductwithSerializable"></a>
       <a id="Relationship:Relationship"></a>
@@ -187,26 +118,9 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Object representation for relationships.</p><div class="fullcomment"><div class="comment cmt"><p>Object representation for relationships.
+      <p class="shortcomment cmt">Representation for relationships.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for relationships.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the relationship.</p></dd><dt class="param">e1</dt><dd class="cmt"><p>first entity. The order of entities is determined alphabetically. Especially, if (e1, e2) is a
           relationship, (e2, e1) is not.</p></dd><dt class="param">e2</dt><dd class="cmt"><p>second entity.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>frequency of the relationship (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
-    </li><li name="model.RelationshipQueryable" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="RelationshipQueryableextendsAnyRef"></a>
-      <a id="RelationshipQueryable:RelationshipQueryable"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="RelationshipQueryable.html"><span class="name">RelationshipQueryable</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@RelationshipQueryableextendsAnyRef" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li></ol>
             </div>
 
@@ -223,31 +137,14 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Document.html" class="extype" name="model.Document">Document</a>] with <a href="DocumentQueryable.html" class="extype" name="model.DocumentQueryable">DocumentQueryable</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="queryable/DocumentQueryable.html" class="extype" name="model.queryable.DocumentQueryable">DocumentQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Document" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="model.EntitJsonProtocol" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="EntitJsonProtocol"></a>
-      <a id="EntitJsonProtocol:EntitJsonProtocol"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="EntitJsonProtocol$.html"><span class="name">EntitJsonProtocol</span></a><span class="result"> extends <span class="extype" name="spray.json.DefaultJsonProtocol">DefaultJsonProtocol</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@EntitJsonProtocol" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">Companion object for <a href="Document.html" class="extype" name="model.Document">model.Document</a> instances.</p>
     </li><li name="model.Entity" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Entity"></a>
       <a id="Entity:Entity"></a>
@@ -257,14 +154,14 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>] with <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Entity" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Companion object for <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> instances.</p>
     </li><li name="model.EntityType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="EntityType"></a>
       <a id="EntityType:EntityType"></a>
@@ -283,40 +180,6 @@
     </span>
       <p class="shortcomment cmt">Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).</tt></tt></tt></p><div class="fullcomment"><div class="comment cmt"><p>Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
 </p></div></div>
-    </li><li name="model.MetadataKeyValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MetadataKeyValue"></a>
-      <a id="MetadataKeyValue:MetadataKeyValue"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="MetadataKeyValue$.html"><span class="name">MetadataKeyValue</span></a><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="MetadataKeyValue.html" class="extype" name="model.MetadataKeyValue">MetadataKeyValue</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@MetadataKeyValue" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="model.MetadataType" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MetadataType"></a>
-      <a id="MetadataType:MetadataType"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="MetadataType$.html"><span class="name">MetadataType</span></a><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="MetadataType.html" class="extype" name="model.MetadataType">MetadataType</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@MetadataType" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="model.Relationship" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Relationship"></a>
       <a id="Relationship:Relationship"></a>
@@ -326,10 +189,27 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>] with <a href="RelationshipQueryable.html" class="extype" name="model.RelationshipQueryable">RelationshipQueryable</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Relationship" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion object for <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> instances.</p>
+    </li><li name="model.queryable" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="queryable"></a>
+      <a id="queryable:queryable"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="queryable/package.html"><span class="name">queryable</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@queryable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>IoUtils - utils.io.IoUtils</title>
-          <meta name="description" content="IoUtils - utils.io.IoUtils" />
-          <meta name="keywords" content="IoUtils utils.io.IoUtils" />
+          <title>DocumentQueryable - model.queryable.DocumentQueryable</title>
+          <meta name="description" content="DocumentQueryable - model.queryable.DocumentQueryable" />
+          <meta name="keywords" content="DocumentQueryable model.queryable.DocumentQueryable" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../index.html';
-            var hash = 'utils.io.IoUtils';
+            var hash = 'model.queryable.DocumentQueryable';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../lib/class_big.png" />
-        <p id="owner"><a href="../package.html" class="extype" name="utils">utils</a>.<a href="package.html" class="extype" name="utils.io">io</a></p>
-        <h1>IoUtils</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="utils.io">package io</a>
+        <img alt="Trait" src="../../lib/trait_big.png" />
+        <p id="owner"><a href="../package.html" class="extype" name="model">model</a>.<a href="package.html" class="extype" name="model.queryable">queryable</a></p>
+        <h1>DocumentQueryable</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="model.queryable">package queryable</a>
           </div></span></h3><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,18 +42,20 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">IoUtils</span><span class="result"> extends <span class="extype" name="com.typesafe.scalalogging.slf4j.LazyLogging">LazyLogging</span></span>
+        <span class="name">DocumentQueryable</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides common io methods.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="com.typesafe.scalalogging.slf4j.LazyLogging">LazyLogging</span>, <span class="extype" name="com.typesafe.scalalogging.Logging">Logging</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="../Document$.html" class="extype" name="model.Document">Document</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -70,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="utils.io.IoUtils"><span>IoUtils</span></li><li class="in" name="com.typesafe.scalalogging.slf4j.LazyLogging"><span>LazyLogging</span></li><li class="in" name="com.typesafe.scalalogging.Logging"><span>Logging</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.queryable.DocumentQueryable"><span>DocumentQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -87,34 +89,163 @@
 
       <div id="template">
         <div id="allMembers">
-        <div id="constructors" class="members">
-              <h3>Instance Constructors</h3>
-              <ol><li name="utils.io.IoUtils#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():utils.io.IoUtils"></a>
-      <a id="&lt;init&gt;:IoUtils"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">new</span>
-      </span>
-      <span class="symbol">
-        <span class="name">IoUtils</span><span class="params">()</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@&lt;init&gt;():utils.io.IoUtils" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li></ol>
-            </div>
-
         
 
         
 
         <div id="values" class="values members">
-              <h3>Value Members</h3>
+              <h3>Abstract Value Members</h3>
+              <ol><li name="model.queryable.DocumentQueryable#getDocumentIds" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getDocumentIds():List[Long]"></a>
+      <a id="getDocumentIds():List[Long]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocumentIds</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentIds():List[Long]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> Ids available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> Ids available in the collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[Long]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getDocuments" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getDocuments():List[model.Document]"></a>
+      <a id="getDocuments():List[Document]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocuments</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getDocuments():List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> available in the collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getDocumentsByEntityId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getDocumentsByEntityId(id:Long):List[model.Document]"></a>
+      <a id="getDocumentsByEntityId(Long):List[Document]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocumentsByEntityId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentsByEntityId(id:Long):List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt>returns</dt><dd class="cmt"><p>List[model.Document]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getDocumentsByEntityIds" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getDocumentsByEntityIds(e1:Long,e2:Long):List[model.Document]"></a>
+      <a id="getDocumentsByEntityIds(Long,Long):List[Document]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDocumentsByEntityIds</span><span class="params">(<span name="e1">e1: <span class="extype" name="scala.Long">Long</span></span>, <span name="e2">e2: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentsByEntityIds(e1:Long,e2:Long):List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given pair of <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> ids.</p><div class="fullcomment"><div class="comment cmt"><p>Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given pair of <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> ids.</p></div><dl class="paramcmts block"><dt class="param">e1</dt><dd class="cmt"><p>first <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd><dt class="param">e2</dt><dd class="cmt"><p>second <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getMetadataKeyValueByDocumentId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataKeyValueByDocumentId(docId:Long):List[(String,String)]"></a>
+      <a id="getMetadataKeyValueByDocumentId(Long):List[(String,String)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataKeyValueByDocumentId</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getMetadataKeyValueByDocumentId(docId:Long):List[(String,String)]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of tuple (key, value) for a given document id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of tuple (key, value) for a given document id.
+Example: List(SignedBy,HECK), (Tags,IR), (Tags,MASS), ...)
+</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>document id to get list of metadata key, value tuple for.</p></dd><dt>returns</dt><dd class="cmt"><p>List[(String, String)].</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getMetadataKeysAndTypes" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataKeysAndTypes():List[(String,String)]"></a>
+      <a id="getMetadataKeysAndTypes():List[(String,String)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataKeysAndTypes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getMetadataKeysAndTypes():List[(String,String)]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of tuple, where each tuple (key, type) represents
+the available metadata key associated with its type in the <b>whole</b> collection.</b></p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of tuple, where each tuple (key, type) represents
+the available metadata key associated with its type in the <b>whole</b> collection.
+Example: List((&quot;Subject&quot;, &quot;TEXT&quot;, &quot;Position&quot;:&quot;GEO&quot;, ...)
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[(String, String)]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getMetadataType" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataType(id:Long):List[(String,String)]"></a>
+      <a id="getMetadataType(Long):List[(String,String)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataType</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getMetadataType(id:Long):List[(String,String)]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of metadata key and their types that is available for the given document.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of metadata key and their types that is available for the given document.
+Example: List((SignedBy,Text), (Header,Text))
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of metadata keys with their types present for the document.</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getMetadataValueByDocumentId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getMetadataValueByDocumentId(docId:Long,key:String):List[String]"></a>
+      <a id="getMetadataValueByDocumentId(Long,String):List[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMetadataValueByDocumentId</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>, <span name="key">key: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getMetadataValueByDocumentId(docId:Long,key:String):List[String]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns metadata values for a given metadata key for a given document.</p><div class="fullcomment"><div class="comment cmt"><p>Returns metadata values for a given metadata key for a given document.
+Example: [<code>IR</code>, <code>MARR</code>, <code>MASS</code>] for the key <code>Tags</code>.
+</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>document id.</p></dd><dt class="param">key</dt><dd class="cmt"><p>name of the metadata key to search for e.g <code>Tags</code>.</p></dd><dt>returns</dt><dd class="cmt"><p>List of metatadata values for the given key and document id.</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Concrete Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -127,7 +258,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -144,7 +275,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@##():Int" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@##():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -161,7 +292,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -178,7 +309,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -195,7 +326,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@clone():Object" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@clone():Object" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -218,7 +349,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -235,7 +366,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -252,7 +383,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@finalize():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -263,26 +394,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="utils.io.IoUtils#fromFile" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromFile[T](path:java.nio.file.Path)(f:scala.io.Source=&gt;T):T"></a>
-      <a id="fromFile[T](Path)((Source)⇒T):T"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">fromFile</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="path">path: <span class="extype" name="java.nio.file.Path">Path</span></span>)</span><span class="params">(<span name="f">f: (<span class="extype" name="scala.io.Source">Source</span>) ⇒ <span class="extype" name="utils.io.IoUtils.fromFile.T">T</span></span>)</span><span class="result">: <span class="extype" name="utils.io.IoUtils.fromFile.T">T</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@fromFile[T](path:java.nio.file.Path)(f:scala.io.Source=&gt;T):T" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt"> Opens a file and keeps track of the opened resource i.e.</p><div class="fullcomment"><div class="comment cmt"><p> Opens a file and keeps track of the opened resource i.e. closes it after the operation is finished.
- The given function should be strict in the type of T. Otherwise an exception will be thrown, because
- the stream is already closed.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>return type of the called function.</p></dd><dt class="param">path</dt><dd class="cmt"><p>file to read.</p></dd><dt class="param">f</dt><dd class="cmt"><p>strict function that will be called on the opened <span class="extype" name="io.Source">io.Source</span>.</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -295,7 +406,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -312,7 +423,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@hashCode():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -329,28 +440,11 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.typesafe.scalalogging.slf4j.LazyLogging#logger" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="logger:com.typesafe.scalalogging.slf4j.Logger"></a>
-      <a id="logger:Logger"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">lazy val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">logger</span><span class="result">: <span class="extype" name="com.typesafe.scalalogging.slf4j.Logger">Logger</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@logger:com.typesafe.scalalogging.slf4j.Logger" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>LazyLogging → Logging</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -363,7 +457,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -380,7 +474,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@notify():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@notify():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -397,7 +491,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -414,7 +508,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -431,7 +525,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@toString():String" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@toString():String" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -448,7 +542,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@wait():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@wait():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -471,7 +565,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -494,7 +588,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#utils.io.IoUtils@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -514,11 +608,7 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.typesafe.scalalogging.slf4j.LazyLogging">
-              <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.slf4j.LazyLogging">LazyLogging</span></h3>
-            </div><div class="parent" name="com.typesafe.scalalogging.Logging">
-              <h3>Inherited from <span class="extype" name="com.typesafe.scalalogging.Logging">Logging</span></h3>
-            </div><div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

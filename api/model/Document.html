@@ -47,13 +47,12 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Document</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDateTime">LocalDateTime</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>])]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Document</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="org.joda.time.LocalDateTime">LocalDateTime</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Common document representation
-</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date of the document.</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
-                the type of the meta data associated wih that key and y represents the respective list of meta data values.</p></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Document representation.
+</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date and time of the document.</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -93,7 +92,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="model.Document#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(id:Long,content:String,created:java.time.LocalDateTime,metadata:scala.collection.immutable.Map[String,(String,List[String])]):model.Document"></a>
+      <a id="&lt;init&gt;(id:Long,content:String,created:org.joda.time.LocalDateTime):model.Document"></a>
       <a id="&lt;init&gt;:Document"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -101,15 +100,14 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Document</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDateTime">LocalDateTime</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>])]</span>)</span>
+        <span class="name">Document</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="org.joda.time.LocalDateTime">LocalDateTime</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Document@&lt;init&gt;(id:Long,content:String,created:java.time.LocalDateTime,metadata:scala.collection.immutable.Map[String,(String,List[String])]):model.Document" title="Permalink" target="_top">
+      <a href="../index.html#model.Document@&lt;init&gt;(id:Long,content:String,created:org.joda.time.LocalDateTime):model.Document" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date of the document.</p></dd><dt class="param">metadata</dt><dd class="cmt"><p>returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
-                the type of the meta data associated wih that key and y represents the respective list of meta data values.</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date and time of the document.</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -228,7 +226,7 @@
     </span>
       <p class="shortcomment cmt">document body that contains raw text.</p>
     </li><li name="model.Document#created" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="created:java.time.LocalDateTime"></a>
+      <a id="created:org.joda.time.LocalDateTime"></a>
       <a id="created:LocalDateTime"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -236,14 +234,14 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">created</span><span class="result">: <span class="extype" name="java.time.LocalDateTime">LocalDateTime</span></span>
+        <span class="name">created</span><span class="result">: <span class="extype" name="org.joda.time.LocalDateTime">LocalDateTime</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Document@created:java.time.LocalDateTime" title="Permalink" target="_top">
+      <a href="../index.html#model.Document@created:org.joda.time.LocalDateTime" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">creation date of the document.</p>
+      <p class="shortcomment cmt">creation date and time of the document.</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -335,24 +333,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="model.Document#metadata" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="metadata:scala.collection.immutable.Map[String,(String,List[String])]"></a>
-      <a id="metadata:Map[String,(String,List[String])]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">metadata</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>])]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Document@metadata:scala.collection.immutable.Map[String,(String,List[String])]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">returns a maybe empty map that maps from keys to a tuple (x, y), where x refers to
-                the type of the meta data associated wih that key and y represents the respective list of meta data values.</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

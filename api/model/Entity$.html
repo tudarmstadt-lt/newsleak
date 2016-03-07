@@ -47,13 +47,14 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Entity</span><span class="result"> extends <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>] with <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Entity</span><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Companion object for <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> instances.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a>, <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a>, <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.Entity"><span>Entity</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="model.EntityQueryable"><span>EntityQueryable</span></li><li class="in" name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport"><span>SQLSyntaxSupport</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.Entity"><span>Entity</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="model.queryable.EntityQueryable"><span>EntityQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -147,40 +148,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="model.Entity#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(rs:scalikejdbc.WrappedResultSet):model.Entity"></a>
-      <a id="apply(WrappedResultSet):Entity"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="rs">rs: <span class="extype" name="scalikejdbc.WrappedResultSet">WrappedResultSet</span></span>)</span><span class="result">: <a href="Entity.html" class="extype" name="model.Entity">Entity</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@apply(rs:scalikejdbc.WrappedResultSet):model.Entity" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#as" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="as(provider:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]):SQLSyntaxSupportFeature.this.TableAsAliasSQLSyntax"></a>
-      <a id="as(scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Entity],Entity]):scalikejdbc.TableAsAliasSQLSyntax"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">as</span><span class="params">(<span name="provider">provider: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>], <a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>)</span><span class="result">: <a href="../scalikejdbc/package.html#TableAsAliasSQLSyntaxextendsSQLSyntaxSupportFeature.this.SQLSyntaxwithProductwithSerializable" class="extmbr" name="scalikejdbc.TableAsAliasSQLSyntax">scalikejdbc.TableAsAliasSQLSyntax</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@as(provider:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]):SQLSyntaxSupportFeature.this.TableAsAliasSQLSyntax" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -198,40 +165,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#autoSession" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="autoSession:scalikejdbc.DBSession"></a>
-      <a id="autoSession:DBSession"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">autoSession</span><span class="result">: <span class="extype" name="scalikejdbc.DBSession">DBSession</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@autoSession:scalikejdbc.DBSession" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#clearLoadedColumns" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="clearLoadedColumns():Unit"></a>
-      <a id="clearLoadedColumns():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">clearLoadedColumns</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@clearLoadedColumns():Unit" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -255,91 +188,23 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#column" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="column:SQLSyntaxSupportFeature.this.ColumnName[A]"></a>
-      <a id="column:scalikejdbc.ColumnName[Entity]"></a>
+    </li><li name="model.Entity#connector" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="connector:scalikejdbc.NamedDB"></a>
+      <a id="connector:NamedDB"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">column</span><span class="result">: <a href="../scalikejdbc/package.html#ColumnName[A]=SQLSyntaxSupportFeature.this.ColumnSQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" class="extmbr" name="scalikejdbc.ColumnName">scalikejdbc.ColumnName</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+        <span class="name">connector</span><span class="result">: <span class="extype" name="scalikejdbc.NamedDB">NamedDB</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@column:SQLSyntaxSupportFeature.this.ColumnName[A]" title="Permalink" target="_top">
+      <a href="../index.html#model.Entity$@connector:scalikejdbc.NamedDB" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#columnNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="columnNames:Seq[String]"></a>
-      <a id="columnNames:Seq[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">columnNames</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@columnNames:Seq[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#columns" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="columns:Seq[String]"></a>
-      <a id="columns:Seq[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">columns</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@columns:Seq[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#connectionPoolName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="connectionPoolName:Any"></a>
-      <a id="connectionPoolName:Any"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">connectionPoolName</span><span class="result">: <span class="extype" name="scala.Any">Any</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@connectionPoolName:Any" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#delimiterForResultName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="delimiterForResultName:String"></a>
-      <a id="delimiterForResultName:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">delimiterForResultName</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@delimiterForResultName:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -397,42 +262,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="model.Entity#findAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="findAll():List[model.Entity]"></a>
-      <a id="findAll():List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">findAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@findAll():List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Find all <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s
-</p><div class="fullcomment"><div class="comment cmt"><p>Find all <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of all <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#forceUpperCase" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="forceUpperCase:Boolean"></a>
-      <a id="forceUpperCase:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">forceUpperCase</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@forceUpperCase:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -450,137 +279,151 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="model.Entity#getEntityByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEntityByName(name:String):List[model.Entity]"></a>
-      <a id="getEntityByName(String):List[Entity]"></a>
+    </li><li name="model.Entity#getEntities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntities():List[model.Entity]"></a>
+      <a id="getEntities():List[Entity]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getEntityByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+        <span class="name">getEntities</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getEntityByName(name:String):List[model.Entity]" title="Permalink" target="_top">
+      <a href="../index.html#model.Entity$@getEntities():List[model.Entity]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given name pattern
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given name pattern
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>name The name of an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of  <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntityByType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEntityByType(entityType:String):List[model.Entity]"></a>
-      <a id="getEntityByType(String):List[Entity]"></a>
+      <p class="shortcomment cmt">Returns all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesByName(name:String):List[model.Entity]"></a>
+      <a id="getEntitiesByName(String):List[Entity]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getEntityByType</span><span class="params">(<span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+        <span class="name">getEntitiesByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getEntityByType(entityType:String):List[model.Entity]" title="Permalink" target="_top">
+      <a href="../index.html#model.Entity$@getEntitiesByName(name:String):List[model.Entity]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>
-</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>The type of an <a href="Entity.html" class="extype" name="model.Entity"></a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
+      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given name pattern.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given name pattern.
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>name The name of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of  <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesByType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesByType(entityType:String):List[model.Entity]"></a>
+      <a id="getEntitiesByType(String):List[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEntitiesByType</span><span class="params">(<span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Entity$@getEntitiesByType(entityType:String):List[model.Entity]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>.
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>The type of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesOrderedByFreqAsc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]"></a>
+      <a id="getEntitiesOrderedByFreqAsc(String,LocalDate,Int):List[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEntitiesOrderedByFreqAsc</span><span class="params">(<span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>, <span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Entity$@getEntitiesOrderedByFreqAsc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in ascending order on a specific date
+</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in ascending order on a specific date
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter </p><pre>Entity</pre></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesOrderedByFreqAsc(entity:String,limit:Int):List[model.Entity]"></a>
+      <a id="getEntitiesOrderedByFreqAsc(String,Int):List[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEntitiesOrderedByFreqAsc</span><span class="params">(<span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Entity$@getEntitiesOrderedByFreqAsc(entity:String,limit:Int):List[model.Entity]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order.
+</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesOrderedByFreqDesc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]"></a>
+      <a id="getEntitiesOrderedByFreqDesc(String,LocalDate,Int):List[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEntitiesOrderedByFreqDesc</span><span class="params">(<span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>, <span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Entity$@getEntitiesOrderedByFreqDesc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in descending order on a specific date
+</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in descending order on a specific date
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.Entity#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getEntitiesOrderedByFreqDesc(entity:String,limit:Int):List[model.Entity]"></a>
+      <a id="getEntitiesOrderedByFreqDesc(String,Int):List[Entity]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEntitiesOrderedByFreqDesc</span><span class="params">(<span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.Entity$@getEntitiesOrderedByFreqDesc(entity:String,limit:Int):List[model.Entity]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order.
+</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
     </li><li name="model.Entity#getEntityTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getEntityTypes():List[String]"></a>
-      <a id="getEntityTypes():List[String]"></a>
+      <a id="getEntityTypes():List[model.EntityType.Value]"></a>
+      <a id="getEntityTypes():List[EntityType.Value]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getEntityTypes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">getEntityTypes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="EntityType$.html#ValueextendsOrdered[Enumeration.this.Value]withSerializable" class="extmbr" name="model.EntityType.Value">EntityType.Value</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getEntityTypes():List[String]" title="Permalink" target="_top">
+      <a href="../index.html#model.Entity$@getEntityTypes():List[model.EntityType.Value]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Get all the entity types</p><div class="fullcomment"><div class="comment cmt"><p>Get all the entity types</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[String]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getSortedAscending" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getSortedAscending(limit:Int,entity:String):List[model.Entity]"></a>
-      <a id="getSortedAscending(Int,String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedAscending</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getSortedAscending(limit:Int,entity:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in ascending order
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in ascending order
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getSortedAscendingByDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getSortedAscendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]"></a>
-      <a id="getSortedAscendingByDate(Int,String,LocalDate):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedAscendingByDate</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getSortedAscendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order on a specific date
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter </p><pre>Entity</pre></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getSortedDecending" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getSortedDecending(limit:Int,entity:String):List[model.Entity]"></a>
-      <a id="getSortedDecending(Int,String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedDecending</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity">entity: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getSortedDecending(limit:Int,entity:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in descending order
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in descending order
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of </p><pre>Entity</pre></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getSortedDecendingByDate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getSortedDecendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]"></a>
-      <a id="getSortedDecendingByDate(Int,String,LocalDate):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedDecendingByDate</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@getSortedDecendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order on a specific date
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns all available entity types.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all available entity types.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[EntityType]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -615,23 +458,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#nameConverters" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="nameConverters:Map[String,String]"></a>
-      <a id="nameConverters:Map[String,String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">nameConverters</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@nameConverters:Map[String,String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -683,36 +509,19 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#schemaName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="schemaName:Option[String]"></a>
-      <a id="schemaName:Option[String]"></a>
+    </li><li name="model.Entity#rowParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowParser:scalikejdbc.WrappedResultSet=&gt;model.Entity"></a>
+      <a id="rowParser:(WrappedResultSet)⇒Entity"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">schemaName</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@schemaName:Option[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="model.Entity#session" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="session:scalikejdbc.DBSession"></a>
-      <a id="session:DBSession"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">session</span><span class="result">: <span class="extype" name="scalikejdbc.DBSession">DBSession</span></span>
+        <span class="name">rowParser</span><span class="result">: (<span class="extype" name="scalikejdbc.WrappedResultSet">WrappedResultSet</span>) ⇒ <a href="Entity.html" class="extype" name="model.Entity">Entity</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@session:scalikejdbc.DBSession" title="Permalink" target="_top">
+      <a href="../index.html#model.Entity$@rowParser:scalikejdbc.WrappedResultSet=&gt;model.Entity" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -734,91 +543,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#syntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="syntax(name:String):SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]"></a>
-      <a id="syntax(String):scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Entity],Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">syntax</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>], <a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@syntax(name:String):SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#syntax" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="syntax:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]"></a>
-      <a id="syntax:scalikejdbc.QuerySQLSyntaxProvider[scalikejdbc.SQLSyntaxSupport[Entity],Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">syntax</span><span class="result">: <a href="../scalikejdbc/package.html#QuerySQLSyntaxProvider[S&lt;:SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]extendsSQLSyntaxSupportFeature.this.SQLSyntaxProviderCommonImpl[S,A]withSQLSyntaxSupportFeature.this.ResultAllProviderwithSQLSyntaxSupportFeature.this.AsteriskProviderwithProductwithSerializable" class="extmbr" name="scalikejdbc.QuerySQLSyntaxProvider">scalikejdbc.QuerySQLSyntaxProvider</a>[<a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>], <a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@syntax:SQLSyntaxSupportFeature.this.QuerySQLSyntaxProvider[SQLSyntaxSupportFeature.this.SQLSyntaxSupport[A],A]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#table" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="table:SQLSyntaxSupportFeature.this.TableDefSQLSyntax"></a>
-      <a id="table:scalikejdbc.TableDefSQLSyntax"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">table</span><span class="result">: <a href="../scalikejdbc/package.html#TableDefSQLSyntaxextendsSQLSyntaxSupportFeature.this.SQLSyntaxwithProductwithSerializable" class="extmbr" name="scalikejdbc.TableDefSQLSyntax">scalikejdbc.TableDefSQLSyntax</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@table:SQLSyntaxSupportFeature.this.TableDefSQLSyntax" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#tableName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tableName:String"></a>
-      <a id="tableName:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tableName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@tableName:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#tableNameWithSchema" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="tableNameWithSchema:String"></a>
-      <a id="tableNameWithSchema:String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tableNameWithSchema</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@tableNameWithSchema:String" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -836,40 +560,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#useShortenedResultName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="useShortenedResultName:Boolean"></a>
-      <a id="useShortenedResultName:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">useShortenedResultName</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@useShortenedResultName:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
-    </li><li name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport#useSnakeCaseColumnName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="useSnakeCaseColumnName:Boolean"></a>
-      <a id="useSnakeCaseColumnName:Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">useSnakeCaseColumnName</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.Entity$@useSnakeCaseColumnName:Boolean" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>SQLSyntaxSupport</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -952,10 +642,10 @@
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
-            </div><div class="parent" name="model.EntityQueryable">
-              <h3>Inherited from <a href="EntityQueryable.html" class="extype" name="model.EntityQueryable">EntityQueryable</a></h3>
-            </div><div class="parent" name="scalikejdbc.SQLSyntaxSupportFeature.SQLSyntaxSupport">
-              <h3>Inherited from <a href="../scalikejdbc/package.html#SQLSyntaxSupport[A]extendsAnyRef" class="extmbr" name="scalikejdbc.SQLSyntaxSupport">scalikejdbc.SQLSyntaxSupport</a>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</h3>
+            </div><div class="parent" name="utils.DBSettings">
+              <h3>Inherited from <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></h3>
+            </div><div class="parent" name="model.queryable.EntityQueryable">
+              <h3>Inherited from <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

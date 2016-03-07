@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>EntityQueryable - model.EntityQueryable</title>
-          <meta name="description" content="EntityQueryable - model.EntityQueryable" />
-          <meta name="keywords" content="EntityQueryable model.EntityQueryable" />
+          <title>DBSettings - utils.DBSettings</title>
+          <meta name="description" content="DBSettings - utils.DBSettings" />
+          <meta name="keywords" content="DBSettings utils.DBSettings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../index.html';
-            var hash = 'model.EntityQueryable';
+            var hash = 'utils.DBSettings$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,16 @@
    	  </script>
     
         </head>
-        <body class="type">
+        <body class="value">
       <div id="definition">
-        <img alt="Trait" src="../lib/trait_big.png" />
-        <p id="owner"><a href="package.html" class="extype" name="model">model</a></p>
-        <h1>EntityQueryable</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="model">package model</a>
+        <a href="DBSettings.html" title="See companion trait"><img alt="Object/Trait" src="../lib/object_to_trait_big.png" /></a>
+        <p id="owner"><a href="package.html" class="extype" name="utils">utils</a></p>
+        <h1><a href="DBSettings.html" title="See companion trait">DBSettings</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="DBSettings.html" title="See companion trait">trait DBSettings</a>
+            | <a href="package.html" class="extype" name="utils">package utils</a>
           </div></span></h3><span class="permalink">
-      <a href="../index.html#model.EntityQueryable" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,20 +44,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityQueryable</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">DBSettings</span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="Entity$.html" class="extype" name="model.Entity">Entity</a></div>
-          </div></div>
+        </div></div>
         
 
       <div id="mbrsel">
@@ -72,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.EntityQueryable"><span>EntityQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -93,163 +92,10 @@
 
         
 
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="model.EntityQueryable#findAll" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="findAll():List[model.Entity]"></a>
-      <a id="findAll():List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">findAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@findAll():List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Find all <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s
-</p><div class="fullcomment"><div class="comment cmt"><p>Find all <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of all <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getEntityByName" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getEntityByName(name:String):List[model.Entity]"></a>
-      <a id="getEntityByName(String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEntityByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getEntityByName(name:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given name pattern
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given name pattern
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>name The name of an <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of  <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getEntityByType" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getEntityByType(entityType:String):List[model.Entity]"></a>
-      <a id="getEntityByType(String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEntityByType</span><span class="params">(<span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getEntityByType(entityType:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>
-</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>The type of an <a href="Entity.html" class="extype" name="model.Entity"></a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getEntityTypes" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getEntityTypes():List[String]"></a>
-      <a id="getEntityTypes():List[String]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getEntityTypes</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getEntityTypes():List[String]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get all the entity types</p><div class="fullcomment"><div class="comment cmt"><p>Get all the entity types</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[String]</p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getSortedAscending" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getSortedAscending(limit:Int,entityType:String):List[model.Entity]"></a>
-      <a id="getSortedAscending(Int,String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedAscending</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getSortedAscending(limit:Int,entityType:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in ascending order
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in ascending order
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getSortedAscendingByDate" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getSortedAscendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]"></a>
-      <a id="getSortedAscendingByDate(Int,String,LocalDate):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedAscendingByDate</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getSortedAscendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order on a specific date
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter </p><pre>Entity</pre></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getSortedDecending" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getSortedDecending(limit:Int,entityType:String):List[model.Entity]"></a>
-      <a id="getSortedDecending(Int,String):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedDecending</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getSortedDecending(limit:Int,entityType:String):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in descending order
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s  in descending order
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of </p><pre>Entity</pre></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li><li name="model.EntityQueryable#getSortedDecendingByDate" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getSortedDecendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]"></a>
-      <a id="getSortedDecendingByDate(Int,String,LocalDate):List[Entity]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getSortedDecendingByDate</span><span class="params">(<span name="limit">limit: <span class="extype" name="scala.Int">Int</span></span>, <span name="entityType">entityType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="created">created: <span class="extype" name="java.time.LocalDate">LocalDate</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Entity.html" class="extype" name="model.Entity">Entity</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getSortedDecendingByDate(limit:Int,entityType:String,created:java.time.LocalDate):List[model.Entity]" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order on a specific date
-</p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">Entity</a> to return</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">Entity</a></p></dd></dl></div>
-    </li></ol>
-            </div>
+        
 
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -262,7 +108,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -279,7 +125,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@##():Int" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@##():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -296,7 +142,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -313,7 +159,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -330,7 +176,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@clone():Object" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@clone():Object" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -353,7 +199,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -370,7 +216,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -387,7 +233,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@finalize():Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@finalize():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -410,7 +256,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -427,11 +273,28 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@hashCode():Int" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@hashCode():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="utils.DBSettings#initialize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="initialize():Unit"></a>
+      <a id="initialize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initialize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.DBSettings$@initialize():Unit" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -444,7 +307,7 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -461,7 +324,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -478,7 +341,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@notify():Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@notify():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -495,7 +358,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -512,7 +375,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -529,7 +392,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@toString():String" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@toString():String" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -546,7 +409,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@wait():Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@wait():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -569,7 +432,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -592,7 +455,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.EntityQueryable@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../index.html#utils.DBSettings$@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

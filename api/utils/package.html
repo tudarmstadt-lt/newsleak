@@ -84,6 +84,30 @@
     </span>
       <p class="shortcomment cmt">Provides a method to wrap operations and measure there execution time.</p><div class="fullcomment"><div class="comment cmt"><p>Provides a method to wrap operations and measure there execution time.
 </p></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>return type of the given method.</p></dd></dl></div>
+    </li><li name="utils.DBSettings" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="DBSettingsextendsAnyRef"></a>
+      <a id="DBSettings:DBSettings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DBSettings.html"><span class="name">DBSettings</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@DBSettingsextendsAnyRef" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Mix in this trait if you are going to use database interactions.</p><div class="fullcomment"><div class="comment cmt"><p>Mix in this trait if you are going to use database interactions.
+It will initialize the connection pool, if the pool isn't already
+initialized. Also make sure that your database connection is configured
+in /conf/application.conf properly. See example below:</p><p>db.default.driver=org.postgresql.Driver
+db.default.url=&quot;jdbc:postgresql://127.0.0.1/databasename&quot;
+db.default.username=&quot;&quot;
+db.default.password=&quot;&quot;</p><p>For more information refer to: http://scalikejdbc.org/documentation/configuration.html
+</p></div></div>
     </li><li name="utils.RichString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="RichStringextendsAnyRef"></a>
       <a id="RichString:RichString"></a>
@@ -126,6 +150,61 @@
     </span>
       <p class="shortcomment cmt">Companion object for <a href="Benchmarkable.html" class="extype" name="utils.Benchmarkable">Benchmarkable</a> that provides a convenient method
 to measure execution time.</p>
+    </li><li name="utils.DBRegistry" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DBRegistry"></a>
+      <a id="DBRegistry:DBRegistry"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DBRegistry$.html"><span class="name">DBRegistry</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@DBRegistry" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This object is used to handle the connection to the database.</p><div class="fullcomment"><div class="comment cmt"><p>This object is used to handle the connection to the database. It retrieves
+the default connection from the connection pool if no database instance
+is set. Can also be used to loan in database stubs for testing.
+</p></div></div>
+    </li><li name="utils.DBSettings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DBSettings"></a>
+      <a id="DBSettings:DBSettings"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DBSettings$.html"><span class="name">DBSettings</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@DBSettings" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="utils.MyDBs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MyDBs"></a>
+      <a id="MyDBs:MyDBs"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="MyDBs$.html"><span class="name">MyDBs</span></a><span class="result"> extends <span class="extype" name="scalikejdbc.config.DBs">DBs</span> with <span class="extype" name="scalikejdbc.config.TypesafeConfigReader">TypesafeConfigReader</span> with <span class="extype" name="scalikejdbc.config.StandardTypesafeConfig">StandardTypesafeConfig</span> with <span class="extype" name="scalikejdbc.config.NoEnvPrefix">NoEnvPrefix</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#utils.package@MyDBs" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Handles the initialization of the connections defined in the
+conf/application.conf file.</p>
     </li><li name="utils.RichString" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="RichString"></a>
       <a id="RichString:RichString"></a>
