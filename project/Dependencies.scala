@@ -47,6 +47,7 @@ object Dependencies {
     val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % "2.3.5" // ApacheV2
     val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % "2.3.5" // ApacheV2
 
+    val elasticsearch = "org.elasticsearch" % "elasticsearch" % "2.2.0" // ApacheV2
     val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-core" % "2.2.0" // ApacheV2
 
     object Test {
@@ -61,10 +62,10 @@ object Dependencies {
   val l = libraryDependencies
 
   // Projects
-  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple, elastic4s,
+  val coreDeps = l ++= Seq(config, scopt, playJson, csv, logging, slf4jSimple,
     ner, scalaNlp, h2database, Test.scalikejdbc, Test.scalatest, Test.scalamock)
 
-  val commonDeps = l ++= Seq(playJson, scalaNlp, elastic4s,
+  val commonDeps = l ++= Seq(playJson, scalaNlp, elastic4s, elasticsearch,
     postgresql, scalikejdbc, scalikejdbcConfig, h2database, logging, slf4jSimple,
     Test.scalikejdbc, Test.scalatest, Test.scalamock)
 }

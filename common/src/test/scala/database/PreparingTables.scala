@@ -71,6 +71,17 @@ trait PreparingTables {
 
   try {
     NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      SQL("""CREATE TABLE IF NOT EXISTS documentrelationship (
+                docid BIGINT NOT NULL,
+                relid BIGINT NOT NULL,
+                frequency INTEGER NOT NULL,
+                CONSTRAINT documentrelationship_pkey PRIMARY KEY(docid, relid)
+      )""").execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
       SQL("DROP SEQUENCE IF EXISTS labels_id_seq")
       SQL("CREATE SEQUENCE labels_id_seq start with 1").execute.apply()
       SQL("""CREATE TABLE IF NOT EXISTS labels (
@@ -87,11 +98,24 @@ trait PreparingTables {
       // reset the sequence for testing.
       SQL("DROP SEQUENCE IF EXISTS tags_id_seq")
       SQL("CREATE SEQUENCE tags_id_seq start with 1").execute.apply()
-      SQL("""CREATE TABLE IF NOT EXISTS tags (
+      SQL(
+        """CREATE TABLE IF NOT EXISTS tags (
                 id BIGINT NOT NULL DEFAULT NEXTVAL('tags_id_seq') PRIMARY KEY,
                 documentid BIGINT NOT NULL,
                 labelid BIGINT NOT NULL
-          )""").execute.apply()
+          )"""
+      ).execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  // TODO: Primary key?
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      SQL("""CREATE TABLE IF NOT EXISTS terms (
+                docid BIGINT NOT NULL,
+                term CHARACTER VARYING NOT NULL,
+                frequency INTEGER NOT NULL
+              )""").execute.apply()
     }
   } catch { case e: Exception => }
 }

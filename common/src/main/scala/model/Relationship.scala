@@ -37,10 +37,10 @@ case class Relationship(id: Long, e1: Long, e2: Long, var frequency: Int = 0)
 object Relationship extends RelationshipQueryableImpl {
 
   def apply(rs: WrappedResultSet): Relationship = Relationship(
+
     rs.long("id"),
     rs.long("entity1"),
     rs.long("entity2"),
     rs.int("frequency")
   )
 }
-
