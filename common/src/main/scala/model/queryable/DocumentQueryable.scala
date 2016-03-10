@@ -41,12 +41,19 @@ trait DocumentQueryable {
   def getDocumentsByEntityId(id: Long): List[Document]
 
   /**
-   * Returns [[model.Document]]s that contain the given pair of [[model.Entity]] ids.
-   * @param e1 first [[model.Entity]]
-   * @param e2 second [[model.Entity]]
+   * Returns [[model.Document]]s that contain the given [[model.Relationship]].
+   * @param id relationship id
    * @return List[Document]
    */
-  def getDocumentsByEntityIds(e1: Long, e2: Long): List[Document]
+  def getDocumentsByRelationshipId(id: Long): List[Document]
+
+  /**
+   * Returns a list of document ids where each document in the result list
+   * contains the given [[model.Relationship]].
+   * @param id relationship id
+   * @return List[Long]
+   */
+  def getDocumentIdsByRelationshipId(id: Long): List[Long]
 
   /**
    * Returns a list of tuple, where each tuple (key, type) represents

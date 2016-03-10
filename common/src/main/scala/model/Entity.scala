@@ -20,7 +20,7 @@ package model
 import java.time.LocalDate
 
 import model.queryable.EntityQueryable
-import utils.{DBSettings, DBRegistry}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
@@ -48,9 +48,11 @@ case class Entity(id: Long, name: String, entityType: EntityType.Value, frequenc
 /**
  * Companion object for [[model.Entity]] instances.
  */
-object Entity extends EntityQueryable with DBSettings {
+object Entity extends EntityQueryableImpl
 
-  def connector: NamedDB = DBRegistry.db()
+class EntityQueryableImpl extends EntityQueryable with DBSettings {
+
+  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
 
   val rowParser = (rs: WrappedResultSet) => Entity(
     rs.long("id"),

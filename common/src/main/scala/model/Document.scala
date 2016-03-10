@@ -19,7 +19,7 @@ package model
 
 import model.queryable.DocumentQueryable
 import org.joda.time.LocalDateTime
-import utils.{DBSettings, DBRegistry}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
@@ -37,9 +37,11 @@ case class Document(id: Long, content: String, created: LocalDateTime)
 /**
  * Companion object for [[model.Document]] instances.
  */
-object Document extends DocumentQueryable with DBSettings {
+object Document extends DocumentQueryableImpl
 
-  def connector: NamedDB = DBRegistry.db()
+class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
+
+  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
 
   val rowParser = (rs: WrappedResultSet) =>
     Document(
@@ -53,7 +55,7 @@ object Document extends DocumentQueryable with DBSettings {
   }
 
   override def getDocumentIds(): List[Long] = connector.readOnly { implicit session =>
-    sql" SELECT id FROM document".map(_.long("id")).list.apply()
+    sql"SELECT id FROM document".map(_.long("id")).list.apply()
   }
 
   override def getDocumentsByEntityId(id: Long): List[Document] = connector.readOnly { implicit session =>
@@ -63,12 +65,18 @@ object Document extends DocumentQueryable with DBSettings {
     """.map(rowParser).list.apply()
   }
 
-  override def getDocumentsByEntityIds(e1: Long, e2: Long): List[Document] = connector.readOnly { implicit session =>
+  override def getDocumentsByRelationshipId(id: Long): List[Document] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM document d
-          INNER JOIN documententity de1 ON d.id = de1.docid
-          INNER JOIN documententity de2 ON d.id = de2.docid
-          WHERE de1.entityid = ${e1} AND de2.entityid =${e2}
-    """.map(rowParser).list.apply()
+         INNER JOIN documentrelationship dr ON d.id = dr.docid
+         WHERE dr.relid = ${id}
+   """.map(rowParser).list.apply()
+  }
+
+  /* This implementation is significantly faster than <code>getDocumentsByRelationshipId</code> */
+  override def getDocumentIdsByRelationshipId(id: Long): List[Long] = connector.readOnly { implicit session =>
+    sql"""SELECT docId FROM documentrelationship dr
+          WHERE dr.relid = ${id}
+   """.map(_.long("docId")).list.apply()
   }
 
   override def getMetadataKeysAndTypes(): List[(String, String)] = connector.readOnly { implicit session =>

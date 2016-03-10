@@ -21,7 +21,7 @@ package model
 import model.queryable.RelationshipQueryable
 import scalikejdbc._
 // scalastyle:on
-import utils.{DBSettings, DBRegistry}
+import utils.DBSettings
 
 /**
  * Representation for relationships.
@@ -37,9 +37,11 @@ case class Relationship(id: Long, e1: Long, e2: Long, var frequency: Int = 0)
 /**
  * Companion object for [[model.Relationship]] instances.
  */
-object Relationship extends RelationshipQueryable with DBSettings {
+object Relationship extends RelationshipQueryableImpl
 
-  def connector: NamedDB = DBRegistry.db()
+class RelationshipQueryableImpl extends RelationshipQueryable with DBSettings {
+
+  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
 
   val rowParser = (rs: WrappedResultSet) => Relationship(
     rs.long("id"),
@@ -50,6 +52,10 @@ object Relationship extends RelationshipQueryable with DBSettings {
 
   override def getRelationships(): List[Relationship] = connector.readOnly { implicit session =>
     sql"SELECT * FROM relationship".map(rowParser).list.apply()
+  }
+
+  override def getRelationshipById(relId: Long): Option[Relationship] = connector.readOnly { implicit session =>
+    sql"SELECT * FROM relationship WHERE id = ${relId}".map(rowParser).toOption().apply()
   }
 
   override def getRelationshipByEntity(entityId: Long): List[Relationship] = connector.readOnly { implicit session =>

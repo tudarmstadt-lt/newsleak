@@ -17,28 +17,29 @@
 
 package model
 
-import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll}
+import org.scalatest.BeforeAndAfterAll
 import scalikejdbc.NamedDB
 import testFactories.FlatSpecWithDatabaseTrait
-import utils.DBRegistry
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class EntityCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfter with BeforeAndAfterAll {
+class EntityCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfterAll {
 
-  def db: NamedDB = NamedDB('newsleakTestDB)
+  def testDatabase: NamedDB = NamedDB('newsleakTestDB)
+
+  final class EntityQueryableTestable extends EntityQueryableImpl {
+    override def connector: NamedDB = testDatabase
+  }
+
+  val uut = new EntityQueryableTestable
 
   override def beforeAll(): Unit = {
-    db.localTx { implicit session =>
+    testDatabase.localTx { implicit session =>
       sql"INSERT INTO entity VALUES (1, ${"Angela Merkel"}, ${"Person"}, 7)".update.apply()
       sql"INSERT INTO entity VALUES (2, ${"Angela Brecht"}, ${"Person"}, 3)".update.apply()
     }
-  }
-
-  before {
-    DBRegistry.registerDB(db)
   }
 
   "getEntitiesByName" should "return entities that share common names" in {
@@ -46,7 +47,7 @@ class EntityCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfter 
       Entity(1, "Angela Merkel", EntityType.Person, 7),
       Entity(2, "Angela Brecht", EntityType.Person, 3)
     )
-    val actual = Entity.getEntitiesByName("Angela")
+    val actual = uut.getEntitiesByName("Angela")
     assert(actual === expected)
   }
 

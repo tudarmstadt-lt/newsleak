@@ -28,6 +28,13 @@ trait RelationshipQueryable {
   def getRelationships(): List[Relationship]
 
   /**
+   * Returns the [[model.Relationship]] for the given relationship id.
+   * @param relId the id of the [[model.Relationship]] to search for.
+   * @return Option[Relationship]
+   */
+  def getRelationshipById(relId: Long): Option[Relationship]
+
+  /**
    * Returns all [[Relationship]]s where the given [[model.Entity]] participates.
    * @param entityId the id of the [[model.Entity]] to search for.
    * @return List[Relationship]
