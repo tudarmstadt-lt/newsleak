@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DBRegistry - utils.DBRegistry</title>
-          <meta name="description" content="DBRegistry - utils.DBRegistry" />
-          <meta name="keywords" content="DBRegistry utils.DBRegistry" />
+          <title>RelationshipQueryableImpl - model.RelationshipQueryableImpl</title>
+          <meta name="description" content="RelationshipQueryableImpl - model.RelationshipQueryableImpl" />
+          <meta name="keywords" content="RelationshipQueryableImpl model.RelationshipQueryableImpl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../index.html';
-            var hash = 'utils.DBRegistry$';
+            var hash = 'model.RelationshipQueryableImpl';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,14 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img alt="Object" src="../lib/object_big.png" />
-        <p id="owner"><a href="package.html" class="extype" name="utils">utils</a></p>
-        <h1>DBRegistry</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="utils">package utils</a>
+        <img alt="Class" src="../lib/class_big.png" />
+        <p id="owner"><a href="package.html" class="extype" name="model">model</a></p>
+        <h1>RelationshipQueryableImpl</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="model">package model</a>
           </div></span></h3><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,20 +42,20 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">DBRegistry</span>
+        <span class="name">RelationshipQueryableImpl</span><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This object is used to handle the connection to the database. It retrieves
-the default connection from the connection pool if no database instance
-is set. Can also be used to loan in database stubs for testing.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+          <div class="superTypes hiddenContent"><a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a>, <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="Relationship$.html" class="extype" name="model.Relationship">Relationship</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -72,7 +72,7 @@ is set. Can also be used to loan in database stubs for testing.
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="utils.DBRegistry"><span>DBRegistry</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.RelationshipQueryableImpl"><span>RelationshipQueryableImpl</span></li><li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="model.queryable.RelationshipQueryable"><span>RelationshipQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -89,7 +89,27 @@ is set. Can also be used to loan in database stubs for testing.
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="model.RelationshipQueryableImpl#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;():model.RelationshipQueryableImpl"></a>
+      <a id="&lt;init&gt;:RelationshipQueryableImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RelationshipQueryableImpl</span><span class="params">()</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@&lt;init&gt;():model.RelationshipQueryableImpl" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
 
         
 
@@ -109,7 +129,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -126,7 +146,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@##():Int" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@##():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -143,7 +163,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,7 +180,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -177,7 +197,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@clone():Object" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@clone():Object" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -188,25 +208,23 @@ is set. Can also be used to loan in database stubs for testing.
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="utils.DBRegistry#db" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="db():scalikejdbc.NamedDB"></a>
-      <a id="db():NamedDB"></a>
+    </li><li name="model.RelationshipQueryableImpl#connector" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="connector:scalikejdbc.NamedDB"></a>
+      <a id="connector:NamedDB"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">db</span><span class="params">()</span><span class="result">: <span class="extype" name="scalikejdbc.NamedDB">NamedDB</span></span>
+        <span class="name">connector</span><span class="result">: <span class="extype" name="scalikejdbc.NamedDB">NamedDB</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@db():scalikejdbc.NamedDB" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@connector:scalikejdbc.NamedDB" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns a database instance.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a database instance.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>current registered database instance. If non is explicit set, it
-        will return the default connection from the connection pool.</p></dd></dl></div>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -219,7 +237,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -236,7 +254,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -253,7 +271,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@finalize():Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@finalize():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -276,11 +294,97 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl#getRelationshipByDocument" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByDocument(docId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByDocument(Long):List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationshipByDocument</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@getRelationshipByDocument(docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.
+</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>the document id</p></dd><dt>returns</dt><dd class="cmt"><p>List<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl#getRelationshipByEntity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByEntity(Long,Long):List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>, <span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt class="param">docId</dt><dd class="cmt"><p>the <a href="Document.html" class="extype" name="model.Document">model.Document</a> id</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl#getRelationshipByEntity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipByEntity(entityId:Long):List[model.Relationship]"></a>
+      <a id="getRelationshipByEntity(Long):List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@getRelationshipByEntity(entityId:Long):List[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the id of the <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to search for.</p></dd><dt>returns</dt><dd class="cmt"><p>List[Relationship]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl#getRelationshipById" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationshipById(relId:Long):Option[model.Relationship]"></a>
+      <a id="getRelationshipById(Long):Option[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationshipById</span><span class="params">(<span name="relId">relId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@getRelationshipById(relId:Long):Option[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns the <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> for the given relationship id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> for the given relationship id.</p></div><dl class="paramcmts block"><dt class="param">relId</dt><dd class="cmt"><p>the id of the <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> to search for.</p></dd><dt>returns</dt><dd class="cmt"><p>Option[Relationship]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl#getRelationships" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRelationships():List[model.Relationship]"></a>
+      <a id="getRelationships():List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRelationships</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.RelationshipQueryableImpl@getRelationships():List[model.Relationship]" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a>s available in the collection.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> → <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -293,7 +397,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@hashCode():Int" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@hashCode():Int" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -310,7 +414,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -327,7 +431,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -344,7 +448,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@notify():Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@notify():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -361,29 +465,28 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="utils.DBRegistry#registerDB" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="registerDB(db:scalikejdbc.NamedDB):Unit"></a>
-      <a id="registerDB(NamedDB):Unit"></a>
+    </li><li name="model.RelationshipQueryableImpl#rowParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowParser:scalikejdbc.WrappedResultSet=&gt;model.Relationship"></a>
+      <a id="rowParser:(WrappedResultSet)⇒Relationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">registerDB</span><span class="params">(<span name="db">db: <span class="extype" name="scalikejdbc.NamedDB">NamedDB</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">rowParser</span><span class="result">: (<span class="extype" name="scalikejdbc.WrappedResultSet">WrappedResultSet</span>) ⇒ <a href="Relationship.html" class="extype" name="model.Relationship">Relationship</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@registerDB(db:scalikejdbc.NamedDB):Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@rowParser:scalikejdbc.WrappedResultSet=&gt;model.Relationship" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Overrides the current registered database instance with the given one.</p><div class="fullcomment"><div class="comment cmt"><p>Overrides the current registered database instance with the given one.
-</p></div><dl class="paramcmts block"><dt class="param">db</dt><dd class="cmt"><p>database instance to be registered.</p></dd></dl></div>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -396,7 +499,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -413,7 +516,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@toString():String" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@toString():String" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -430,7 +533,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@wait():Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@wait():Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -453,7 +556,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -476,7 +579,7 @@ is set. Can also be used to loan in database stubs for testing.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#utils.DBRegistry$@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../index.html#model.RelationshipQueryableImpl@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -496,7 +599,11 @@ is set. Can also be used to loan in database stubs for testing.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="utils.DBSettings">
+              <h3>Inherited from <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></h3>
+            </div><div class="parent" name="model.queryable.RelationshipQueryable">
+              <h3>Inherited from <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

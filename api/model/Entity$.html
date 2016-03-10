@@ -47,14 +47,14 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">Entity</span><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Entity</span><span class="result"> extends <a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Companion object for <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> instances.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a>, <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a>, <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a>, <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -72,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.Entity"><span>Entity</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="model.queryable.EntityQueryable"><span>EntityQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.Entity"><span>Entity</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="model.EntityQueryableImpl"><span>EntityQueryableImpl</span></li><li class="in" name="utils.DBSettings"><span>DBSettings</span></li><li class="in" name="model.queryable.EntityQueryable"><span>EntityQueryable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -188,7 +188,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="model.Entity#connector" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="model.EntityQueryableImpl#connector" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="connector:scalikejdbc.NamedDB"></a>
       <a id="connector:NamedDB"></a>
       <h4 class="signature">
@@ -204,7 +204,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -279,7 +279,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="model.Entity#getEntities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="model.EntityQueryableImpl#getEntities" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntities():List[model.Entity]"></a>
       <a id="getEntities():List[Entity]"></a>
       <h4 class="signature">
@@ -296,8 +296,8 @@
       </a>
     </span>
       <p class="shortcomment cmt">Returns all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s.
-</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List of all <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesByName(name:String):List[model.Entity]"></a>
       <a id="getEntitiesByName(String):List[Entity]"></a>
       <h4 class="signature">
@@ -314,8 +314,8 @@
       </a>
     </span>
       <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given name pattern.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given name pattern.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>name The name of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of  <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesByType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>name The name of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of  <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesByType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesByType(entityType:String):List[model.Entity]"></a>
       <a id="getEntitiesByType(String):List[Entity]"></a>
       <h4 class="signature">
@@ -332,8 +332,8 @@
       </a>
     </span>
       <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s with a given type such as <code>PER</code>, <code>LOC</code>, <code>ORG</code> or <code>MIS</code>.
-</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>The type of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>The type of an <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to be searched</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesOrderedByFreqAsc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]"></a>
       <a id="getEntitiesOrderedByFreqAsc(String,LocalDate,Int):List[Entity]"></a>
       <h4 class="signature">
@@ -351,8 +351,8 @@
     </span>
       <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in ascending order on a specific date
 </p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in ascending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter </p><pre>Entity</pre></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter </p><pre>Entity</pre></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesOrderedByFreqAsc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesOrderedByFreqAsc(entity:String,limit:Int):List[model.Entity]"></a>
       <a id="getEntitiesOrderedByFreqAsc(String,Int):List[Entity]"></a>
       <h4 class="signature">
@@ -369,8 +369,8 @@
       </a>
     </span>
       <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in ascending order.
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesOrderedByFreqDesc(entityType:String,created:java.time.LocalDate,limit:Int):List[model.Entity]"></a>
       <a id="getEntitiesOrderedByFreqDesc(String,LocalDate,Int):List[Entity]"></a>
       <h4 class="signature">
@@ -388,8 +388,8 @@
     </span>
       <p class="shortcomment cmt">Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in descending order on a specific date
 </p><div class="fullcomment"><div class="comment cmt"><p>Get list of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a>s in descending order on a specific date
-</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">entityType</dt><dd class="cmt"><p>the EntityType</p></dd><dt class="param">created</dt><dd class="cmt"><p>the date to filter <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntitiesOrderedByFreqDesc" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntitiesOrderedByFreqDesc(entity:String,limit:Int):List[model.Entity]"></a>
       <a id="getEntitiesOrderedByFreqDesc(String,Int):List[Entity]"></a>
       <h4 class="signature">
@@ -406,8 +406,8 @@
       </a>
     </span>
       <p class="shortcomment cmt">Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order.</p><div class="fullcomment"><div class="comment cmt"><p>Get list of <a href="Entity.html" class="extype" name="model.Entity">Entity</a>s in descending order.
-</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
-    </li><li name="model.Entity#getEntityTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+</p></div><dl class="paramcmts block"><dt class="param">limit</dt><dd class="cmt"><p>the number of <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a> to return</p></dd><dt>returns</dt><dd class="cmt"><p>List of sorted <a href="Entity.html" class="extype" name="model.Entity">model.Entity</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl#getEntityTypes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEntityTypes():List[model.EntityType.Value]"></a>
       <a id="getEntityTypes():List[EntityType.Value]"></a>
       <h4 class="signature">
@@ -423,7 +423,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Returns all available entity types.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all available entity types.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[EntityType]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.Entity">Entity</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns all available entity types.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all available entity types.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[EntityType]</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> → <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -509,7 +509,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="model.Entity#rowParser" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="model.EntityQueryableImpl#rowParser" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rowParser:scalikejdbc.WrappedResultSet=&gt;model.Entity"></a>
       <a id="rowParser:(WrappedResultSet)⇒Entity"></a>
       <h4 class="signature">
@@ -525,7 +525,7 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -642,6 +642,8 @@
               <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="model.EntityQueryableImpl">
+              <h3>Inherited from <a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a></h3>
             </div><div class="parent" name="utils.DBSettings">
               <h3>Inherited from <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></h3>
             </div><div class="parent" name="model.queryable.EntityQueryable">

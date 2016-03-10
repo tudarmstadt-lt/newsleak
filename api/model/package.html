@@ -84,6 +84,23 @@
     </span>
       <p class="shortcomment cmt">Document representation.</p><div class="fullcomment"><div class="comment cmt"><p>Document representation.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date and time of the document.</p></dd></dl></div>
+    </li><li name="model.DocumentQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocumentQueryableImplextendsDocumentQueryablewithDBSettings"></a>
+      <a id="DocumentQueryableImpl:DocumentQueryableImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DocumentQueryableImpl.html"><span class="name">DocumentQueryableImpl</span></a><span class="result"> extends <a href="queryable/DocumentQueryable.html" class="extype" name="model.queryable.DocumentQueryable">DocumentQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@DocumentQueryableImplextendsDocumentQueryablewithDBSettings" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="model.Entity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="EntityextendsProductwithSerializable"></a>
       <a id="Entity:Entity"></a>
@@ -102,6 +119,23 @@
     </span>
       <p class="shortcomment cmt">Representation for entities.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for entities.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the entity.</p></dd><dt class="param">name</dt><dd class="cmt"><p>the entity name.</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the entity type.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>the frequency (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
+    </li><li name="model.EntityQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EntityQueryableImplextendsEntityQueryablewithDBSettings"></a>
+      <a id="EntityQueryableImpl:EntityQueryableImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="EntityQueryableImpl.html"><span class="name">EntityQueryableImpl</span></a><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@EntityQueryableImplextendsEntityQueryablewithDBSettings" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="model.Relationship" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RelationshipextendsProductwithSerializable"></a>
       <a id="Relationship:Relationship"></a>
@@ -121,6 +155,23 @@
       <p class="shortcomment cmt">Representation for relationships.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for relationships.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the relationship.</p></dd><dt class="param">e1</dt><dd class="cmt"><p>first entity. The order of entities is determined alphabetically. Especially, if (e1, e2) is a
           relationship, (e2, e1) is not.</p></dd><dt class="param">e2</dt><dd class="cmt"><p>second entity.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>frequency of the relationship (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
+    </li><li name="model.RelationshipQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RelationshipQueryableImplextendsRelationshipQueryablewithDBSettings"></a>
+      <a id="RelationshipQueryableImpl:RelationshipQueryableImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="RelationshipQueryableImpl.html"><span class="name">RelationshipQueryableImpl</span></a><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@RelationshipQueryableImplextendsRelationshipQueryablewithDBSettings" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 
@@ -137,7 +188,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="queryable/DocumentQueryable.html" class="extype" name="model.queryable.DocumentQueryable">DocumentQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="DocumentQueryableImpl.html" class="extype" name="model.DocumentQueryableImpl">DocumentQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Document" title="Permalink" target="_top">
@@ -154,7 +205,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Entity" title="Permalink" target="_top">
@@ -189,7 +240,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="RelationshipQueryableImpl.html" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Relationship" title="Permalink" target="_top">
