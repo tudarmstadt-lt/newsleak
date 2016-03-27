@@ -28,7 +28,7 @@ import scala.collection.mutable
 
 class GraphBuilderTest extends FlatSpecWithCommonTraits with BeforeAndAfterEach {
 
-  var uut: GraphBuilder = _
+  /*var uut: GraphBuilder = _
 
   override def beforeEach(): Unit = {
     uut = new GraphBuilder(new SequentialNumberer[(String, EntityType.Value)], new SequentialNumberer[(Int, Int)])
@@ -135,5 +135,5 @@ class GraphBuilderTest extends FlatSpecWithCommonTraits with BeforeAndAfterEach 
     val expected = simpleGraph
 
     assert(actual === expected)
-  }
+  }*/
 }

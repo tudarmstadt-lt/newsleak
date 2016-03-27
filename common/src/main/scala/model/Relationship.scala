@@ -29,4 +29,4 @@ import scala.collection.mutable
  * @param frequency frequency of the relationship (i.e. co-occurrence) in the underlying data.
  * @param docIds list of document ids that represent the occurrence of the relation in the documents.
  */
-case class Relationship(var id: Option[Int] = None, e1: Int, e2: Int, var frequency: Int = 0, docIds: mutable.Set[Int])
+case class Relationship(var id: Option[Int] = None, e1: Int, e2: Int, var occurrence: mutable.Map[Int, Int])

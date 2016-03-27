@@ -24,7 +24,7 @@ import scala.collection.mutable
 
 class CooccurrenceGraphTest extends FlatSpecWithCommonTraits {
 
-  "Companion object" should "create an empty graph" in {
+  /*"Companion object" should "create an empty graph" in {
     val actual = CooccurrenceGraph.emptyGraph()
 
     assert(actual.graphRepr.getEdgeCount == 0)
@@ -94,7 +94,7 @@ class CooccurrenceGraphTest extends FlatSpecWithCommonTraits {
   it should "find edge" in new CooccurrenceGraphFixture {
     val actual = disjunctGraph.getEdge(0)
     assert(actual == Some(r1))
-  }
+  }*/
 
   // Graph equality tests
 }

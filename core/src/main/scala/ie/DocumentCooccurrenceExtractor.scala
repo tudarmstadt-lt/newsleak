@@ -33,7 +33,7 @@ import scala.collection.mutable
  */
 class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: GraphBuilder) extends LazyLogging {
 
-  private val processLoggingInterval = 100000
+  private val processLoggingInterval = 10000
 
   /**
    * Creates a [[model.graph.CooccurrenceGraph]] with document co-occurrences for a given corpus.
@@ -42,7 +42,7 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
    * @return a [[model.graph.CooccurrenceGraph]] with document co-occurrences.
    */
   def extract(sources: CorpusReader): CooccurrenceGraph = {
-    extractCoocurrences(sources.documents.view.take(15000))
+    extractCoocurrences(sources.documents.view.take(100000))
     builder.getGraph()
   }
 
@@ -51,7 +51,6 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
       case (doc: Document, id: Int) =>
 
         if (id > 0 && (id % processLoggingInterval) == 0) {
-          print(id)
           logger.info("Process next 100 000 documents.")
         }
         val result = extractor.extractNamedEntities(doc)
@@ -59,15 +58,15 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
         // two or multiple times in a document, we count the observation
         // as one experiment.
         val unique = result.distinct
-        val entities = addEntities(unique)
+        val entities = addEntities(doc.id, unique)
         addRelationships(doc.id, entities)
     }
   }
 
-  private def addEntities(entities: List[(String, EntityType.Value)]): List[Entity] = {
+  private def addEntities(docId: Int, entities: List[(String, EntityType.Value)]): List[Entity] = {
     entities.map {
       case (name, t) =>
-        val entity = Entity(name = name, entityType = t)
+        val entity = Entity(name = name, entityType = t, occurrence = mutable.Map(docId -> 0))
         builder.addVertex(entity)
     }
   }
@@ -88,6 +87,6 @@ class DocumentCooccurrenceExtractor(extractor: NamedEntityExtractor, builder: Gr
    */
   private def createRelationship(e1: Entity, e2: Entity, docId: Int): Relationship = {
     val (first, second) = if (e1.id.get < e2.id.get) (e1, e2) else (e2, e1)
-    Relationship(e1 = first.id.get, e2 = second.id.get, docIds = mutable.Set(docId))
+    Relationship(e1 = first.id.get, e2 = second.id.get, occurrence = mutable.Map(docId -> 0))
   }
 }

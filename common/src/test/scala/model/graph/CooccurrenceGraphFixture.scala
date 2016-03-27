@@ -23,7 +23,7 @@ import scala.collection.mutable
 
 trait CooccurrenceGraphFixture {
 
-  val e1 = Entity(Some(0), name = "e1", frequency = 2, entityType = EntityType.Person)
+  /*val e1 = Entity(Some(0), name = "e1", frequency = 2, entityType = EntityType.Person)
   val e2 = Entity(Some(1), name = "e2", frequency = 2, entityType = EntityType.Location)
   val e3 = Entity(Some(2), name = "e3", frequency = 1, entityType = EntityType.Person)
   val e4 = Entity(Some(3), name = "e4", frequency = 1, entityType = EntityType.Organization)
@@ -45,5 +45,5 @@ trait CooccurrenceGraphFixture {
     graph.addVertex(e4)
     graph.addEdge(r2)
     graph
-  }
+  }*/
 }

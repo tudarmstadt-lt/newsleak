@@ -51,11 +51,11 @@ object Run extends LazyLogging {
         val file = Paths.get(config.sourcefile)
         val reader = new CSVCorpusReader(file)
 
-        val ner = new ParallelEnglishEntityExtractor(reader)
-        ner.extractNamedEntities(new Document(1, "", LocalDateTime.now, Map()))
+        // val ner = new ParallelEnglishEntityExtractor(reader)
+        // println(ner.extractNamedEntities(new Document(1, "", LocalDateTime.now, Map())))
 
-      // val graph = createCooccurrenceGraph(reader).withBenchmark("Co-occurrence graph extraction")
-      //  new GraphUtils(graph).writeGraphToFile(Paths.get("."))
+        val graph = createCooccurrenceGraph(reader).withBenchmark("Co-occurrence graph extraction")
+        new GraphUtils(graph).writeGraphToFile(Paths.get("."))
       case None => parser.showUsage
     }
   }
@@ -64,7 +64,8 @@ object Run extends LazyLogging {
     val vertexNumberer = new SequentialNumberer[(String, EntityType.Value)]
     val edgeNumberer = new SequentialNumberer[(Int, Int)]
     val graphBuilder = new GraphBuilder(vertexNumberer, edgeNumberer)
-    val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
+    // val extractor = new DocumentCooccurrenceExtractor(new EnglishEntityExtractor(), graphBuilder)
+    val extractor = new DocumentCooccurrenceExtractor(new ParallelEnglishEntityExtractor(reader), graphBuilder)
 
     extractor.extract(reader)
   }

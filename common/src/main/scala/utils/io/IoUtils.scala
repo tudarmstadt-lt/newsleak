@@ -40,10 +40,10 @@ class IoUtils extends LazyLogging {
    *  the stream is already closed.
    *
    *  @param path file to read.
-   *  @param f strict function that will be called on the opened [[io.Source]].
+   *  @param f strict function that will be called on the opened [[scala.io.Source]].
    *  @tparam T return type of the called function.
    */
-  def fromFile[T](path: Path)(f: io.Source => T): T = {
+  def fromFile[T](path: Path)(f: scala.io.Source => T): T = {
     val in = Source.fromFile(path.toFile, "UTF8")
     try {
       f(in)

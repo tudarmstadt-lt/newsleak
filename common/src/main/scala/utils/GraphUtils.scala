@@ -31,19 +31,29 @@ class GraphUtils(graph: CooccurrenceGraph) extends LazyLogging {
     logger.info(s"Write graph to ${file.toString}")
 
     // Write entities file
-    ioUtils.withOutput(file.resolve("entities.tsv")) { out =>
-      graph.getVertices.foreach { e =>
-        val line = ioUtils.toTsv(List(e.id, e.name, e.frequency, e.entityType))
-        out.write(line)
-      }
+    ioUtils.withOutputs(file.resolve("entities.tsv"), file.resolve("doc_to_entities.tsv")) {
+      case Seq(entityOut, docToEntityOut) =>
+        graph.getVertices.foreach { e =>
+          val line = ioUtils.toTsv(List(e.id, e.name, e.entityType))
+          entityOut.write(line)
+          e.occurrence.foreach {
+            case (docId, freq) =>
+              docToEntityOut.write(ioUtils.toTsv(List(docId, e.id, freq)))
+          }
+        }
     }
 
     // Write relationship file
-    ioUtils.withOutput(file.resolve("relationships.tsv")) { out =>
-      graph.getEdges.foreach { rel =>
-        val line = ioUtils.toTsv(List(rel.id, rel.e1, rel.e2, rel.frequency))
-        out.write(line)
-      }
+    ioUtils.withOutputs(file.resolve("relationships.tsv"), file.resolve("doc_to_relationship.tsv")) {
+      case Seq(relOut, docToRelOut) =>
+        graph.getEdges.foreach { rel =>
+          val line = ioUtils.toTsv(List(rel.id, rel.e1, rel.e2))
+          relOut.write(line)
+          rel.occurrence.foreach {
+            case (docId, freq) =>
+              docToRelOut.write(ioUtils.toTsv(List(docId, rel.id, freq)))
+          }
+        }
     }
   }
 }

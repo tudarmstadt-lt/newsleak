@@ -44,33 +44,53 @@ class ParallelEnglishEntityExtractor(
   )
 
   private val numberOfCores = "8"
-  private val sparkContext = new SparkContext(setupSpark("nerExtraction", numberOfCores))
+  private val sparkContext = new SparkContext(setupSpark("NerExtraction", numberOfCores))
   // Maps sentences to documents
-  private val sentenceFileName = "sentences.tsv"
-  private val nerFileName = "documents_to_ne.tsv"
+  private val sentenceFilename = "sentences.tsv"
+  private val outputPath = "spark-extraction"
+  private val outputFilename = "part-00000"
 
   // Maps document ids to named entity tuple
-  private lazy val runExtractor: Map[Int, List[(String, EntityType.Value)]] = {
-    Map()
+  private lazy val docToEntities: Map[Int, List[(String, EntityType.Value)]] = {
+    /* ioUtils.withOutput(Paths.get(sentenceFilename)) { writer =>
+      writeSentencesToFile(writer)
+    }
+    runSparkExtraction() */
+
+    // TODO Debug change later
+    sparkContext.stop()
+
+    ioUtils.fromFile(Paths.get(outputPath, outputFilename)) { in =>
+      parseDocEntityLines(in.getLines())
+    }
   }
 
   /**
    * @inheritdoc
    */
   override def extractNamedEntities(doc: Document): List[(String, EntityType.Value)] = {
-    // The sentence file will be distributed to Spark workers
-    ioUtils.withOutput(Paths.get(sentenceFileName)) { writer =>
-      writeSentencesToFile(writer)
-    }
+    val dToE = docToEntities
+    dToE(doc.id)
+  }
 
-    // val docToNe = runExtractor
+  private def writeSentencesToFile(out: BufferedWriter): Unit = {
+    reader.documents.foreach { doc =>
+      val sentences = nlpUtils.segmentText(doc.content)
+      sentences.foreach { sent =>
+        // TODO
+        val line = ioUtils.toTsv(List(doc.id, sent.replace("\t", " ").replace("\n", "")))
+        out.write(line)
+      }
+    }
+  }
+
+  private def runSparkExtraction(): Unit = {
     val tokenizer = new TreebankTokenizer()
     val ner = epic.models.NerSelector.loadNer("en").get
-
     // We are not using external method calls here, because the class and all usages need to be serializable otherwise.
     // We also use functions instead of methods for call aggregation e.g `extractFromIndexedSentence`.
     // See: http://stackoverflow.com/questions/22592811/task-not-serializable-java-io-notserializableexception-when-calling-function-ou
-    val input = sparkContext.textFile(sentenceFileName)
+    val input = sparkContext.textFile(sentenceFilename)
 
     val extractFromIndexedSentence = (sentence: IndexedSeq[String]) => {
       val segments = ner.bestSequence(sentence)
@@ -88,20 +108,28 @@ class ParallelEnglishEntityExtractor(
       (docId, extractFromIndexedSentence(token))
     }
 
-    val res = docToNe.reduceByKey((n, c) => n ++ c).map { case (docId, neLst) => s"$docId\t${neLst.mkString(",")}" }
-    res.coalesce(1).saveAsTextFile(nerFileName)
-
-    List()
+    // Reduce and aggregate sentences that belong to once document
+    val res = docToNe.reduceByKey((n, c) => n ++ c).map {
+      case (docId, neLst) =>
+        val neResult = neLst.map { case (name, t) => s"$name%#%$t" }
+        s"$docId\t${neResult.mkString("%,%")}"
+    }
+    // Merge output files
+    res.coalesce(1).saveAsTextFile(outputPath)
+    sparkContext.stop()
   }
 
-  private def writeSentencesToFile(out: BufferedWriter): Unit = {
-    reader.documents.foreach { doc =>
-      val sentences = nlpUtils.segmentText(doc.content)
-      sentences.foreach { sent =>
-        val line = ioUtils.toTsv(List(doc.id, sent.replace("\t", " ").replace("\n", "")))
-        out.write(line)
+  private def parseDocEntityLines(lines: Iterator[String]): immutable.Map[Int, List[(String, EntityType.Value)]] = {
+    val docToEntities = lines.map { l =>
+      val Array(docId, entitiesString) = l.split(ioUtils.Tab)
+
+      val entities = entitiesString.split("%,%").map { el =>
+        val Array(name, t) = el.split("%#%")
+        (name, labelToEntityType(t))
       }
+      docId.toInt -> entities.toList
     }
+    docToEntities.toMap
   }
 
   /**

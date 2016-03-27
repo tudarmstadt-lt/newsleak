@@ -17,6 +17,8 @@
 
 package model
 
+import scala.collection.mutable
+
 /**
  * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>, <tt>Misc</tt>).
  */
@@ -35,5 +37,5 @@ object EntityType extends Enumeration {
  * @param frequency the entity's frequency (i.e. co-occurrence) in the underlying data.
  * @param entityType the entity type.
  */
-case class Entity(var id: Option[Int] = None, name: String, var frequency: Int = 0, entityType: EntityType.Value)
+case class Entity(var id: Option[Int] = None, name: String, entityType: EntityType.Value, var occurrence: mutable.Map[Int, Int])
 

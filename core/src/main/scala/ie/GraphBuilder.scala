@@ -53,7 +53,8 @@ class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNum
       vertex.id = Some(vertexNumberer.externalToInternal(key))
       vertex
     })
-    entity.frequency += 1
+    // m1 ++= m2.map{ case (k,v) => k -> (v + m2.getOrElse(k,0)) }
+    entity.occurrence ++= vertex.occurrence.map { case (k, v) => k -> (v + vertex.occurrence.getOrElse(k, 0)) }
     entity
   }
 
@@ -75,9 +76,9 @@ class GraphBuilder(vertexNumberer: Numberer[(String, EntityType.Value)], edgeNum
       edge.id = Some(edgeNumberer.externalToInternal(key))
       edge
     })
-
-    rel.frequency += 1
-    rel.docIds ++= edge.docIds
+    rel.occurrence ++= edge.occurrence.map { case (k, v) => k -> (v + edge.occurrence.getOrElse(k, 0)) }
+    // rel.frequency += 1
+    // rel.docIds ++= edge.docIds
     rel
   }
 
