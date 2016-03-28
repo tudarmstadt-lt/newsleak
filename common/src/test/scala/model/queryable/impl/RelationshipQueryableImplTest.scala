@@ -15,40 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package model.queryable.impl
 
-import org.scalatest.BeforeAndAfterAll
 import scalikejdbc.NamedDB
-import testFactories.FlatSpecWithDatabaseTrait
+import testFactories.{DatabaseRollback, FlatSpecWithDatabaseTrait}
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class EntityCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfterAll {
+class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRollback {
 
-  def testDatabase: NamedDB = NamedDB('newsleakTestDB)
+  override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
-  final class EntityQueryableTestable extends EntityQueryableImpl {
+  // Mocking setup
+  final class RelationshipQueryableTestable extends RelationshipQueryableImpl {
     override def connector: NamedDB = testDatabase
   }
 
-  val uut = new EntityQueryableTestable
+  val uut = new RelationshipQueryableTestable
 
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>
-      sql"INSERT INTO entity VALUES (1, ${"Angela Merkel"}, ${"Person"}, 7)".update.apply()
-      sql"INSERT INTO entity VALUES (2, ${"Angela Brecht"}, ${"Person"}, 3)".update.apply()
+      sql"INSERT INTO relationship VALUES (1, 1, 2, 3, false)".update.apply()
     }
   }
 
-  "getEntitiesByName" should "return entities that share common names" in {
-    val expected = List(
-      Entity(1, "Angela Merkel", EntityType.Person, 7),
-      Entity(2, "Angela Brecht", EntityType.Person, 3)
-    )
-    val actual = uut.getEntitiesByName("Angela")
-    assert(actual === expected)
-  }
+  "deleteRelationship" should "set the backlist flag to true" in {
+    uut.delete(1)
+    val actual = testDatabase.readOnly { implicit session =>
+      sql"SELECT isBlacklisted FROM relationship WHERE id = 1".map(_.boolean("isBlacklisted")).single().apply()
+    }.getOrElse(fail)
 
+    assert(actual == true)
+  }
 }

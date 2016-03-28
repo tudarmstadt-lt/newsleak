@@ -34,12 +34,26 @@ trait PreparingTables {
 
   try {
     NamedDB('newsleakTestDB).autoCommit { implicit s =>
-      SQL("""CREATE TABLE entity (
-                id BIGINT NOT NULL,
+      SQL("""CREATE TABLE IF NOT EXISTS entity (
+                id BIGSERIAL NOT NULL,
                 name CHARACTER VARYING,
                 type CHARACTER VARYING,
                 frequency INTEGER,
+                isBlacklisted BOOLEAN DEFAULT FALSE,
                 CONSTRAINT entity_pkey PRIMARY KEY(id)
+      )""").execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      SQL("""CREATE TABLE IF NOT EXISTS relationship (
+                id BIGSERIAL NOT NULL,
+                entity1 BIGINT NOT NULL,
+                entity2 BIGINT NOT NULL,
+                frequency INTEGER,
+                isBlacklisted BOOLEAN DEFAULT FALSE,
+                CONSTRAINT relation_pkey PRIMARY KEY(id)
       )""").execute.apply()
     }
   } catch { case e: Exception => }
@@ -52,6 +66,32 @@ trait PreparingTables {
                 frequency INTEGER NOT NULL,
                 CONSTRAINT documententity_pkey PRIMARY KEY(docid, entityid)
       )""").execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      SQL("DROP SEQUENCE IF EXISTS labels_id_seq")
+      SQL("CREATE SEQUENCE labels_id_seq start with 1").execute.apply()
+      SQL("""CREATE TABLE IF NOT EXISTS labels (
+                id BIGINT NOT NULL DEFAULT NEXTVAL('labels_id_seq') PRIMARY KEY,
+                label CHARACTER VARYING(255) NOT NULL
+      )""").execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      // We use custom sequences instead of build in serial data types.
+      // This allows us to vary the auto-increment data type and also
+      // reset the sequence for testing.
+      SQL("DROP SEQUENCE IF EXISTS tags_id_seq")
+      SQL("CREATE SEQUENCE tags_id_seq start with 1").execute.apply()
+      SQL("""CREATE TABLE IF NOT EXISTS tags (
+                id BIGINT NOT NULL DEFAULT NEXTVAL('tags_id_seq') PRIMARY KEY,
+                documentid BIGINT NOT NULL,
+                labelid BIGINT NOT NULL
+          )""").execute.apply()
     }
   } catch { case e: Exception => }
 }

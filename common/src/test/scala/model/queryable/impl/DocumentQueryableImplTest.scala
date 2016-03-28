@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package model.queryable.impl
 
+import model.Document
 import org.joda.time.LocalDateTime
-import org.scalatest.BeforeAndAfterAll
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
-import testFactories.FlatSpecWithDatabaseTrait
+import testFactories.{DatabaseRollback, FlatSpecWithDatabaseTrait}
 
-class DocumentCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfterAll {
+class DocumentQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRollback {
 
-  def testDatabase: NamedDB = NamedDB('newsleakTestDB)
+  override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
   final class DocumentQueryableTestable extends DocumentQueryableImpl {
     override def connector: NamedDB = testDatabase
@@ -46,32 +46,23 @@ class DocumentCompanionTest extends FlatSpecWithDatabaseTrait with BeforeAndAfte
     }
   }
 
-  "getDocuments" should "return all available documents in the collection" in {
-    val expected = List(
-      Document(1, "Content of document 1", LocalDateTime.parse("2007-12-03T10:15:30")),
-      Document(2, "Content of document 2", LocalDateTime.parse("2007-12-03T10:15:30"))
-    )
-    val actual = uut.getDocuments()
-    assert(actual === expected)
-  }
-
-  "getDocumentIds" should "return all available ids in the collection" in {
+  "getIds" should "return all available ids in the collection" in {
     val expected = List(1, 2)
-    val actual = uut.getDocumentIds()
+    val actual = uut.getIds()
     assert(actual === expected)
   }
 
-  "getDocumentsByEntityId" should "return all documents that contain the given entity" in {
+  "byEntityId" should "return all documents that contain the given entity" in {
     val expected = List(
       Document(1, "Content of document 1", LocalDateTime.parse("2007-12-03T10:15:30")),
       Document(2, "Content of document 2", LocalDateTime.parse("2007-12-03T10:15:30"))
     )
-    val actual = uut.getDocumentsByEntityId(1)
+    val actual = uut.getByEntityId(1)
     assert(actual === expected)
   }
 
   // TODO
-  "getDocumentsByEntityIds" should "only return documents where both entities occur" in {
+  "getByEntityIds" should "only return documents where both entities occur" in {
     val expected = List(Document(1, "Content of document 1", LocalDateTime.parse("2007-12-03T10:15:30")))
     // val actual = Document.getDocumentsByEntityIds(1, 2)
     // assert(actual === expected)

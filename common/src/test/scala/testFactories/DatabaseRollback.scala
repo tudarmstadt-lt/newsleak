@@ -15,30 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package testFactories
 
-import model.queryable.impl.DocumentQueryableImpl
-import org.joda.time.LocalDateTime
-import scalikejdbc.WrappedResultSet
-
-/**
- * Document representation.
- *
- * @param id       unique document identifier.
- * @param content  document body that contains raw text.
- * @param created  creation date and time of the document.
- */
-case class Document(id: Long, content: String, created: LocalDateTime)
+import org.scalatest.{BeforeAndAfterAll, FlatSpec}
+// scalastyle:off
+import scalikejdbc._
+// scalastyle:on
 
 /**
- * Companion object for [[model.Document]] instances.
+ * Mix in this trait if you want to drop all tables including their
+ * content after all tests are executed. Autoincrement columns
+ * will also be reset.
  */
-object Document extends DocumentQueryableImpl {
+trait DatabaseRollback extends FlatSpec with BeforeAndAfterAll {
 
-  def apply(rs: WrappedResultSet): Document = Document(
-    rs.int("id"),
-    rs.string("content"),
-    rs.jodaLocalDateTime("created")
-  )
+  // Needs to be overwritten with the actual test database
+  def testDatabase: NamedDB
+
+  override def afterAll(): Unit = {
+    testDatabase.localTx { implicit session =>
+      sql"DROP ALL OBJECTS".update.apply()
+    }
+  }
 }
-

@@ -24,68 +24,140 @@ import model.{Entity, EntityType}
 trait EntityQueryable {
 
   /**
-   * Returns all [[model.Entity]]s.
+   * Returns the [[model.Entity]] associated with the given id.
    *
-   * @return List of all [[model.Entity]]
+   * @param id entity id
+   * @return Some([[model.Entity]]) if the given entity exists.
+   *         None otherwise.
    */
-  def getEntities(): List[Entity]
+  def getById(id: Long): Option[Entity]
 
   /**
-   * Returns all available entity types.
-   * @return List[EntityType]
-   */
-  def getEntityTypes(): List[EntityType.Value]
-
-  /**
-   * Get list of [[Entity]]s in ascending order.
-   *
-   * @param entityType   the EntityType
-   * @return List of sorted [[model.Entity]]
-   * @param limit  the number of [[model.Entity]] to return
-   */
-  def getEntitiesOrderedByFreqAsc(entityType: String, limit: Int): List[Entity]
-
-  /**
-   * Get list of sorted [[model.Entity]]s in ascending order on a specific date
-   *
-   * @param entityType   the EntityType
-   * @param created the date to filter {{{Entity}}}
-   * @return List of sorted [[model.Entity]]
-   * @param limit   the number of [[model.Entity]] to return
-   */
-  def getEntitiesOrderedByFreqAsc(entityType: String, created: LocalDate, limit: Int): List[Entity]
-
-  /**
-   * Get list of [[Entity]]s in descending order.
-   *
-   * @param entityType the EntityType
-   * @return List of sorted [[model.Entity]]
-   * @param limit the number of [[model.Entity]] to return
-   */
-  def getEntitiesOrderedByFreqDesc(entityType: String, limit: Int): List[Entity]
-
-  /**
-   * Get list of sorted [[model.Entity]]s in descending order on a specific date
-   *
-   * @param entityType   the EntityType
-   * @param created the date to filter [[model.Entity]]
-   * @return List of sorted [[model.Entity]]
-   * @param limit   the number of [[model.Entity]] to return
-   */
-  def getEntitiesOrderedByFreqDesc(entityType: String, created: LocalDate, limit: Int): List[Entity]
-
-  /**
-   * Get list of [[model.Entity]]s with a given name pattern.
+   * Returns a list of entities with the given name. This is an exact match!
+   * The result can also contain entities that share the same name, but have
+   * different types like (Angela, PER) and (Angela, ORG).
    *
    * @param name name The name of an [[model.Entity]] to be searched
-   * @return List of  [[model.Entity]]
+   * @return  List of [[model.Entity]] if the entity matches the given name
+   *          Empty list otherwise.
    */
-  def getEntitiesByName(name: String): List[Entity]
+  def getByName(name: String): List[Entity]
+
+  /**
+   * Get list of [[model.Entity]]s with a given name pattern. For example
+   * "Angela" will match "Angela Merkel", "Angela Brecht", ...
+   *
+   * @param name name The name of an [[model.Entity]] to be searched
+   * @return List of [[model.Entity]]
+   */
+  def getByNamePattern(name: String): List[Entity]
+
   /**
    * Get list of [[model.Entity]]s with a given type such as `PER`, `LOC`, `ORG` or `MIS`.
    *
    * @param entityType The type of an [[model.Entity]] to be searched
    * @return List of [[model.Entity]]
    */
-  def getEntitiesByType(entityType: String): List[Entity]
+  def getByType(entityType: EntityType.Value): List[Entity]
+
+  /**
+   * Returns all available entity types.
+   * @return List[EntityType]
+   */
+  def getTypes(): List[EntityType.Value]
+
+  /**
+   * Get list of [[Entity]]s in ascending order.
+   *
+   * @param entityType  the EntityType
+   * @param limit  the number of [[model.Entity]] to return
+   * @return List of sorted [[model.Entity]]
+   */
+  def getOrderedByFreqAsc(entityType: EntityType.Value, limit: Int): List[Entity]
+
+  /**
+   * Get list of sorted [[model.Entity]]s in ascending order on a specific date
+   *
+   * @param entityType   the EntityType
+   * @param created the date to filter {{{Entity}}}
+   * @param limit   the number of [[model.Entity]] to return
+   * @return List of sorted [[model.Entity]]
+   */
+  def getOrderedByFreqAsc(entityType: EntityType.Value, created: LocalDate, limit: Int): List[Entity]
+
+  /**
+   * Get list of [[Entity]]s in descending order.
+   *
+   * @param entityType the EntityType
+   * @param limit the number of [[model.Entity]] to return
+   * @return List of sorted [[model.Entity]]
+   */
+  def getOrderedByFreqDesc(entityType: EntityType.Value, limit: Int): List[Entity]
+
+  /**
+   * Get list of sorted [[model.Entity]]s in descending order on a specific date
+   *
+   * @param entityType   the EntityType
+   * @param created the date to filter [[model.Entity]]
+   * @param limit the number of [[model.Entity]] to return
+   * @return List of sorted [[model.Entity]]
+   */
+  def getOrderedByFreqDesc(entityType: EntityType.Value, created: LocalDate, limit: Int): List[Entity]
+
+  // PUT Methods
+
+  // TODO: Should this also trigger relationship updates?
+  /**
+   * Adds a new entity with `entityName` and `entityType` to the
+   * document referred by the given `documentId`. The method only
+   * adds and counts the marked entity. Multiple occurrences
+   * of the given `entityName` in the document won't be counted.
+   *
+   * @param documentId document
+   * @param entityName new entity name
+   * @param entityType new type name
+   * @return Some(entity) if successful. None, otherwise.
+   */
+  def add(documentId: Long, entityName: String, entityType: EntityType.Value): Option[Entity]
+
+  /**
+   * Marks the given entity as blacklisted. Blacklisted entities won't be
+   * returned from any public storage access method. It also blacklists
+   * all adjacent relationships.
+   *
+   * @param entityId entity to blacklist
+   * @return <code>True</code> if successful. <code>False</code>, otherwise
+   */
+  def delete(entityId: Long): Boolean
+
+  /**
+   * Blacklists the given `duplicates` and updates the frequency of
+   * the entity associated with the given `focalId` with the
+   * sum of the duplicated entity frequencies.
+   *
+   * @param focalId target merge entity
+   * @param duplicates entities to remove
+   * @return <code>True</code> if successful. <code>False</code>, otherwise.
+   */
+  def merge(focalId: Int, duplicates: List[Long]): Boolean
+
+  /**
+   * Changes the Name for an entity associated with the
+   * given key.
+   *
+   * @param entityId entity id.
+   * @param newName new name that should be stored.
+   * @return <code>True</code>, if successful. <code>False</code> otherwise.
+   */
+  def changeName(entityId: Long, newName: String): Boolean
+
+  /**
+   * Changes the [[EntityType]] for an entity associated with the
+   * given key.
+   *
+   * @param entityId entity id.
+   * @param newType new type that should be stored.
+   * @return <code>True</code>, if successful. <code>False</code> otherwise.
+   */
+  def changeType(entityId: Long, newType: EntityType.Value): Boolean
 }

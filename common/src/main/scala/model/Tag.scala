@@ -17,30 +17,16 @@
 
 package model
 
-import model.queryable.impl.RelationshipQueryableImpl
+import model.queryable.impl.TagQueryableImpl
 import scalikejdbc.WrappedResultSet
 
-/**
- * Representation for relationships.
- *
- * @param id unique id and primary key of the relationship.
- * @param e1 first entity. The order of entities is determined alphabetically. Especially, if (e1, e2) is a
- *           relationship, (e2, e1) is not.
- * @param e2 second entity.
- * @param frequency frequency of the relationship (i.e. co-occurrence) in the underlying data.
- */
-case class Relationship(id: Long, e1: Long, e2: Long, var frequency: Int = 0)
+case class Tag(id: Long, documentId: Long, label: String)
 
-/**
- * Companion object for [[model.Relationship]] instances.
- */
-object Relationship extends RelationshipQueryableImpl {
+object Tag extends TagQueryableImpl {
 
-  def apply(rs: WrappedResultSet): Relationship = Relationship(
+  def apply(rs: WrappedResultSet): Tag = Tag(
     rs.long("id"),
-    rs.long("entity1"),
-    rs.long("entity2"),
-    rs.int("frequency")
+    rs.long("documentid"),
+    rs.string("label")
   )
 }
-

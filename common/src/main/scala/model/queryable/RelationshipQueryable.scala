@@ -22,24 +22,18 @@ import model.Relationship
 trait RelationshipQueryable {
 
   /**
-   * Returns all [[Relationship]]s available in the collection.
-   * @return
-   */
-  def getRelationships(): List[Relationship]
-
-  /**
    * Returns the [[model.Relationship]] for the given relationship id.
    * @param relId the id of the [[model.Relationship]] to search for.
    * @return Option[Relationship]
    */
-  def getRelationshipById(relId: Long): Option[Relationship]
+  def getById(relId: Long): Option[Relationship]
 
   /**
    * Returns all [[Relationship]]s where the given [[model.Entity]] participates.
    * @param entityId the id of the [[model.Entity]] to search for.
    * @return List[Relationship]
    */
-  def getRelationshipByEntity(entityId: Long): List[Relationship]
+  def getByEntity(entityId: Long): List[Relationship]
 
   /**
    * Returns all [[Relationship]]s per document where an [[model.Entity]] participates.
@@ -47,7 +41,7 @@ trait RelationshipQueryable {
    * @param docId the [[model.Document]] id
    * @return
    */
-  def getRelationshipByEntity(entityId: Long, docId: Long): List[Relationship]
+  def getByEntity(entityId: Long, docId: Long): List[Relationship]
 
   /**
    * Returns all [[Relationship]]s in the given document.
@@ -55,5 +49,16 @@ trait RelationshipQueryable {
    * @param docId the document id
    * @return List[[Relationship]]
    */
-  def getRelationshipByDocument(docId: Long): List[Relationship]
+  def getByDocument(docId: Long): List[Relationship]
+
+  // Put Methods
+
+  /**
+   * Marks the given relationship as blacklisted. Blacklisted relationships won't be
+   * returned from any public storage access method.
+   *
+   * @param relId entity to blacklist
+   * @return <code>True</code> if successful. <code>False</code>, otherwise
+   */
+  def delete(relId: Long): Boolean
 }

@@ -22,7 +22,7 @@ Make sure you have the build tool `sbt` installed. It can be downloaded [here](h
 
 ## Want to help?
 
-Want to find a bug, contribute some code, or improve documentation? Read up on our guidelines for [contributing](https://github.com/tudarmstadt-lt/newsleak/CONTRIBUTING.md) and then check out one of our issues.
+Want to find a bug, contribute some code, or improve documentation? Read up on our guidelines for [contributing](https://github.com/tudarmstadt-lt/newsleak/blob/master/CONTRIBUTING.md) and then check out one of our issues.
 
 ## License
 

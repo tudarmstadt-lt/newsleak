@@ -17,22 +17,17 @@
 
 package model
 
-import java.time.LocalDate
-
-import model.queryable.EntityQueryable
-import utils.DBSettings
-
-// scalastyle:off
-import scalikejdbc._
-// scalastyle:on
+import model.queryable.impl.EntityQueryableImpl
+import scalikejdbc.WrappedResultSet
 
 /**
  * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
  */
 object EntityType extends Enumeration {
-  val Person = Value
-  val Organization = Value
-  val Location = Value
+  val Person = Value("PER")
+  val Organization = Value("ORG")
+  val Location = Value("LOC")
+  val Misc = Value("MISC")
 }
 
 /**
@@ -48,65 +43,13 @@ case class Entity(id: Long, name: String, entityType: EntityType.Value, frequenc
 /**
  * Companion object for [[model.Entity]] instances.
  */
-object Entity extends EntityQueryableImpl
+object Entity extends EntityQueryableImpl {
 
-class EntityQueryableImpl extends EntityQueryable with DBSettings {
-
-  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
-
-  val rowParser = (rs: WrappedResultSet) => Entity(
+  def apply(rs: WrappedResultSet): Entity = Entity(
     rs.long("id"),
     rs.string("name"),
     EntityType.withName(rs.string("type")),
     rs.int("frequency")
   )
-
-  override def getEntities(): List[Entity] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM entity".map(rowParser).list.apply()
-  }
-
-  override def getEntityTypes(): List[EntityType.Value] = connector.readOnly { implicit session =>
-    sql"SELECT DISTINCT type FROM entity".map(rs => EntityType.withName(rs.string("type"))).list.apply()
-  }
-
-  override def getEntitiesOrderedByFreqAsc(entity: String, limit: Int): List[Entity] = connector.readOnly { implicit session =>
-    sql"""SELECT * FROM entity
-          WHERE type = ${entity}
-          ORDER BY frequency ASC limit ${limit}
-    """.map(rowParser).list.apply()
-  }
-
-  override def getEntitiesOrderedByFreqAsc(entityType: String, created: LocalDate, limit: Int): List[Entity] = connector.readOnly { implicit session =>
-    sql"""SELECT * FROM entity AS e
-          INNER JOIN documententity AS de ON e.id = de.entityid
-          INNER JOIN document AS d ON d.id = de.docid
-          WHERE e.type = ${entityType} AND d.created = ${created}
-          ORDER BY e.frequency ASC limit ${limit}
-       """.map(rowParser).list.apply()
-  }
-
-  override def getEntitiesOrderedByFreqDesc(entity: String, limit: Int): List[Entity] = connector.readOnly { implicit session =>
-    sql"""SELECT * FROM entity
-          WHERE type = ${entity}
-          ORDER BY frequency DESC limit ${limit}
-    """.map(rowParser).list.apply()
-  }
-
-  override def getEntitiesOrderedByFreqDesc(entityType: String, created: LocalDate, limit: Int): List[Entity] = connector.readOnly { implicit session =>
-    sql"""SELECT * FROM entity AS e
-          INNER JOIN documententity AS de ON e.id = de.entityid
-          INNER JOIN document AS d ON d.id = de.docid
-          WHERE e.type = ${entityType} AND d.created = ${created}
-          ORDER BY e.frequency DESC limit ${limit}
-       """.map(rowParser).list.apply()
-  }
-
-  override def getEntitiesByName(name: String): List[Entity] = connector.readOnly { implicit session =>
-    val like = name + "%"
-    sql"SELECT * FROM entity WHERE name Like ${like}".map(rowParser).list.apply()
-  }
-
-  override def getEntitiesByType(entityType: String): List[Entity] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM entity WHERE type = ${entityType}".map(rowParser).list.apply()
-  }
 }
+

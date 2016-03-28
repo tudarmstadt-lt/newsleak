@@ -22,30 +22,24 @@ import model.Document
 trait DocumentQueryable {
 
   /**
-   * Returns a list of all [[model.Document]] available in the collection.
-   * @return List[Document]
-   */
-  def getDocuments(): List[Document]
-
-  /**
    * Returns all [[model.Document]] Ids available in the collection.
    * @return  List[Long]
    */
-  def getDocumentIds(): List[Long]
+  def getIds(): List[Long]
 
   /**
    * Returns [[model.Document]]s that contain the given [[model.Entity]] id.
    * @param id the [[model.Entity]] id
    * @return List[model.Document]
    */
-  def getDocumentsByEntityId(id: Long): List[Document]
+  def getByEntityId(id: Long): List[Document]
 
   /**
    * Returns [[model.Document]]s that contain the given [[model.Relationship]].
    * @param id relationship id
    * @return List[Document]
    */
-  def getDocumentsByRelationshipId(id: Long): List[Document]
+  def getByRelationshipId(id: Long): List[Document]
 
   /**
    * Returns a list of document ids where each document in the result list
@@ -53,7 +47,7 @@ trait DocumentQueryable {
    * @param id relationship id
    * @return List[Long]
    */
-  def getDocumentIdsByRelationshipId(id: Long): List[Long]
+  def getIdsByRelationshipId(id: Long): List[Long]
 
   /**
    * Returns a list of tuple, where each tuple (key, type) represents
