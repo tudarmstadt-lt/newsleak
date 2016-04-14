@@ -38,6 +38,9 @@ class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with Datab
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>
       sql"INSERT INTO relationship VALUES (1, 1, 2, 3, false)".update.apply()
+      sql"INSERT INTO relationship VALUES (2, 3, 4, 10, true)".update.apply()
+
+      sql"INSERT INTO entity VALUES (1, ${"Angela Merkel"}, ${"PER"}, 7, true)".update.apply()
     }
   }
 
@@ -47,6 +50,21 @@ class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with Datab
       sql"SELECT isBlacklisted FROM relationship WHERE id = 1".map(_.boolean("isBlacklisted")).single().apply()
     }.getOrElse(fail)
 
-    assert(actual == true)
+    assert(actual)
+  }
+
+  "getById" should "not return blacklisted relationships" in {
+    val actual = uut.getById(2)
+    assert(!actual.isDefined)
+  }
+
+  "getById" should "not return relationships if one participating entity is blacklisted" in {
+    val actual = uut.getById(1)
+    assert(!actual.isDefined)
+  }
+
+  "getByEntity" should "not return relationship if entity is blacklisted" in {
+    val actual = uut.getByEntity(1)
+    assert(actual.isEmpty)
   }
 }

@@ -39,7 +39,7 @@ trait PreparingTables {
                 name CHARACTER VARYING,
                 type CHARACTER VARYING,
                 frequency INTEGER,
-                isBlacklisted BOOLEAN DEFAULT FALSE,
+                isblacklisted BOOLEAN DEFAULT FALSE,
                 CONSTRAINT entity_pkey PRIMARY KEY(id)
       )""").execute.apply()
     }
@@ -52,7 +52,7 @@ trait PreparingTables {
                 entity1 BIGINT NOT NULL,
                 entity2 BIGINT NOT NULL,
                 frequency INTEGER,
-                isBlacklisted BOOLEAN DEFAULT FALSE,
+                isblacklisted BOOLEAN DEFAULT FALSE,
                 CONSTRAINT relation_pkey PRIMARY KEY(id)
       )""").execute.apply()
     }

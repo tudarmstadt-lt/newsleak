@@ -36,29 +36,29 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
   val relationship = new RelationshipQueryableImpl
 
   override def getById(id: Long): Option[Entity] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM entity WHERE id = ${id} AND NOT isBlacklisted".map(Entity(_)).toOption().apply()
+    sql"SELECT * FROM entity WHERE id = ${id} AND NOT isblacklisted".map(Entity(_)).toOption().apply()
   }
 
   override def getByName(name: String): List[Entity] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM entity WHERE name = ${name} AND NOT isBlacklisted".map(Entity(_)).list().apply()
+    sql"SELECT * FROM entity WHERE name = ${name} AND NOT isblacklisted".map(Entity(_)).list().apply()
   }
 
   override def getByNamePattern(name: String): List[Entity] = connector.readOnly { implicit session =>
-    val like = name + "%"
-    sql"SELECT * FROM entity WHERE name Like ${like} AND NOT isBlacklisted".map(Entity(_)).list.apply()
+    val like = s"%$name%"
+    sql"SELECT * FROM entity WHERE name ILike ${like} AND NOT isblacklisted".map(Entity(_)).list.apply()
   }
 
   override def getByType(entityType: EntityType.Value): List[Entity] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM entity WHERE type = ${entityType.toString} AND NOT isBlacklisted".map(Entity(_)).list.apply()
+    sql"SELECT * FROM entity WHERE type = ${entityType.toString} AND NOT isblacklisted".map(Entity(_)).list.apply()
   }
 
   override def getTypes(): List[EntityType.Value] = connector.readOnly { implicit session =>
-    sql"SELECT DISTINCT type FROM entity WHERE NOT isBlacklisted".map(rs => EntityType.withName(rs.string("type"))).list.apply()
+    sql"SELECT DISTINCT type FROM entity WHERE NOT isblacklisted".map(rs => EntityType.withName(rs.string("type"))).list.apply()
   }
 
   override def getOrderedByFreqAsc(entity: EntityType.Value, limit: Int): List[Entity] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM entity
-          WHERE type = ${entity} AND NOT isBlacklisted
+          WHERE type = ${entity} AND NOT isblacklisted
           ORDER BY frequency ASC limit ${limit}
     """.map(Entity(_)).list.apply()
   }
@@ -67,14 +67,14 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
     sql"""SELECT * FROM entity AS e
           INNER JOIN documententity AS de ON e.id = de.entityid
           INNER JOIN document AS d ON d.id = de.docid
-          WHERE e.type = ${entityType.toString} AND d.created = ${created} AND NOT isBlacklisted
+          WHERE e.type = ${entityType.toString} AND d.created = ${created} AND NOT isblacklisted
           ORDER BY e.frequency ASC limit ${limit}
        """.map(Entity(_)).list.apply()
   }
 
   override def getOrderedByFreqDesc(entityType: EntityType.Value, limit: Int): List[Entity] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM entity
-          WHERE type = ${entityType.toString} AND NOT isBlacklisted
+          WHERE type = ${entityType.toString} AND NOT isblacklisted
           ORDER BY frequency DESC limit ${limit}
     """.map(Entity(_)).list.apply()
   }
@@ -83,7 +83,7 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
     sql"""SELECT * FROM entity AS e
           INNER JOIN documententity AS de ON e.id = de.entityid
           INNER JOIN document AS d ON d.id = de.docid
-          WHERE e.type = ${entityType.toString} AND d.created = ${created} AND NOT isBlacklisted
+          WHERE e.type = ${entityType.toString} AND d.created = ${created} AND NOT isblacklisted
           ORDER BY e.frequency DESC limit ${limit}
        """.map(Entity(_)).list.apply()
   }
@@ -110,12 +110,9 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
   }
 
   override def delete(entityId: Long): Boolean = connector.localTx { implicit session =>
-    val entityCount = sql"UPDATE entity SET isBlacklisted = TRUE WHERE id = ${entityId}".update().apply()
-    val relCount = relationship.getByEntity(entityId).map { rel =>
-      relationship.delete(rel.id)
-    }
-    // Successful, if updates one entity and all adjacent edges
-    entityCount == 1 && relCount.forall(_ == true)
+    val entityCount = sql"UPDATE entity SET isblacklisted = TRUE WHERE id = ${entityId}".update().apply()
+    // Successful, if updates one entity
+    entityCount == 1
   }
 
   override def merge(focalId: Int, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>

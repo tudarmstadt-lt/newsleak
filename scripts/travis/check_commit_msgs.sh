@@ -31,7 +31,7 @@ for sha in `git log --format=oneline "$RANGE" | cut '-d ' -f1`
 do
     echo -n "Checking commit message for $sha..."
     git rev-list --format=%B --max-count=1 $sha|awk '
-    NR == 2 && !/^(feat|fix|docs|style|refactor|test|chore)\([^)]+\): .+/ {
+    NR == 2 && !/^(feat|fix|docs|style|refactor|test|chore|perf)\([^)]+\): .+/ {
         print "Incorrect, or no, commit type in subject line. Valid"
         print "types are:"
         print ""
@@ -42,6 +42,7 @@ do
         print " * refactor"
         print " * test"
         print " * chore"
+		print " * perf"
         print ""
         print "Line:"
         print $0

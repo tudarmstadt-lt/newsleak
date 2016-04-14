@@ -30,29 +30,53 @@ class RelationshipQueryableImpl extends RelationshipQueryable with DBSettings {
   def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
 
   override def getById(relId: Long): Option[Relationship] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM relationship WHERE id = ${relId}".map(Relationship(_)).toOption().apply()
+    sql"""SELECT * FROM relationship r
+            INNER JOIN entity e1 ON r.entity1 = e1.id
+            INNER JOIN entity e2 ON r.entity2 = e2.id
+          WHERE
+            r.id = ${relId}
+          AND NOT (e1.isblacklisted OR e2.isblacklisted)
+          AND NOT r.isblacklisted""".map(Relationship(_)).toOption().apply()
   }
 
   override def getByEntity(entityId: Long): List[Relationship] = connector.readOnly { implicit session =>
-    sql"SELECT * FROM relationship WHERE entity1 = ${entityId}".map(Relationship(_)).list.apply()
+    sql"""SELECT * FROM relationship r
+            INNER JOIN entity e1 ON r.entity1 = e1.id
+            INNER JOIN entity e2 ON r.entity2 = e2.id
+          WHERE
+            entity1 = ${entityId}
+          AND NOT (e1.isblacklisted OR e2.isblacklisted)
+          AND NOT r.isblacklisted
+       """.map(Relationship(_)).list.apply()
   }
 
   override def getByEntity(entityId: Long, docId: Long): List[Relationship] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM relationship r
-          INNER JOIN documentrelationship dr ON r.id = dr.relid
-          WHERE r.entity1 = ${entityId} AND dr.docid = ${docId}
+            INNER JOIN documentrelationship dr ON r.id = dr.relid
+            INNER JOIN entity e1 ON r.entity1 = e1.id
+            INNER JOIN entity e2 ON r.entity2 = e2.id
+          WHERE
+            r.entity1 = ${entityId}
+          AND dr.docid = ${docId}
+          AND NOT (e1.isblacklisted OR e2.isblacklisted)
+          AND NOT r.isblacklisted
       """.map(Relationship(_)).list.apply()
   }
 
   override def getByDocument(docId: Long): List[Relationship] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM relationship r
-          INNER JOIN documentrelationship dr ON r.id = dr.relid
-          WHERE dr.docid = ${docId}
+            INNER JOIN documentrelationship dr ON r.id = dr.relid
+            INNER JOIN entity e1 ON r.entity1 = e1.id
+            INNER JOIN entity e2 ON r.entity2 = e2.id
+          WHERE
+            dr.docid = ${docId}
+          AND NOT (e1.isblacklisted OR e2.isblacklisted)
+          AND NOT r.isblacklisted
       """.map(Relationship(_)).list.apply()
   }
 
   override def delete(relId: Long): Boolean = connector.localTx { implicit session =>
-    val count = sql"UPDATE relationship SET isBlacklisted = TRUE WHERE id = ${relId}".update().apply()
+    val count = sql"UPDATE relationship SET isblacklisted = TRUE WHERE id = ${relId}".update().apply()
     count == 1
   }
 }

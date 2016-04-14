@@ -17,7 +17,8 @@
 
 package model.queryable
 
-import model.Document
+import model.{TimeExpression, Document}
+import org.joda.time.LocalDate
 
 trait DocumentQueryable {
 
@@ -28,9 +29,25 @@ trait DocumentQueryable {
   def getIds(): List[Long]
 
   /**
-   * Returns [[model.Document]]s that contain the given [[model.Entity]] id.
+   * Returns the [[model.Document]] associated with the given id
+   * @param id the document id
+   * @return Some([[model.Document]]) if a document with the given id
+   *         exists. None otherwise.
+   */
+  def getById(id: Long): Option[Document]
+
+  /**
+   * Returns a list of [[model.Document]] containing documents that are
+   * created on the given date.
+   * @param date date to search for
+   * @return List of [[model.Document]]
+   */
+  def getByDate(date: LocalDate): List[Document]
+
+  /**
+   * Returns list of [[model.Document]] that contain the given [[model.Entity.id]].
    * @param id the [[model.Entity]] id
-   * @return List[model.Document]
+   * @return List of [[model.Document]]
    */
   def getByEntityId(id: Long): List[Document]
 
@@ -50,6 +67,14 @@ trait DocumentQueryable {
   def getIdsByRelationshipId(id: Long): List[Long]
 
   /**
+   * Returns a list of [[model.TimeExpression]] that are contained in this
+   * document identified by the given document id.
+   * @param docId document id
+   * @return List of [[model.TimeExpression]]
+   */
+  def getTimeExpressions(docId: Long): List[TimeExpression]
+
+  /**
    * Returns a list of tuple, where each tuple (key, type) represents
    * the available metadata key associated with its type in the <b>whole</b> collection.
    * Example: List(("Subject", "TEXT", "Position":"GEO", ...)
@@ -57,6 +82,18 @@ trait DocumentQueryable {
    * @return List[(String, String)]
    */
   def getMetadataKeysAndTypes(): List[(String, String)]
+
+  /**
+   * Returns all instances for a given metadata key.
+   *
+   * Example:
+   * Assume the only signers in the whole document collections are "Clinton"
+   * and "Merkel".
+   *
+   * getMetadataKeyInstances("SignedBy") returns List("Clinton","Merkel")
+   * @return
+   */
+  def getMetadataKeyInstances(key: String): List[String]
 
   /**
    * Get list of metadata key and their types that is available for the given document.

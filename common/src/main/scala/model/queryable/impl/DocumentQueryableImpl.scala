@@ -17,8 +17,9 @@
 
 package model.queryable.impl
 
-import model.Document
+import model.{TimeExpression, Document}
 import model.queryable.DocumentQueryable
+import org.joda.time.LocalDate
 import utils.DBSettings
 
 // scalastyle:off
@@ -31,6 +32,18 @@ class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
 
   override def getIds(): List[Long] = connector.readOnly { implicit session =>
     sql"SELECT id FROM document".map(_.long("id")).list.apply()
+  }
+
+  override def getById(id: Long): Option[Document] = connector.readOnly { implicit session =>
+    sql"""SELECT * FROM document d
+          WHERE id = $id
+      """.map(Document(_)).toOption().apply()
+  }
+
+  override def getByDate(date: LocalDate): List[Document] = connector.readOnly { implicit session =>
+    sql"""SELECT * FROM document d
+          WHERE created::date = $date
+      """.map(Document(_)).list.apply()
   }
 
   override def getByEntityId(id: Long): List[Document] = connector.readOnly { implicit session =>
@@ -54,8 +67,18 @@ class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
    """.map(_.long("docId")).list.apply()
   }
 
+  override def getTimeExpressions(docId: Long): List[TimeExpression] = connector.readOnly { implicit session =>
+    sql"""SELECT * FROM eventtime t
+          WHERE t.docid = ${docId}
+       """.map(TimeExpression(_)).list.apply()
+  }
+
   override def getMetadataKeysAndTypes(): List[(String, String)] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT key, type FROM metadata".map(rs => (rs.string("key"), rs.string("type"))).list.apply()
+  }
+
+  override def getMetadataKeyInstances(key: String): List[String] = connector.readOnly { implicit session =>
+    sql"SELECT value FROM metadata WHERE key = $key GROUP BY value".map(_.string("value")).list.apply()
   }
 
   override def getMetadataType(id: Long): List[(String, String)] = connector.readOnly { implicit session =>
@@ -63,7 +86,7 @@ class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
   }
 
   override def getMetadataValueByDocumentId(docId: Long, key: String): List[String] = connector.readOnly { implicit session =>
-    sql"SELECT DISTINCT value FROM metadata WHERE docid = ${docId} AND key = ${key}".map(rs => rs.string("value")).list.apply()
+    sql"SELECT DISTINCT value FROM metadata WHERE docid = ${docId} AND key = ${key}".map(_.string("value")).list.apply()
   }
 
   override def getMetadataKeyValueByDocumentId(docId: Long): List[(String, String)] = connector.readOnly { implicit session =>

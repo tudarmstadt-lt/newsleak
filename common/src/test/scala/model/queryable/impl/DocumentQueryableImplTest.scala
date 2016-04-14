@@ -18,7 +18,7 @@
 package model.queryable.impl
 
 import model.Document
-import org.joda.time.LocalDateTime
+import org.joda.time.{LocalDate, LocalDateTime}
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
@@ -37,7 +37,7 @@ class DocumentQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseR
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>
       sql"INSERT INTO document VALUES (1, ${"Content of document 1"}, ${LocalDateTime.parse("2007-12-03T10:15:30")})".update.apply()
-      sql"INSERT INTO document VALUES (2, ${"Content of document 2"}, ${LocalDateTime.parse("2007-12-03T10:15:30")})".update.apply()
+      sql"INSERT INTO document VALUES (2, ${"Content of document 2"}, ${LocalDateTime.parse("2007-11-03T10:15:30")})".update.apply()
 
       sql"INSERT INTO documententity VALUES (1, 1, 10)".update.apply()
       sql"INSERT INTO documententity VALUES (2, 1, 3)".update.apply()
@@ -52,10 +52,18 @@ class DocumentQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseR
     assert(actual === expected)
   }
 
+  "getByDate" should "return only documents for the given date" in {
+    val expected = List(
+      Document(2, "Content of document 2", LocalDateTime.parse("2007-11-03T10:15:30"))
+    )
+    val actual = uut.getByDate(LocalDate.parse("2007-11-03"))
+    assert(actual === expected)
+  }
+
   "byEntityId" should "return all documents that contain the given entity" in {
     val expected = List(
       Document(1, "Content of document 1", LocalDateTime.parse("2007-12-03T10:15:30")),
-      Document(2, "Content of document 2", LocalDateTime.parse("2007-12-03T10:15:30"))
+      Document(2, "Content of document 2", LocalDateTime.parse("2007-11-03T10:15:30"))
     )
     val actual = uut.getByEntityId(1)
     assert(actual === expected)
