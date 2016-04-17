@@ -54,7 +54,7 @@
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../Relationship$.html" class="extype" name="model.Relationship">Relationship</a>, <a href="../RelationshipQueryableImpl.html" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a></div>
+            <div class="subClasses hiddenContent"><a href="../Relationship$.html" class="extype" name="model.Relationship">Relationship</a>, <a href="impl/RelationshipQueryableImpl.html" class="extype" name="model.queryable.impl.RelationshipQueryableImpl">RelationshipQueryableImpl</a></div>
           </div></div>
         
 
@@ -95,92 +95,94 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="model.queryable.RelationshipQueryable#getRelationshipByDocument" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getRelationshipByDocument(docId:Long):List[model.Relationship]"></a>
-      <a id="getRelationshipByDocument(Long):List[Relationship]"></a>
+              <ol><li name="model.queryable.RelationshipQueryable#delete" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="delete(relId:Long):Boolean"></a>
+      <a id="delete(Long):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRelationshipByDocument</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">delete</span><span class="params">(<span name="relId">relId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.RelationshipQueryable@getRelationshipByDocument(docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.RelationshipQueryable@delete(relId:Long):Boolean" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Marks the given relationship as blacklisted.</p><div class="fullcomment"><div class="comment cmt"><p>Marks the given relationship as blacklisted. Blacklisted relationships won't be
+returned from any public storage access method.
+</p></div><dl class="paramcmts block"><dt class="param">relId</dt><dd class="cmt"><p>entity to blacklist</p></dd><dt>returns</dt><dd class="cmt"><p><code>True</code> if successful. <code>False</code>, otherwise</p></dd></dl></div>
+    </li><li name="model.queryable.RelationshipQueryable#getByDocument" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByDocument(docId:Long):List[model.Relationship]"></a>
+      <a id="getByDocument(Long):List[Relationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getByDocument</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.RelationshipQueryable@getByDocument(docId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s in the given document.
 </p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>the document id</p></dd><dt>returns</dt><dd class="cmt"><p>List<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a></p></dd></dl></div>
-    </li><li name="model.queryable.RelationshipQueryable#getRelationshipByEntity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]"></a>
-      <a id="getRelationshipByEntity(Long,Long):List[Relationship]"></a>
+    </li><li name="model.queryable.RelationshipQueryable#getByEntity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByEntity(entityId:Long,docId:Long):List[model.Relationship]"></a>
+      <a id="getByEntity(Long,Long):List[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>, <span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>, <span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.RelationshipQueryable@getRelationshipByEntity(entityId:Long,docId:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.RelationshipQueryable@getByEntity(entityId:Long,docId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s per document where an <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt class="param">docId</dt><dd class="cmt"><p>the <a href="../Document.html" class="extype" name="model.Document">model.Document</a> id</p></dd></dl></div>
-    </li><li name="model.queryable.RelationshipQueryable#getRelationshipByEntity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getRelationshipByEntity(entityId:Long):List[model.Relationship]"></a>
-      <a id="getRelationshipByEntity(Long):List[Relationship]"></a>
+    </li><li name="model.queryable.RelationshipQueryable#getByEntity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByEntity(entityId:Long):List[model.Relationship]"></a>
+      <a id="getByEntity(Long):List[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRelationshipByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getByEntity</span><span class="params">(<span name="entityId">entityId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.RelationshipQueryable@getRelationshipByEntity(entityId:Long):List[model.Relationship]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.RelationshipQueryable@getByEntity(entityId:Long):List[model.Relationship]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s where the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> participates.</p></div><dl class="paramcmts block"><dt class="param">entityId</dt><dd class="cmt"><p>the id of the <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> to search for.</p></dd><dt>returns</dt><dd class="cmt"><p>List[Relationship]</p></dd></dl></div>
-    </li><li name="model.queryable.RelationshipQueryable#getRelationshipById" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getRelationshipById(relId:Long):Option[model.Relationship]"></a>
-      <a id="getRelationshipById(Long):Option[Relationship]"></a>
+    </li><li name="model.queryable.RelationshipQueryable#getById" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getById(relId:Long):Option[model.Relationship]"></a>
+      <a id="getById(Long):Option[Relationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRelationshipById</span><span class="params">(<span name="relId">relId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
+        <span class="name">getById</span><span class="params">(<span name="relId">relId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.RelationshipQueryable@getRelationshipById(relId:Long):Option[model.Relationship]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.RelationshipQueryable@getById(relId:Long):Option[model.Relationship]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns the <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> for the given relationship id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> for the given relationship id.</p></div><dl class="paramcmts block"><dt class="param">relId</dt><dd class="cmt"><p>the id of the <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> to search for.</p></dd><dt>returns</dt><dd class="cmt"><p>Option[Relationship]</p></dd></dl></div>
-    </li><li name="model.queryable.RelationshipQueryable#getRelationships" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="getRelationships():List[model.Relationship]"></a>
-      <a id="getRelationships():List[Relationship]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getRelationships</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.RelationshipQueryable@getRelationships():List[model.Relationship]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns all <a href="../Relationship.html" class="extype" name="model.Relationship">Relationship</a>s available in the collection.</p>
     </li></ol>
             </div>
 

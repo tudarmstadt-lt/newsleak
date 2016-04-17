@@ -54,7 +54,7 @@
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../Document$.html" class="extype" name="model.Document">Document</a>, <a href="../DocumentQueryableImpl.html" class="extype" name="model.DocumentQueryableImpl">DocumentQueryableImpl</a></div>
+            <div class="subClasses hiddenContent"><a href="../Document$.html" class="extype" name="model.Document">Document</a>, <a href="impl/DocumentQueryableImpl.html" class="extype" name="model.queryable.impl.DocumentQueryableImpl">DocumentQueryableImpl</a></div>
           </div></div>
         
 
@@ -95,93 +95,95 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="model.queryable.DocumentQueryable#getDocumentIds" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentIds():List[Long]"></a>
-      <a id="getDocumentIds():List[Long]"></a>
+              <ol><li name="model.queryable.DocumentQueryable#getByDate" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByDate(date:org.joda.time.LocalDate):List[model.Document]"></a>
+      <a id="getByDate(LocalDate):List[Document]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDocumentIds</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+        <span class="name">getByDate</span><span class="params">(<span name="date">date: <span class="extype" name="org.joda.time.LocalDate">LocalDate</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentIds():List[Long]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getByDate(date:org.joda.time.LocalDate):List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of <a href="../Document.html" class="extype" name="model.Document">model.Document</a> containing documents that are
+created on the given date.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of <a href="../Document.html" class="extype" name="model.Document">model.Document</a> containing documents that are
+created on the given date.</p></div><dl class="paramcmts block"><dt class="param">date</dt><dd class="cmt"><p>date to search for</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="../Document.html" class="extype" name="model.Document">model.Document</a></p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getByEntityId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByEntityId(id:Long):List[model.Document]"></a>
+      <a id="getByEntityId(Long):List[Document]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getByEntityId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getByEntityId(id:Long):List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns list of <a href="../Document.html" class="extype" name="model.Document">model.Document</a> that contain the given <a href="../Entity.html#id:Long" class="extmbr" name="model.Entity#id">model.Entity.id</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Returns list of <a href="../Document.html" class="extype" name="model.Document">model.Document</a> that contain the given <a href="../Entity.html#id:Long" class="extmbr" name="model.Entity#id">model.Entity.id</a>.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="../Document.html" class="extype" name="model.Document">model.Document</a></p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getByRelationshipId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getByRelationshipId(id:Long):List[model.Document]"></a>
+      <a id="getByRelationshipId(Long):List[Document]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getByRelationshipId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getByRelationshipId(id:Long):List[model.Document]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>relationship id</p></dd><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getIds" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getIds():List[Long]"></a>
+      <a id="getIds():List[Long]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIds</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getIds():List[Long]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> Ids available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> Ids available in the collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[Long]</p></dd></dl></div>
-    </li><li name="model.queryable.DocumentQueryable#getDocumentIdsByRelationshipId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentIdsByRelationshipId(id:Long):List[Long]"></a>
-      <a id="getDocumentIdsByRelationshipId(Long):List[Long]"></a>
+    </li><li name="model.queryable.DocumentQueryable#getIdsByRelationshipId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getIdsByRelationshipId(id:Long):List[Long]"></a>
+      <a id="getIdsByRelationshipId(Long):List[Long]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDocumentIdsByRelationshipId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]</span>
+        <span class="name">getIdsByRelationshipId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Long">Long</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentIdsByRelationshipId(id:Long):List[Long]" title="Permalink" target="_top">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getIdsByRelationshipId(id:Long):List[Long]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns a list of document ids where each document in the result list
 contains the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of document ids where each document in the result list
 contains the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>relationship id</p></dd><dt>returns</dt><dd class="cmt"><p>List[Long]</p></dd></dl></div>
-    </li><li name="model.queryable.DocumentQueryable#getDocuments" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getDocuments():List[model.Document]"></a>
-      <a id="getDocuments():List[Document]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getDocuments</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.DocumentQueryable@getDocuments():List[model.Document]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns a list of all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> available in the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of all <a href="../Document.html" class="extype" name="model.Document">model.Document</a> available in the collection.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl></div>
-    </li><li name="model.queryable.DocumentQueryable#getDocumentsByEntityId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentsByEntityId(id:Long):List[model.Document]"></a>
-      <a id="getDocumentsByEntityId(Long):List[Document]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getDocumentsByEntityId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentsByEntityId(id:Long):List[model.Document]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>the <a href="../Entity.html" class="extype" name="model.Entity">model.Entity</a> id</p></dd><dt>returns</dt><dd class="cmt"><p>List[model.Document]</p></dd></dl></div>
-    </li><li name="model.queryable.DocumentQueryable#getDocumentsByRelationshipId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getDocumentsByRelationshipId(id:Long):List[model.Document]"></a>
-      <a id="getDocumentsByRelationshipId(Long):List[Document]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getDocumentsByRelationshipId</span><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../Document.html" class="extype" name="model.Document">Document</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.queryable.DocumentQueryable@getDocumentsByRelationshipId(id:Long):List[model.Document]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Returns <a href="../Document.html" class="extype" name="model.Document">model.Document</a>s that contain the given <a href="../Relationship.html" class="extype" name="model.Relationship">model.Relationship</a>.</p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>relationship id</p></dd><dt>returns</dt><dd class="cmt"><p>List[Document]</p></dd></dl></div>
     </li><li name="model.queryable.DocumentQueryable#getMetadataKeyValueByDocumentId" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="getMetadataKeyValueByDocumentId(docId:Long):List[(String,String)]"></a>
       <a id="getMetadataKeyValueByDocumentId(Long):List[(String,String)]"></a>
@@ -260,6 +262,25 @@ Example: List((SignedBy,Text), (Header,Text))
       <p class="shortcomment cmt">Returns metadata values for a given metadata key for a given document.</p><div class="fullcomment"><div class="comment cmt"><p>Returns metadata values for a given metadata key for a given document.
 Example: [<code>IR</code>, <code>MARR</code>, <code>MASS</code>] for the key <code>Tags</code>.
 </p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>document id.</p></dd><dt class="param">key</dt><dd class="cmt"><p>name of the metadata key to search for e.g <code>Tags</code>.</p></dd><dt>returns</dt><dd class="cmt"><p>List of metatadata values for the given key and document id.</p></dd></dl></div>
+    </li><li name="model.queryable.DocumentQueryable#getTimeExpressions" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getTimeExpressions(docId:Long):List[model.TimeExpression]"></a>
+      <a id="getTimeExpressions(Long):List[TimeExpression]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTimeExpressions</span><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="../TimeExpression.html" class="extype" name="model.TimeExpression">TimeExpression</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.queryable.DocumentQueryable@getTimeExpressions(docId:Long):List[model.TimeExpression]" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Returns a list of <a href="../TimeExpression.html" class="extype" name="model.TimeExpression">model.TimeExpression</a> that are contained in this
+document identified by the given document id.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of <a href="../TimeExpression.html" class="extype" name="model.TimeExpression">model.TimeExpression</a> that are contained in this
+document identified by the given document id.</p></div><dl class="paramcmts block"><dt class="param">docId</dt><dd class="cmt"><p>document id</p></dd><dt>returns</dt><dd class="cmt"><p>List of <a href="../TimeExpression.html" class="extype" name="model.TimeExpression">model.TimeExpression</a></p></dd></dl></div>
     </li></ol>
             </div>
 

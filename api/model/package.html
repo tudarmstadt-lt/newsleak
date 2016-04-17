@@ -84,23 +84,6 @@
     </span>
       <p class="shortcomment cmt">Document representation.</p><div class="fullcomment"><div class="comment cmt"><p>Document representation.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique document identifier.</p></dd><dt class="param">content</dt><dd class="cmt"><p>document body that contains raw text.</p></dd><dt class="param">created</dt><dd class="cmt"><p>creation date and time of the document.</p></dd></dl></div>
-    </li><li name="model.DocumentQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="DocumentQueryableImplextendsDocumentQueryablewithDBSettings"></a>
-      <a id="DocumentQueryableImpl:DocumentQueryableImpl"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="DocumentQueryableImpl.html"><span class="name">DocumentQueryableImpl</span></a><span class="result"> extends <a href="queryable/DocumentQueryable.html" class="extype" name="model.queryable.DocumentQueryable">DocumentQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../index.html#model.package@DocumentQueryableImplextendsDocumentQueryablewithDBSettings" title="Permalink" target="_top">
-        <img src="../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="model.Entity" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="EntityextendsProductwithSerializable"></a>
       <a id="Entity:Entity"></a>
@@ -119,19 +102,19 @@
     </span>
       <p class="shortcomment cmt">Representation for entities.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for entities.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the entity.</p></dd><dt class="param">name</dt><dd class="cmt"><p>the entity name.</p></dd><dt class="param">entityType</dt><dd class="cmt"><p>the entity type.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>the frequency (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
-    </li><li name="model.EntityQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="EntityQueryableImplextendsEntityQueryablewithDBSettings"></a>
-      <a id="EntityQueryableImpl:EntityQueryableImpl"></a>
+    </li><li name="model.KeyTerm" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyTermextendsProductwithSerializable"></a>
+      <a id="KeyTerm:KeyTerm"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="EntityQueryableImpl.html"><span class="name">EntityQueryableImpl</span></a><span class="result"> extends <a href="queryable/EntityQueryable.html" class="extype" name="model.queryable.EntityQueryable">EntityQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
+        <a href="KeyTerm.html"><span class="name">KeyTerm</span></a><span class="params">(<span name="term">term: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="score">score: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.package@EntityQueryableImplextendsEntityQueryablewithDBSettings" title="Permalink" target="_top">
+      <a href="../index.html#model.package@KeyTermextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -155,19 +138,36 @@
       <p class="shortcomment cmt">Representation for relationships.</p><div class="fullcomment"><div class="comment cmt"><p>Representation for relationships.
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique id and primary key of the relationship.</p></dd><dt class="param">e1</dt><dd class="cmt"><p>first entity. The order of entities is determined alphabetically. Especially, if (e1, e2) is a
           relationship, (e2, e1) is not.</p></dd><dt class="param">e2</dt><dd class="cmt"><p>second entity.</p></dd><dt class="param">frequency</dt><dd class="cmt"><p>frequency of the relationship (i.e. co-occurrence) in the underlying data.</p></dd></dl></div>
-    </li><li name="model.RelationshipQueryableImpl" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="RelationshipQueryableImplextendsRelationshipQueryablewithDBSettings"></a>
-      <a id="RelationshipQueryableImpl:RelationshipQueryableImpl"></a>
+    </li><li name="model.Tag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TagextendsProductwithSerializable"></a>
+      <a id="Tag:Tag"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="RelationshipQueryableImpl.html"><span class="name">RelationshipQueryableImpl</span></a><span class="result"> extends <a href="queryable/RelationshipQueryable.html" class="extype" name="model.queryable.RelationshipQueryable">RelationshipQueryable</a> with <a href="../utils/DBSettings.html" class="extype" name="utils.DBSettings">DBSettings</a></span>
+        <a href="Tag.html"><span class="name">Tag</span></a><span class="params">(<span name="id">id: <span class="extype" name="scala.Long">Long</span></span>, <span name="documentId">documentId: <span class="extype" name="scala.Long">Long</span></span>, <span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../index.html#model.package@RelationshipQueryableImplextendsRelationshipQueryablewithDBSettings" title="Permalink" target="_top">
+      <a href="../index.html#model.package@TagextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="model.TimeExpression" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TimeExpressionextendsProductwithSerializable"></a>
+      <a id="TimeExpression:TimeExpression"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TimeExpression.html"><span class="name">TimeExpression</span></a><span class="params">(<span name="docId">docId: <span class="extype" name="scala.Long">Long</span></span>, <span name="startOffset">startOffset: <span class="extype" name="scala.Int">Int</span></span>, <span name="endOffset">endOffset: <span class="extype" name="scala.Int">Int</span></span>, <span name="mention">mention: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="timeType">timeType: <a href="TimeType$.html#ValueextendsOrdered[Enumeration.this.Value]withSerializable" class="extmbr" name="model.TimeType.Value">TimeType.Value</a></span>, <span name="resolution">resolution: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@TimeExpressionextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -188,7 +188,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="DocumentQueryableImpl.html" class="extype" name="model.DocumentQueryableImpl">DocumentQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Document$.html"><span class="name">Document</span></a><span class="result"> extends <a href="queryable/impl/DocumentQueryableImpl.html" class="extype" name="model.queryable.impl.DocumentQueryableImpl">DocumentQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Document" title="Permalink" target="_top">
@@ -205,7 +205,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="EntityQueryableImpl.html" class="extype" name="model.EntityQueryableImpl">EntityQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Entity$.html"><span class="name">Entity</span></a><span class="result"> extends <a href="queryable/impl/EntityQueryableImpl.html" class="extype" name="model.queryable.impl.EntityQueryableImpl">EntityQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Entity" title="Permalink" target="_top">
@@ -231,6 +231,23 @@
     </span>
       <p class="shortcomment cmt">Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).</tt></tt></tt></p><div class="fullcomment"><div class="comment cmt"><p>Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
 </p></div></div>
+    </li><li name="model.KeyTerm" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="KeyTerm"></a>
+      <a id="KeyTerm:KeyTerm"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="KeyTerm$.html"><span class="name">KeyTerm</span></a><span class="result"> extends <a href="queryable/impl/KeyTermQueryableImpl.html" class="extype" name="model.queryable.impl.KeyTermQueryableImpl">KeyTermQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@KeyTerm" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="model.Relationship" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Relationship"></a>
       <a id="Relationship:Relationship"></a>
@@ -240,7 +257,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="RelationshipQueryableImpl.html" class="extype" name="model.RelationshipQueryableImpl">RelationshipQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationship$.html"><span class="name">Relationship</span></a><span class="result"> extends <a href="queryable/impl/RelationshipQueryableImpl.html" class="extype" name="model.queryable.impl.RelationshipQueryableImpl">RelationshipQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../index.html#model.package@Relationship" title="Permalink" target="_top">
@@ -248,6 +265,69 @@
       </a>
     </span>
       <p class="shortcomment cmt">Companion object for <a href="Relationship.html" class="extype" name="model.Relationship">model.Relationship</a> instances.</p>
+    </li><li name="model.Tag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Tag"></a>
+      <a id="Tag:Tag"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Tag$.html"><span class="name">Tag</span></a><span class="result"> extends <a href="queryable/impl/TagQueryableImpl.html" class="extype" name="model.queryable.impl.TagQueryableImpl">TagQueryableImpl</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@Tag" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="model.TimeExpression" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TimeExpression"></a>
+      <a id="TimeExpression:TimeExpression"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TimeExpression$.html"><span class="name">TimeExpression</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@TimeExpression" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="model.TimeType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TimeType"></a>
+      <a id="TimeType:TimeType"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TimeType$.html"><span class="name">TimeType</span></a><span class="result"> extends <span class="extype" name="scala.Enumeration">Enumeration</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@TimeType" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">TimeX3 types (<tt>Date</tt>, <tt>Time</tt>, <tt>Duration</tt>, <tt>Set</tt>).</tt></tt></tt></tt></p><div class="fullcomment"><div class="comment cmt"><p>TimeX3 types (<tt>Date</tt>, <tt>Time</tt>, <tt>Duration</tt>, <tt>Set</tt>).</p><p>* Date: The expression describes a calendar time.
+        Examples:
+        Mr. Smith left Friday, October 1, 1999.
+                       yesterday.
+                       two weeks from next Tuesday.
+* Duration: The expression describes a duration e.g Mr. Smith stayed 2 months in Boston.
+* Time: The expression refers to a time of the day, even if in a very
+        indefinite way.
+        Examples:
+        Mr. Smith left ten minutes to three.
+                       late last night.
+                       the morning of January 31.</p><p>* Set: The expression describes a set of times e.g John swims twice a week.</p><p>See: http://www.timeml.org/tempeval2/tempeval2-trial/guidelines/timex3guidelines-072009.pdf
+</p></div></div>
     </li><li name="model.queryable" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="queryable"></a>
       <a id="queryable:queryable"></a>
