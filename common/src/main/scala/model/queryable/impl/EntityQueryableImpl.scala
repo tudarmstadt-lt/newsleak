@@ -144,4 +144,3 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
     count == 1
   }
 }
-
