@@ -15,15 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package model
+package model.faceted.search
 
 // scalastyle:off
-import java.net.InetAddress
-
 import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.client.transport.TransportClient
-import org.elasticsearch.common.settings.Settings
-import org.elasticsearch.common.transport.InetSocketTransportAddress
 import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
@@ -41,9 +36,14 @@ case class MetaDataBucket(key: String, docCount: Long) extends Bucket
 case class NodeBucket(id: Long, docCount: Long) extends Bucket
 case class Aggregation(key: String, buckets: List[Bucket])
 
-
 // Take a look at BoolQueryParser. Converts String input to BoolQuery
+
+// SHows how to use ES with scala futures for non blocking calls
+// http://chris-zen.github.io/software/2015/05/10/elasticsearch-with-scala-and-akka.html
+
 object FacetedSearch extends App {
+
+  private val clientService = new ESTransportClient
 
   private val nodesIndex = "nodes"
   // Generic aggregations that need to be retrieved from the metadata
@@ -52,17 +52,10 @@ object FacetedSearch extends App {
     nodesIndex -> "entities.entId",
     "signedby_agg" -> "SignedBy.raw",
     "classification_agg" -> "Classification.raw"
-    // ...
+  // ...
   )
 
-  // TODO: Move Sessions to application.conf and parse
-  private val settings = Settings.settingsBuilder()
-      .put("cluster.name", "NewsLeaksCluster").build()
-  private val client = TransportClient.builder().settings(settings).build()
-      .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9501))
-
-
-  private def createQuery(facets:  Map[String, List[String]]): BoolQueryBuilder = {
+  private def createQuery(facets: Map[String, List[String]]): BoolQueryBuilder = {
     val request = QueryBuilders.boolQuery()
     facets.map {
       case (k, v) =>
@@ -77,15 +70,15 @@ object FacetedSearch extends App {
   // Convert response to internal model
   private def parseResult(response: SearchResponse): List[Aggregation] = {
     val res = metaAggregationRequest.collect {
-        // Create node bucket for entities
-        case(k, v) if k == nodesIndex =>
-          val agg: Terms = response.getAggregations.get(k)
-          val buckets = agg.getBuckets.map(b => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)).toList
-          Aggregation(k, buckets)
-        case (k, v) =>
-          val agg: Terms = response.getAggregations.get(k)
-          val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
-          Aggregation(k, buckets)
+      // Create node bucket for entities
+      case (k, v) if k == nodesIndex =>
+        val agg: Terms = response.getAggregations.get(k)
+        val buckets = agg.getBuckets.map(b => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)).toList
+        Aggregation(k, buckets)
+      case (k, v) =>
+        val agg: Terms = response.getAggregations.get(k)
+        val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
+        Aggregation(k, buckets)
     }
     res.toList
   }
@@ -93,13 +86,17 @@ object FacetedSearch extends App {
   // facets are parameter, multiple parameters will be joined via "and".
   // We definitely need to extend this, once we have a concept for other
   // logical filter in the frontend.
-  def search(facets:  Map[String, List[String]]): List[Aggregation] = {
+  def search(facets: Map[String, List[String]]): List[Aggregation] = {
 
-    var requestBuilder = client.prepareSearch()
+    // TODO: Get collected document ids for applied filters not whole documents
+    var requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(facets))
+      // We are only interested in the document id
+      .addFields("id")
+    //.setSize(0)
 
     // Add other aggregations that are generic
-    for((k, v) <- metaAggregationRequest) {
+    for ((k, v) <- metaAggregationRequest) {
       val agg = AggregationBuilders.terms(k)
         .field(v)
         .size(10)
@@ -109,20 +106,19 @@ object FacetedSearch extends App {
     val response = requestBuilder.execute().actionGet()
     println(response)
 
-
-    client.close()
+    // Note: There is no need to call shutdown, since this node is the only
+    // one in the cluster. However, it is a bad idea to make this assumption.
+    //clientService.shutdown()
     parseResult(response)
   }
 
-
   val facets = Map(
     "Classification" -> List("CONFIDENTIAL"),
-    "Tags" -> List("ASEC")
+    "Tags" -> List("ASEC", "PREL")
   )
 
   search(facets)
 }
-
 
 /*def sample(): Unit = {
     val request = QueryBuilders.boolQuery()
