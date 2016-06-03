@@ -27,27 +27,27 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import scala.collection.JavaConversions._
 // scalastyle:on
 
-// TODO: parameter size per aggregation
+object FacetedSearch extends FacetedSearchQueryableImpl
+
 // TODO: Provide method that returns every field e.g classification, with its instances?
 // Is this directly possible from ES. Then we don't need metadata in ES anymore.
-object FacetedSearch {
+class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private val clientService = new ESTransportClient
   private val elasticSearchIndex = "cable"
-  private val nodesField = "entities"
+  private val keywordsField = "keywords" -> "keywords.keyword.raw"
+  private val nodesField = "entities" -> "entities.entId"
 
-  private lazy val aggregationToField = Map(
-    nodesField -> "entities.entId"
-  ) ++ aggregationFields().map(k => k->s"$k.raw")
+  private lazy val aggregationToField =
+    aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
 
   // Always remove these fields from the aggregation.
   private val defaultExcludedAggregations = List("content")
-  private val defaultTermSize = 10
+  private val defaultAggregationSize = 10
 
   private def aggregationFields(): List[String] = {
     val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(elasticSearchIndex)).get()
     val mapping = res.mappings().get(elasticSearchIndex)
-
     val terms = mapping.flatMap { m =>
       val source = m.value.sourceAsMap()
       val properties = source.get("properties").asInstanceOf[java.util.LinkedHashMap[String, java.util.LinkedHashMap[String, String]]]
@@ -56,8 +56,9 @@ object FacetedSearch {
     terms.toList
   }
 
-  private def createQuery(facets: Map[String, List[String]]): BoolQueryBuilder = {
+  private def createQuery(fullTextSearch: Option[String], facets: Map[String, List[String]]): BoolQueryBuilder = {
     val request = QueryBuilders.boolQuery()
+    // Search for given facets
     facets.map {
       case (k, v) =>
         val filter = QueryBuilders.boolQuery()
@@ -65,20 +66,22 @@ object FacetedSearch {
         v.map(meta => filter.must(QueryBuilders.termQuery(s"$k.raw", meta)))
         request.must(filter)
     }
-    request
+    // Search for full text string if available
+    val fullTextQuery = QueryBuilders.matchQuery("content", fullTextSearch)
+    if (fullTextSearch.isDefined) request.must(fullTextQuery) else request
   }
 
   /**
    * Convert response to our internal model
    */
-  private def parseResult(response: SearchResponse, aggregations: Map[String, String]): List[Aggregation] = {
+  private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)]): List[Aggregation] = {
     val res = aggregations.collect {
       // Create node bucket for entities
-      case (k, v) if k == nodesField =>
+      case (k, (v, s)) if k == nodesField =>
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.map(b => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)).toList
         Aggregation(k, buckets)
-      case (k, v) =>
+      case (k, (v, s)) =>
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
         Aggregation(k, buckets)
@@ -86,69 +89,48 @@ object FacetedSearch {
     res.toList
   }
 
-  /**
-   * Applies the given facets to the underling document collection and returns aggregations
-   * for all available metadata. The response also contains an aggregation for prominent
-   * entities.
-   *
-   * @param facets maps from metadata term keys to a list of possible instances for the given
-   *               term key. Multiple instances as values and facets will be joined via 'and'.
-   *
-   *               The following example will query for documents that are 'CONFIDENTIAL' and
-   *               tagged with 'ASEC' as well as 'PREL'.
-   *
-   *               val facets = Map(
-   *                 "Classification" -> List("CONFIDENTIAL"),
-   *                  "Tags" -> List("ASEC", "PREL")
-   *               )
-   *               FacetedSearch.search(facets)
-   * @param excludedAggregations given metadata keys will be excluded from the result. In the default
-    *                            case, aggregations for all available metadata will be executed. Use
-    *                            Exclude irrelevant fields to speed up the execution.
-   *
-   * @return Result contains aggregation for all available metadata and a subset of nodes that are
-   *         prominent for the retrieved subset of documents.
-   */
-  // TODO Add full-text search parameter
-  def search(facets: Map[String, List[String]], excludedAggregations: List[String] = List()): List[Aggregation] = {
+  override def searchDocuments(fullTextSearch: Option[String], facets: Map[String, List[String]], pageSize: Int): Iterator[Long] = {
+    val requestBuilder = clientService.client.prepareSearch()
+      .setQuery(createQuery(fullTextSearch, facets))
+      .setSize(pageSize)
+
+    new SearchHitIterator(requestBuilder).map(_.id().toLong)
+  }
+
+  override def aggregateAll(
+    fullTextSearch: Option[String],
+    facets: Map[String, List[String]],
+    excludedAggregations: List[String] = List()
+  ): List[Aggregation] = {
+    val excluded = defaultExcludedAggregations ++ excludedAggregations
+    val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
+
+    aggregate(fullTextSearch, facets, validAggregations.map { case (k, v) => (k, (v, defaultAggregationSize)) })
+  }
+
+  override def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation] = {
+    val field = aggregationToField(aggregationKey)
+    aggregate(fullTextSearch, facets, Map(aggregationKey -> (field, size))).headOption
+  }
+
+  private def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggs: Map[String, (String, Int)]): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch()
-      .setQuery(createQuery(facets))
+      .setQuery(createQuery(fullTextSearch, facets))
       // We are only interested in the document id
       .addFields("id")
 
-    val excluded = defaultExcludedAggregations ++ excludedAggregations
-    val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
-    for ((k, v) <- validAggregations) {
+    for ((k, (v, size)) <- aggs) {
       val agg = AggregationBuilders.terms(k)
         .field(v)
-        .size(defaultTermSize)
+        .size(size)
       requestBuilder = requestBuilder.addAggregation(agg)
     }
 
     val response = requestBuilder.execute().actionGet()
     // There is no need to call shutdown, since this node is the only
     // one in the cluster.
-    parseResult(response, validAggregations)
+    parseResult(response, aggs)
   }
-
-  def scrollTest(facets: Map[String, List[String]]): SearchHitIterator = {
-    // val request = QueryBuilders.boolQuery()
-    // request.must(QueryBuilders.termQuery("Classification.raw", "CONFIDENTIAL"))
-
-    val requestBuilder = clientService.client.prepareSearch()
-      .setQuery(createQuery(facets))
-      .addFields("id", "Classification", "Tags")
-
-    // TODO: Check that the response is sorted by score
-    new SearchHitIterator(requestBuilder)
-  }
-
-
-  // Maybe have default aggreggationSize for each. Have a button in the frontend show all values.
-  // Only by clicking issue a request for all e.g tags. But how do we know, how much?
-  /* def search(facets: Map[String, List[String]], aggregationKey: String, size: Int): Aggregation = {
-
-  } */
 }
 
 object Testable extends App {
@@ -160,12 +142,31 @@ object Testable extends App {
   // scalastyle:off
   // TODO: Find out why keywords, and dates are empty.
   // Maybe its not keywords.raw
-  // println(FacetedSearch.search(facets, List("Header")))
+  // FOr keywords its keyword.keyword because it's an array of object.
+  // println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
+  println(FacetedSearch.aggregate(Some("Clinton"), facets, "SignedBy", 4))
   // scalastyle:on
 
-
-  // TODO: id needs to be fieldable :P
-  // val hitIterator = FacetedSearch.scrollTest(facets)
-  // val fieldIterator = hitIterator.map(hit => hit.field("Classification").getValue[String])
-  // fieldIterator.foreach(println(_))
+  // val hitIterator = FacetedSearch.searchDocuments(None, facets, 10)
+  // hitIterator.foreach(println(_))
 }
+
+/* var requestBuilder = clientService.client.prepareSearch()
+    .setQuery(createQuery(fullTextSearch, facets))
+    // We are only interested in the document id
+    .addFields("id")
+
+  val excluded = defaultExcludedAggregations ++ excludedAggregations
+  val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
+  for ((k, v) <- validAggregations) {
+    val agg = AggregationBuilders.terms(k)
+      .field(v)
+      .size(defaultAggregationSize)
+    requestBuilder = requestBuilder.addAggregation(agg)
+  }
+
+  val response = requestBuilder.execute().actionGet()
+  println(response)
+  // There is no need to call shutdown, since this node is the only
+  // one in the cluster.
+  parseResult(response, validAggregations) */ 

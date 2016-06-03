@@ -20,16 +20,15 @@ package model.faceted.search
 import org.elasticsearch.action.search.SearchRequestBuilder
 import org.elasticsearch.search.SearchHit
 
-
 /**
-  * Custom implementation for paging results. ES implemented Scrolling is not intended for real time user requests,
-  * but rather for processing large amounts of data, e.g. in order to reindex the contents of one index into a
-  * new index with a different configuration
-  * See:
-  * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html
-  *
-  * @param request
-  */
+ * Custom implementation for paging results. ES implemented Scrolling is not intended for real time user requests,
+ * but rather for processing large amounts of data, e.g. in order to reindex the contents of one index into a
+ * new index with a different configuration
+ * See:
+ * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html
+ *
+ * @param request
+ */
 class SearchHitIterator(request: SearchRequestBuilder) extends Iterator[SearchHit] {
 
   private var searchHitCounter = 0
@@ -43,15 +42,15 @@ class SearchHitIterator(request: SearchRequestBuilder) extends Iterator[SearchHi
     response.getHits.getHits()
   }
 
-  override def hasNext: Boolean = currentPageResults.length >=1
+  override def hasNext: Boolean = currentPageResults.length >= 1
 
   override def next(): SearchHit = {
 
-    if(currentResultIndex + 1 >= currentPageResults.length) {
+    if (currentResultIndex + 1 >= currentPageResults.length) {
       scroll()
     }
-    searchHitCounter+=1
-    currentResultIndex+=1
+    searchHitCounter += 1
+    currentResultIndex += 1
 
     currentPageResults(currentResultIndex)
   }

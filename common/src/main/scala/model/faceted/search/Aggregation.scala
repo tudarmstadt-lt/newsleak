@@ -17,5 +17,4 @@
 
 package model.faceted.search
 
-
 case class Aggregation(key: String, buckets: List[Bucket])
