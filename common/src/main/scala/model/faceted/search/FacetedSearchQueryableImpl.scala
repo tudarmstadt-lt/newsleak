@@ -29,8 +29,6 @@ import scala.collection.JavaConversions._
 
 object FacetedSearch extends FacetedSearchQueryableImpl
 
-// TODO: Provide method that returns every field e.g classification, with its instances?
-// Is this directly possible from ES. Then we don't need metadata in ES anymore.
 class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private val clientService = new ESTransportClient
@@ -43,7 +41,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   // Always remove these fields from the aggregation.
   private val defaultExcludedAggregations = List("content")
-  private val defaultAggregationSize = 10
+  private val defaultAggregationSize = 15
 
   private def aggregationFields(): List[String] = {
     val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(elasticSearchIndex)).get()
@@ -133,40 +131,14 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-object Testable extends App {
+/* object Testable extends App {
 
   val facets = Map(
     "Classification" -> List("CONFIDENTIAL"),
     "Tags" -> List("ASEC", "PREL")
   )
-  // scalastyle:off
-  // TODO: Find out why keywords, and dates are empty.
-  // Maybe its not keywords.raw
-  // FOr keywords its keyword.keyword because it's an array of object.
-  // println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
+
+  println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
   println(FacetedSearch.aggregate(Some("Clinton"), facets, "SignedBy", 4))
-  // scalastyle:on
-
-  // val hitIterator = FacetedSearch.searchDocuments(None, facets, 10)
-  // hitIterator.foreach(println(_))
-}
-
-/* var requestBuilder = clientService.client.prepareSearch()
-    .setQuery(createQuery(fullTextSearch, facets))
-    // We are only interested in the document id
-    .addFields("id")
-
-  val excluded = defaultExcludedAggregations ++ excludedAggregations
-  val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
-  for ((k, v) <- validAggregations) {
-    val agg = AggregationBuilders.terms(k)
-      .field(v)
-      .size(defaultAggregationSize)
-    requestBuilder = requestBuilder.addAggregation(agg)
-  }
-
-  val response = requestBuilder.execute().actionGet()
-  println(response)
-  // There is no need to call shutdown, since this node is the only
-  // one in the cluster.
-  parseResult(response, validAggregations) */ 
+  val hitIterator = FacetedSearch.searchDocuments(None, facets, 10)
+} */ 
