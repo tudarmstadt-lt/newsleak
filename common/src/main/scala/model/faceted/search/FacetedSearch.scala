@@ -27,11 +27,9 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import scala.collection.JavaConversions._
 // scalastyle:on
 
-sealed abstract class Bucket
-case class MetaDataBucket(key: String, docCount: Long) extends Bucket
-case class NodeBucket(id: Long, docCount: Long) extends Bucket
-case class Aggregation(key: String, buckets: List[Bucket])
-
+// TODO: parameter size per aggregation
+// TODO: Provide method that returns every field e.g classification, with its instances?
+// Is this directly possible from ES. Then we don't need metadata in ES anymore.
 object FacetedSearch {
 
   private val clientService = new ESTransportClient
@@ -42,12 +40,9 @@ object FacetedSearch {
     nodesField -> "entities.entId"
   ) ++ aggregationFields().map(k => k->s"$k.raw")
 
-  // TODO: Provide method that returns every field e.g classification, with its instances?
-  // Is this directly possible from ES. Then we don't need metadata in ES anymore.
-
   // Always remove these fields from the aggregation.
   private val defaultExcludedAggregations = List("content")
-  private val aggTermSize = 10
+  private val defaultTermSize = 10
 
   private def aggregationFields(): List[String] = {
     val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(elasticSearchIndex)).get()
@@ -107,26 +102,26 @@ object FacetedSearch {
    *                  "Tags" -> List("ASEC", "PREL")
    *               )
    *               FacetedSearch.search(facets)
+   * @param excludedAggregations given metadata keys will be excluded from the result. In the default
+    *                            case, aggregations for all available metadata will be executed. Use
+    *                            Exclude irrelevant fields to speed up the execution.
    *
    * @return Result contains aggregation for all available metadata and a subset of nodes that are
    *         prominent for the retrieved subset of documents.
    */
-  // TODO control parameter to remove aggregations like header
+  // TODO Add full-text search parameter
   def search(facets: Map[String, List[String]], excludedAggregations: List[String] = List()): List[Aggregation] = {
-
     var requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(facets))
       // We are only interested in the document id
       .addFields("id")
-    // .setSize(0)
 
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
     for ((k, v) <- validAggregations) {
       val agg = AggregationBuilders.terms(k)
         .field(v)
-        // TODO: parameter size per aggregation
-        .size(aggTermSize)
+        .size(defaultTermSize)
       requestBuilder = requestBuilder.addAggregation(agg)
     }
 
@@ -135,6 +130,25 @@ object FacetedSearch {
     // one in the cluster.
     parseResult(response, validAggregations)
   }
+
+  def scrollTest(facets: Map[String, List[String]]): SearchHitIterator = {
+    // val request = QueryBuilders.boolQuery()
+    // request.must(QueryBuilders.termQuery("Classification.raw", "CONFIDENTIAL"))
+
+    val requestBuilder = clientService.client.prepareSearch()
+      .setQuery(createQuery(facets))
+      .addFields("id", "Classification", "Tags")
+
+    // TODO: Check that the response is sorted by score
+    new SearchHitIterator(requestBuilder)
+  }
+
+
+  // Maybe have default aggreggationSize for each. Have a button in the frontend show all values.
+  // Only by clicking issue a request for all e.g tags. But how do we know, how much?
+  /* def search(facets: Map[String, List[String]], aggregationKey: String, size: Int): Aggregation = {
+
+  } */
 }
 
 object Testable extends App {
@@ -146,6 +160,12 @@ object Testable extends App {
   // scalastyle:off
   // TODO: Find out why keywords, and dates are empty.
   // Maybe its not keywords.raw
-  println(FacetedSearch.search(facets))
+  // println(FacetedSearch.search(facets, List("Header")))
   // scalastyle:on
+
+
+  // TODO: id needs to be fieldable :P
+  // val hitIterator = FacetedSearch.scrollTest(facets)
+  // val fieldIterator = hitIterator.map(hit => hit.field("Classification").getValue[String])
+  // fieldIterator.foreach(println(_))
 }
