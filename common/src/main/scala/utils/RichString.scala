@@ -17,6 +17,8 @@
 
 package utils
 
+import scala.util.control.Exception.catching
+
 /**
  * Implements additional methods for [[String]].
  * @param underlying the wrapped string.
@@ -27,6 +29,8 @@ class RichString(underlying: String) {
    * Returns the words of the underlying text.
    */
   def words(): List[String] = underlying.split("\\W+").filter(_.nonEmpty).toList
+
+  def toLongOpt(): Option[Long] = catching(classOf[NumberFormatException]) opt underlying.toInt
 }
 
 /**

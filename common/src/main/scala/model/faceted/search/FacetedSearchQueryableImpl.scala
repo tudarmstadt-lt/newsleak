@@ -19,13 +19,15 @@ package model.faceted.search
 
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders}
+import org.elasticsearch.index.query.{QueryBuilder, QueryBuilders}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 
 // scalastyle:off
 import scala.collection.JavaConversions._
 // scalastyle:on
+
+import utils.RichString.richString
 
 object FacetedSearch extends FacetedSearchQueryableImpl
 
@@ -40,7 +42,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
 
   // Always remove these fields from the aggregation.
-  private val defaultExcludedAggregations = List("content")
+  private val defaultExcludedAggregations = List("Content")
   private val defaultAggregationSize = 15
 
   private def aggregationFields(): List[String] = {
@@ -54,7 +56,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     terms.toList
   }
 
-  private def createQuery(fullTextSearch: Option[String], facets: Map[String, List[String]]): BoolQueryBuilder = {
+  private def createQuery(fullTextSearch: Option[String], facets: Map[String, List[String]]): QueryBuilder = {
     val request = QueryBuilders.boolQuery()
     // Search for given facets
     facets.map {
@@ -64,9 +66,18 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         v.map(meta => filter.must(QueryBuilders.termQuery(s"$k.raw", meta)))
         request.must(filter)
     }
+
+    if(fullTextSearch.isEmpty && facets.isEmpty) {
+      QueryBuilders.matchAllQuery()
+    }
     // Search for full text string if available
-    val fullTextQuery = QueryBuilders.matchQuery("content", fullTextSearch)
-    if (fullTextSearch.isDefined) request.must(fullTextQuery) else request
+    else if (fullTextSearch.isDefined) {
+      val fullTextQuery = QueryBuilders.matchQuery("Content", fullTextSearch)
+      request.must(fullTextQuery)
+    }
+    else {
+      request
+    }
   }
 
   /**
@@ -92,7 +103,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       .setQuery(createQuery(fullTextSearch, facets))
       .setSize(pageSize)
 
-    new SearchHitIterator(requestBuilder).map(_.id().toLong)
+    // TODO: We have to figure out, why this returns "4.4.0" with source name kibana as id when we use a matchAllQuery
+    new SearchHitIterator(requestBuilder).flatMap(_.id().toLongOpt())
   }
 
   override def aggregateAll(
@@ -139,6 +151,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   )
 
   println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
-  println(FacetedSearch.aggregate(Some("Clinton"), facets, "SignedBy", 4))
-  val hitIterator = FacetedSearch.searchDocuments(None, facets, 10)
-} */ 
+  println(FacetedSearch.aggregate(None, Map(), "SignedBy", 4))
+  val hitIterator = FacetedSearch.searchDocuments(None, Map(), 21)
+} */

@@ -21,7 +21,7 @@ import org.elasticsearch.action.search.SearchRequestBuilder
 import org.elasticsearch.search.SearchHit
 
 /**
- * Custom implementation for paging results. ES implemented Scrolling is not intended for real time user requests,
+ * Custom implementation for paging results. ES implemented scrolling is not intended for real time user requests,
  * but rather for processing large amounts of data, e.g. in order to reindex the contents of one index into a
  * new index with a different configuration
  * See:
