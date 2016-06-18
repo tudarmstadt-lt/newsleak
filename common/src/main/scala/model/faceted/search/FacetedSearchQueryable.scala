@@ -17,6 +17,8 @@
 
 package model.faceted.search
 
+import model.EntityType
+
 trait FacetedSearchQueryable {
 
   /**
@@ -46,6 +48,12 @@ trait FacetedSearchQueryable {
    * @return
    */
   def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation]
+
+
+  def aggregateKeywords(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
+
+  def aggregateEntities(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
+
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations

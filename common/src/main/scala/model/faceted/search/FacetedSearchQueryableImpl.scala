@@ -17,6 +17,7 @@
 
 package model.faceted.search
 
+import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.{QueryBuilder, QueryBuilders}
@@ -35,8 +36,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private val clientService = new ESTransportClient
   private val elasticSearchIndex = "cable"
-  private val keywordsField = "keywords" -> "keywords.keyword.raw"
-  private val nodesField = "entities" -> "entities.entId"
+  // These two fields differ from the generic metadata
+  private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
+  private val nodesField = "Entities" -> "Entities.EntId"
 
   private lazy val aggregationToField =
     aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
@@ -86,7 +88,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)]): List[Aggregation] = {
     val res = aggregations.collect {
       // Create node bucket for entities
-      case (k, (v, s)) if k == nodesField =>
+      case (k, (v, s)) if k == nodesField._1 =>
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.map(b => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)).toList
         Aggregation(k, buckets)
@@ -123,6 +125,14 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     aggregate(fullTextSearch, facets, Map(aggregationKey -> (field, size))).headOption
   }
 
+  override def aggregateKeywords(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation = {
+    aggregate(fullTextSearch, facets, keywordsField._1, size).get
+  }
+
+  override def aggregateEntities(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation = {
+    aggregate(fullTextSearch, facets, nodesField._1, size).get
+  }
+
   private def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggs: Map[String, (String, Int)]): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(fullTextSearch, facets))
@@ -151,6 +161,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   )
 
   println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
-  println(FacetedSearch.aggregate(None, Map(), "SignedBy", 4))
+  println(FacetedSearch.aggregate(None, Map(), "Entities", 4))
+  println(FacetedSearch.aggregateKeywords(None, Map(), 4))
   val hitIterator = FacetedSearch.searchDocuments(None, Map(), 21)
 } */
