@@ -17,7 +17,6 @@
 
 package model.faceted.search
 
-import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.{QueryBuilder, QueryBuilders}
@@ -69,15 +68,13 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         request.must(filter)
     }
 
-    if(fullTextSearch.isEmpty && facets.isEmpty) {
+    if (fullTextSearch.isEmpty && facets.isEmpty) {
       QueryBuilders.matchAllQuery()
-    }
-    // Search for full text string if available
+    } // Search for full text string if available
     else if (fullTextSearch.isDefined) {
       val fullTextQuery = QueryBuilders.matchQuery("Content", fullTextSearch)
       request.must(fullTextQuery)
-    }
-    else {
+    } else {
       request
     }
   }
@@ -112,12 +109,13 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   override def aggregateAll(
     fullTextSearch: Option[String],
     facets: Map[String, List[String]],
+    size: Int = defaultAggregationSize,
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    aggregate(fullTextSearch, facets, validAggregations.map { case (k, v) => (k, (v, defaultAggregationSize)) })
+    aggregate(fullTextSearch, facets, validAggregations.map { case (k, v) => (k, (v, size)) })
   }
 
   override def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation] = {
@@ -153,15 +151,15 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object Testable extends App {
+/*object Testable extends App {
 
   val facets = Map(
     "Classification" -> List("CONFIDENTIAL"),
     "Tags" -> List("ASEC", "PREL")
   )
 
-  println(FacetedSearch.aggregateAll(Some("Clinton"), facets, List("Header")))
+  println(FacetedSearch.aggregateAll(Some("Clinton"), facets, 4, List("Header")))
   println(FacetedSearch.aggregate(None, Map(), "Entities", 4))
   println(FacetedSearch.aggregateKeywords(None, Map(), 4))
   val hitIterator = FacetedSearch.searchDocuments(None, Map(), 21)
-} */
+}*/ 

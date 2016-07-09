@@ -49,11 +49,9 @@ trait FacetedSearchQueryable {
    */
   def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation]
 
-
   def aggregateKeywords(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
 
   def aggregateEntities(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
-
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations
@@ -82,5 +80,5 @@ trait FacetedSearchQueryable {
    * @return Result contains aggregation for all available metadata and a subset of nodes that are
    *         prominent for the retrieved subset of documents.
    */
-  def aggregateAll(fullTextSearch: Option[String], facets: Map[String, List[String]], excludedAggregations: List[String] = List()): List[Aggregation]
+  def aggregateAll(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int, excludedAggregations: List[String] = List()): List[Aggregation]
 }
