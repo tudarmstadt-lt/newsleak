@@ -17,8 +17,6 @@
 
 package model.faceted.search
 
-import model.EntityType
-
 trait FacetedSearchQueryable {
 
   /**
@@ -35,7 +33,7 @@ trait FacetedSearchQueryable {
    *                 elements from the data store. Recommended value 10.
    * @return
    */
-  def searchDocuments(fullTextSearch: Option[String], facets: Map[String, List[String]], pageSize: Int): Iterator[Long]
+  def searchDocuments(facets: Facets, pageSize: Int): Iterator[Long]
 
   /**
    * Example:
@@ -47,11 +45,11 @@ trait FacetedSearchQueryable {
    * @param size
    * @return
    */
-  def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation]
+  def aggregate(facets: Facets, aggregationKey: String, size: Int): Option[Aggregation]
 
-  def aggregateKeywords(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
+  def aggregateKeywords(facets: Facets, size: Int): Aggregation
 
-  def aggregateEntities(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation
+  def aggregateEntities(facets: Facets, size: Int): Aggregation
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations
@@ -80,5 +78,5 @@ trait FacetedSearchQueryable {
    * @return Result contains aggregation for all available metadata and a subset of nodes that are
    *         prominent for the retrieved subset of documents.
    */
-  def aggregateAll(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int, excludedAggregations: List[String] = List()): List[Aggregation]
+  def aggregateAll(facets: Facets, size: Int, excludedAggregations: List[String] = List()): List[Aggregation]
 }

@@ -57,10 +57,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     terms.toList
   }
 
-  private def createQuery(fullTextSearch: Option[String], facets: Map[String, List[String]]): QueryBuilder = {
+  private def createQuery(facets: Facets): QueryBuilder = {
     val request = QueryBuilders.boolQuery()
-    // Search for given facets
-    facets.map {
+    // Search for generic facets
+    facets.generic.map {
       case (k, v) =>
         val filter = QueryBuilders.boolQuery()
         // Query for raw field
@@ -68,11 +68,17 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         request.must(filter)
     }
 
-    if (fullTextSearch.isEmpty && facets.isEmpty) {
+    val entitiesFilter = QueryBuilders.boolQuery()
+    facets.entities.map { e =>
+      entitiesFilter.must(QueryBuilders.termQuery(nodesField._2, e))
+    }
+    request.must(entitiesFilter)
+
+    if (facets.fullTextSearch.isEmpty && facets.generic.isEmpty) {
       QueryBuilders.matchAllQuery()
     } // Search for full text string if available
-    else if (fullTextSearch.isDefined) {
-      val fullTextQuery = QueryBuilders.matchQuery("Content", fullTextSearch)
+    else if (facets.fullTextSearch.isDefined) {
+      val fullTextQuery = QueryBuilders.matchQuery("Content", facets.fullTextSearch.get)
       request.must(fullTextQuery)
     } else {
       request
@@ -97,9 +103,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     res.toList
   }
 
-  override def searchDocuments(fullTextSearch: Option[String], facets: Map[String, List[String]], pageSize: Int): Iterator[Long] = {
+  override def searchDocuments(facets: Facets, pageSize: Int): Iterator[Long] = {
     val requestBuilder = clientService.client.prepareSearch()
-      .setQuery(createQuery(fullTextSearch, facets))
+      .setQuery(createQuery(facets))
       .setSize(pageSize)
 
     // TODO: We have to figure out, why this returns "4.4.0" with source name kibana as id when we use a matchAllQuery
@@ -107,33 +113,32 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def aggregateAll(
-    fullTextSearch: Option[String],
-    facets: Map[String, List[String]],
+    facets: Facets,
     size: Int = defaultAggregationSize,
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    aggregate(fullTextSearch, facets, validAggregations.map { case (k, v) => (k, (v, size)) })
+    aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) })
   }
 
-  override def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggregationKey: String, size: Int): Option[Aggregation] = {
+  override def aggregate(facets: Facets, aggregationKey: String, size: Int): Option[Aggregation] = {
     val field = aggregationToField(aggregationKey)
-    aggregate(fullTextSearch, facets, Map(aggregationKey -> (field, size))).headOption
+    aggregate(facets, Map(aggregationKey -> (field, size))).headOption
   }
 
-  override def aggregateKeywords(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation = {
-    aggregate(fullTextSearch, facets, keywordsField._1, size).get
+  override def aggregateKeywords(facets: Facets, size: Int): Aggregation = {
+    aggregate(facets, keywordsField._1, size).get
   }
 
-  override def aggregateEntities(fullTextSearch: Option[String], facets: Map[String, List[String]], size: Int): Aggregation = {
-    aggregate(fullTextSearch, facets, nodesField._1, size).get
+  override def aggregateEntities(facets: Facets, size: Int): Aggregation = {
+    aggregate(facets, nodesField._1, size).get
   }
 
-  private def aggregate(fullTextSearch: Option[String], facets: Map[String, List[String]], aggs: Map[String, (String, Int)]): List[Aggregation] = {
+  private def aggregate(facets: Facets, aggs: Map[String, (String, Int)]): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch()
-      .setQuery(createQuery(fullTextSearch, facets))
+      .setQuery(createQuery(facets))
       // We are only interested in the document id
       .addFields("id")
 
@@ -154,12 +159,15 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 /*object Testable extends App {
 
   val facets = Map(
-    "Classification" -> List("CONFIDENTIAL"),
-    "Tags" -> List("ASEC", "PREL")
+    "Classification" -> List("CONFIDENTIAL") //,
+   // "Tags" -> List("ASEC", "PREL")
   )
 
-  println(FacetedSearch.aggregateAll(Some("Clinton"), facets, 4, List("Header")))
-  println(FacetedSearch.aggregate(None, Map(), "Entities", 4))
-  println(FacetedSearch.aggregateKeywords(None, Map(), 4))
-  val hitIterator = FacetedSearch.searchDocuments(None, Map(), 21)
+  val f = Facets(None, facets, List(21), None, None)
+
+  println(FacetedSearch.aggregateAll(f, 4, List("Header")))
+  println(FacetedSearch.aggregate(f, "Entities", 4))
+  println(FacetedSearch.aggregateKeywords(f, 4))
+  val hitIterator = FacetedSearch.searchDocuments(f, 21)
+  hitIterator.foreach(d => println(d))
 }*/ 
