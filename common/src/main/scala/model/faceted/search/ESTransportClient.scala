@@ -23,19 +23,23 @@ import org.elasticsearch.client.Client
 import org.elasticsearch.client.transport.TransportClient
 import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.transport.InetSocketTransportAddress
+import utils.MyDBs
 
 /**
  * Wrapper around an ElasticSearch {@link TransportClient} node.
  */
 class ESTransportClient extends SearchClientService {
 
-  private val clusterName = "NewsLeaksCluster"
+  private val clusterName = MyDBs.config.getString("es.clustername")
+  private val address = MyDBs.config.getString("es.address")
+  private val port = MyDBs.config.getInt("es.port")
+
   private val settings = Settings.settingsBuilder()
     .put("cluster.name", clusterName).build()
 
   // scalastyle:off
   private lazy val transportClient = TransportClient.builder().settings(settings).build()
-    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9501))
+    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(address), port))
   // scalastyle:on
 
   override def client: Client = transportClient
