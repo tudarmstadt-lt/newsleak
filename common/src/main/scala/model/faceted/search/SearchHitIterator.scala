@@ -32,26 +32,27 @@ import org.elasticsearch.search.SearchHit
 class SearchHitIterator(request: SearchRequestBuilder) extends Iterator[SearchHit] {
 
   private var searchHitCounter = 0
-  private var currentResultIndex = -1
-  private lazy val currentPageResults = scroll()
+  private var currentResultIndex = 0
+  private var currentPageResults = scroll()
 
   private def scroll(): Array[SearchHit] = {
-    currentResultIndex = -1
+    currentResultIndex = 0
     val paginatedRequestBuilder = request.setFrom(searchHitCounter)
     val response = paginatedRequestBuilder.execute().actionGet()
     response.getHits.getHits()
   }
 
-  override def hasNext: Boolean = currentPageResults.length >= 1
+  override def hasNext: Boolean = currentPageResults.length > currentResultIndex
 
   override def next(): SearchHit = {
 
-    if (currentResultIndex + 1 >= currentPageResults.length) {
-      scroll()
+    if (currentResultIndex >= currentPageResults.length) {
+      currentPageResults = scroll()
     }
+
+    val hits = currentPageResults(currentResultIndex)
     searchHitCounter += 1
     currentResultIndex += 1
-
-    currentPageResults(currentResultIndex)
+    hits
   }
 }
