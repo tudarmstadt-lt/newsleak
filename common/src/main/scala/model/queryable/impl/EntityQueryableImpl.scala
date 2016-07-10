@@ -115,10 +115,10 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
     entityCount == 1
   }
 
-  override def merge(focalId: Int, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
+  override def merge(focalId: Long, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
     val sumFreq = duplicates.flatMap { id =>
-      // Override each document occurrence with the focalId
-      sql"UPDATE documententity SET entityid = ${focalId} WHERE entityid = ${id}".update().apply()
+
+      updateDocumentOccurrences(focalId, id)
       // Need to override relationship both directions, since relationships table is symmetric
       sql"UPDATE relationship SET entity1 = ${focalId} WHERE entity1 = ${id}".update().apply()
       sql"UPDATE relationship SET entity2 = ${focalId} WHERE entity2 = ${id}".update().apply()
@@ -131,6 +131,23 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
 
     val count = sql"UPDATE entity SET frequency = frequency + ${sumFreq} WHERE id = ${focalId}".update().apply()
     count == 1
+  }
+
+  private def updateDocumentOccurrences(focalId: Long, duplicateId: Long)(implicit session: DBSession): Unit = {
+    val docOccurrences = sql"SELECT frequency, docid FROM documententity WHERE entityid = ${duplicateId}"
+      .map(rs => (rs.long("docid"), rs.long("frequency"))).list().apply()
+
+    docOccurrences.foreach {
+      case (docId, frequency) =>
+        // Check if focal node is also present in this document then update and delete duplicate else override keys
+        val row = sql"SELECT COUNT(1) AS C FROM documententity WHERE entityid = ${focalId} AND docid = ${docId}".map(_.long("C")).toOption().apply()
+        if (row.isDefined) {
+          sql"UPDATE documententity SET frequency = frequency + ${frequency} WHERE entityid = ${focalId}".update().apply()
+          sql"DELETE FROM documententity WHERE entityid = ${duplicateId}".update().apply()
+        } else {
+          sql"UPDATE documententity SET entityid = ${focalId} WHERE entityid = ${duplicateId}".update().apply()
+        }
+    }
   }
 
   override def changeName(entityId: Long, newName: String): Boolean = connector.localTx { implicit session =>

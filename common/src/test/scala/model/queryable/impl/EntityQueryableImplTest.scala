@@ -49,6 +49,8 @@ class EntityQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRol
       sql"INSERT INTO entity VALUES (4, ${"Angela Merkel"}, ${"ORG"}, 4, false)".update.apply()
       // Angela Brecht occurs in the first document 10 times
       sql"INSERT INTO documententity VALUES (1, 2, 10)".update.apply()
+      // Angela Merkel occurs in the first document 2 times
+      sql"INSERT INTO documententity VALUES (1, 1, 2)".update.apply()
       // Relation: Angela Merkel - Angela Brecht with frequency 3
       sql"INSERT INTO relationship VALUES (1, 1, 2, 3, false)".update.apply()
     }

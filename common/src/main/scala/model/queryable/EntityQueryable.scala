@@ -139,7 +139,7 @@ trait EntityQueryable {
    * @param duplicates entities to remove
    * @return <code>True</code> if successful. <code>False</code>, otherwise.
    */
-  def merge(focalId: Int, duplicates: List[Long]): Boolean
+  def merge(focalId: Long, duplicates: List[Long]): Boolean
 
   /**
    * Changes the Name for an entity associated with the
