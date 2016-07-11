@@ -42,14 +42,16 @@ class SearchHitIterator(request: SearchRequestBuilder) extends Iterator[SearchHi
     response.getHits.getHits()
   }
 
-  override def hasNext: Boolean = currentPageResults.length > currentResultIndex
-
-  override def next(): SearchHit = {
-
+  override def hasNext: Boolean = {
     if (currentResultIndex >= currentPageResults.length) {
       currentPageResults = scroll()
+      currentPageResults.length >= 1
+    } else {
+      true
     }
+  }
 
+  override def next(): SearchHit = {
     val hits = currentPageResults(currentResultIndex)
     searchHitCounter += 1
     currentResultIndex += 1
