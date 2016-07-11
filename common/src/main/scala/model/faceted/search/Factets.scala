@@ -20,11 +20,23 @@ package model.faceted.search
 import org.joda.time.LocalDateTime
 
 // Builder pattern
+/**
+ *
+ * @param fullTextSearch
+ * @param generic
+ * @param entities
+ * @param fromDate inclusive
+ * @param toDate inclusive
+ */
 case class Facets(
-  fullTextSearch: Option[String],
-  generic: Map[String, List[String]],
-  entities: List[Long],
-  fromDate: Option[LocalDateTime],
-  toDate: Option[LocalDateTime]
-)
+    fullTextSearch: Option[String],
+    generic: Map[String, List[String]],
+    entities: List[Long],
+    fromDate: Option[LocalDateTime],
+    toDate: Option[LocalDateTime]
+) {
+
+  def isEmpty(): Boolean = fullTextSearch.isEmpty && generic.isEmpty && entities.isEmpty && !hasDateFilter
+  def hasDateFilter(): Boolean = fromDate.isDefined || toDate.isDefined
+}
 

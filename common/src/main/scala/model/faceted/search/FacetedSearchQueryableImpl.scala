@@ -19,9 +19,10 @@ package model.faceted.search
 
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.index.query.{QueryBuilder, QueryBuilders}
+import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders, QueryBuilder}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
+import org.joda.time.format.DateTimeFormat
 
 // scalastyle:off
 import scala.collection.JavaConversions._
@@ -38,6 +39,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val nodesField = "Entities" -> "Entities.EntId"
+
+  private val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
   private lazy val aggregationToField =
     aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
@@ -58,30 +61,60 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   private def createQuery(facets: Facets): QueryBuilder = {
-    val request = QueryBuilders.boolQuery()
+    if (facets.isEmpty) {
+      QueryBuilders.matchAllQuery()
+    } else {
+      val request = QueryBuilders.boolQuery()
+      request
+        .must(addFulltextQuery(facets))
+        .must(addGenericFilter(facets))
+        .must(addEntitiesFilter(facets))
+        .must(addDateFilter(facets))
+
+      request
+    }
+  }
+
+  private def addFulltextQuery(facets: Facets): BoolQueryBuilder = {
+    val query = QueryBuilders.boolQuery()
+    facets.fullTextSearch.map(t => query.must(QueryBuilders.matchQuery("Content", t)))
+    query
+  }
+
+  private def addGenericFilter(facets: Facets): BoolQueryBuilder = {
     // Search for generic facets
-    facets.generic.map {
+    val query = QueryBuilders.boolQuery()
+    facets.generic.foreach {
       case (k, v) =>
         val filter = QueryBuilders.boolQuery()
         // Query for raw field
         v.map(meta => filter.must(QueryBuilders.termQuery(s"$k.raw", meta)))
-        request.must(filter)
+        query.must(filter)
     }
+    query
+  }
 
+  private def addEntitiesFilter(facets: Facets): BoolQueryBuilder = {
     val entitiesFilter = QueryBuilders.boolQuery()
     facets.entities.map { e =>
       entitiesFilter.must(QueryBuilders.termQuery(nodesField._2, e))
     }
-    request.must(entitiesFilter)
+    entitiesFilter
+  }
 
-    if (facets.fullTextSearch.isEmpty && facets.generic.isEmpty) {
-      QueryBuilders.matchAllQuery()
-    } // Search for full text string if available
-    else if (facets.fullTextSearch.isDefined) {
-      val fullTextQuery = QueryBuilders.matchQuery("Content", facets.fullTextSearch.get)
-      request.must(fullTextQuery)
+  private def addDateFilter(facets: Facets): BoolQueryBuilder = {
+    val query = QueryBuilders.boolQuery()
+    if (facets.fromDate.isDefined || facets.toDate.isDefined) {
+      val dateFilter = QueryBuilders
+        .rangeQuery("Created")
+        .format("yyyy-MM-dd")
+
+      val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(dateFormat))).getOrElse(dateFilter)
+      val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(dateFormat))).getOrElse(gteFilter)
+
+      query.must(lteFilter)
     } else {
-      request
+      query
     }
   }
 
@@ -156,18 +189,30 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/*object Testable extends App {
+/* object Testable extends App {
 
-  val facets = Map(
-    "Classification" -> List("CONFIDENTIAL") //,
-   // "Tags" -> List("ASEC", "PREL")
+  val genericSimple = Map(
+    "Classification" -> List("CONFIDENTIAL")
   )
 
-  val f = Facets(None, facets, List(21), None, None)
+  val genericComplex = Map(
+    "Classification" -> List("CONFIDENTIAL"),
+    "Tags" -> List("ASEC", "PREL")
+  )
 
-  println(FacetedSearch.aggregateAll(f, 4, List("Header")))
-  println(FacetedSearch.aggregate(f, "Entities", 4))
-  println(FacetedSearch.aggregateKeywords(f, 4))
-  val hitIterator = FacetedSearch.searchDocuments(f, 21)
+  // Any format (e.g yyyy, yyyy-MM-dd, ...) of LocalDateTime is supported
+  val from = LocalDateTime.parse("1960", DateTimeFormat.forPattern("yyyy"))
+  val to = LocalDateTime.parse("1969", DateTimeFormat.forPattern("yyyy"))
+
+  val emptyFacets = Facets(None, Map(), List(), None, None)
+  val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
+  val entityFacets = Facets(None, genericSimple, List(21), None, None)
+
+
+  // println(FacetedSearch.aggregateAll(f, 4, List("Header")))
+  // println(FacetedSearch.aggregate(f, "Entities", 4))
+  // println(FacetedSearch.aggregateKeywords(f, 4))
+  // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
+  val hitIterator = FacetedSearch.searchDocuments(entityFacets, 21)
   hitIterator.foreach(d => println(d))
-}*/ 
+} */ 
