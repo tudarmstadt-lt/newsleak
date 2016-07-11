@@ -45,7 +45,7 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
 
   override def getByNamePattern(name: String): List[Entity] = connector.readOnly { implicit session =>
     val like = s"%$name%"
-    sql"SELECT * FROM entity WHERE name ILike ${like} AND NOT isblacklisted".map(Entity(_)).list.apply()
+    sql"SELECT * FROM entity WHERE name ILike ${like} AND NOT isblacklisted ORDER BY frequency DESC".map(Entity(_)).list.apply()
   }
 
   override def getByType(entityType: EntityType.Value): List[Entity] = connector.readOnly { implicit session =>
