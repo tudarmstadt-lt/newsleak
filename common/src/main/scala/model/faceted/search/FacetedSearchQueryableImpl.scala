@@ -22,7 +22,7 @@ import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders, QueryBuilder}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
-// import org.joda.time.LocalDateTime
+import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 
 // scalastyle:off
@@ -109,6 +109,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val dateFilter = QueryBuilders
         .rangeQuery("Created")
         .format("yyyy-MM-dd")
+        .timeZone("+01:00")
 
       val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(dateFormat))).getOrElse(dateFilter)
       val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(dateFormat))).getOrElse(gteFilter)
@@ -202,8 +203,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   )
 
   // Any format (e.g yyyy, yyyy-MM-dd, ...) of LocalDateTime is supported
-  val from = LocalDateTime.parse("1960", DateTimeFormat.forPattern("yyyy"))
-  val to = LocalDateTime.parse("1969", DateTimeFormat.forPattern("yyyy"))
+  val from = LocalDateTime.parse("1966-12-28", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val to = LocalDateTime.parse("1966-12-28", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
   val emptyFacets = Facets(None, Map(), List(), None, None)
   val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
@@ -211,10 +212,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val complexFacets = Facets(None, genericComplex, List(), None, None)
 
 
-  println(FacetedSearch.aggregateAll(complexFacets, 10, List("Header")))
+  //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   //println(FacetedSearch.aggregate(emptyFacets, "Entities", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
-  //val hitIterator = FacetedSearch.searchDocuments(entityFacets, 21)
-  //hitIterator.foreach(d => println(d))
-} */
+  val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
+  hitIterator.foreach(d => println(d))
+} */ 
