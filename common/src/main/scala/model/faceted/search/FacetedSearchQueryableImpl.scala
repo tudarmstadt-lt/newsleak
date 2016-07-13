@@ -22,6 +22,7 @@ import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders, QueryBuilder}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
+// import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 
 // scalastyle:off
@@ -88,7 +89,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       case (k, v) =>
         val filter = QueryBuilders.boolQuery()
         // Query for raw field
-        v.map(meta => filter.must(QueryBuilders.termQuery(s"$k.raw", meta)))
+        v.map(meta => filter.should(QueryBuilders.termQuery(s"$k.raw", meta)))
         query.must(filter)
     }
     query
@@ -196,7 +197,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   )
 
   val genericComplex = Map(
-    "Classification" -> List("CONFIDENTIAL"),
+    "Classification" -> List("CONFIDENTIAL", "UNCLASSIFIED"),
     "Tags" -> List("ASEC", "PREL")
   )
 
@@ -207,12 +208,13 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val emptyFacets = Facets(None, Map(), List(), None, None)
   val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
   val entityFacets = Facets(None, genericSimple, List(21), None, None)
+  val complexFacets = Facets(None, genericComplex, List(), None, None)
 
 
-  // println(FacetedSearch.aggregateAll(f, 4, List("Header")))
-  // println(FacetedSearch.aggregate(f, "Entities", 4))
+  println(FacetedSearch.aggregateAll(complexFacets, 10, List("Header")))
+  //println(FacetedSearch.aggregate(emptyFacets, "Entities", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
-  val hitIterator = FacetedSearch.searchDocuments(entityFacets, 21)
-  hitIterator.foreach(d => println(d))
-} */ 
+  //val hitIterator = FacetedSearch.searchDocuments(entityFacets, 21)
+  //hitIterator.foreach(d => println(d))
+} */
