@@ -50,6 +50,8 @@ class RelationshipQueryableImpl extends RelationshipQueryable with DBSettings {
        """.map(Relationship(_)).list.apply()
   }
 
+  override def getByEntities(entities: List[Long]): List[Relationship] = entities.flatMap(getByEntity).distinct
+
   override def getByEntity(entityId: Long, docId: Long): List[Relationship] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM relationship r
             INNER JOIN documentrelationship dr ON r.id = dr.relid

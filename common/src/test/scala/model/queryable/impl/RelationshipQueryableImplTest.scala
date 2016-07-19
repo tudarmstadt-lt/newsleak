@@ -17,12 +17,12 @@
 
 package model.queryable.impl
 
+import model.Relationship
 import scalikejdbc.NamedDB
 import testFactories.{DatabaseRollback, FlatSpecWithDatabaseTrait}
 
 // scalastyle:off
 import scalikejdbc._
-// scalastyle:on
 
 class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRollback {
 
@@ -37,14 +37,20 @@ class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with Datab
 
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>
-      sql"INSERT INTO relationship VALUES (1, 1, 2, 3, false)".update.apply()
-      sql"INSERT INTO relationship VALUES (2, 3, 4, 10, true)".update.apply()
+      // Graph 1
+      // A (blacklisted) <-------> B, C <--- blacklisted ---> D
+      RelationshipTestFixture.insertRelationship((1, true), (2, false)) // Rel 1
+      RelationshipTestFixture.insertRelationship((3, false), (4, false), true) // Rel 2
 
-      sql"INSERT INTO entity VALUES (1, ${"Angela Merkel"}, ${"PER"}, 7, true)".update.apply()
+      // Graph 2
+      // A -> B, B -> C, C -> A
+      RelationshipTestFixture.insertRelationship((5, false), (6, false)) // Rel 3
+      RelationshipTestFixture.insertRelationship((6, false), (7, false)) // Rel 4
+      RelationshipTestFixture.insertRelationship((7, false), (5, false)) // Rel 5
     }
   }
 
-  "deleteRelationship" should "set the backlist flag to true" in {
+  "deleteRelationship" should "set the blacklist flag to true" in {
     uut.delete(1)
     val actual = testDatabase.readOnly { implicit session =>
       sql"SELECT isBlacklisted FROM relationship WHERE id = 1".map(_.boolean("isBlacklisted")).single().apply()
@@ -53,18 +59,46 @@ class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with Datab
     assert(actual)
   }
 
+  "getById" should "return relationship" in {
+    val actual = uut.getById(3).getOrElse(fail("Return value shouldn't be None"))
+    val expected = Relationship(3, 5, 6, 0)
+
+    assert(actual == expected)
+  }
+
   "getById" should "not return blacklisted relationships" in {
     val actual = uut.getById(2)
-    assert(!actual.isDefined)
+    assert(actual.isEmpty)
   }
 
   "getById" should "not return relationships if one participating entity is blacklisted" in {
     val actual = uut.getById(1)
-    assert(!actual.isDefined)
+    assert(actual.isEmpty)
   }
 
-  "getByEntity" should "not return relationship if entity is blacklisted" in {
+  "getByEntity" should "not return relationship if source entity is blacklisted" in {
     val actual = uut.getByEntity(1)
     assert(actual.isEmpty)
+  }
+
+  "getByEntity" should "not return relationship if target entity is blacklisted" in {
+    val actual = uut.getByEntity(2)
+    assert(actual.isEmpty)
+  }
+
+  "getByEntities" should "not return relationship if source entity is blacklisted" in {
+    val actual = uut.getByEntities(List(1))
+    assert(actual.isEmpty)
+  }
+
+  "getByEntities" should "not return relationship if target entity is blacklisted" in {
+    val actual = uut.getByEntities(List(2))
+    assert(actual.isEmpty)
+  }
+
+  "getByEntities" should "induce complete sub graph with no duplicates" in {
+    val actual = uut.getByEntities(List(5, 6, 7, 8)).map(_.id)
+    val expected = List(3, 4, 5)
+    assert(actual == expected)
   }
 }

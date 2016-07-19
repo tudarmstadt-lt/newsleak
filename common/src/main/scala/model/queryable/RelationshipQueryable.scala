@@ -36,6 +36,15 @@ trait RelationshipQueryable {
   def getByEntity(entityId: Long): List[Relationship]
 
   /**
+   * Returns all [[Relationship]]s where one of the [[model.Entity]] from the
+   * given list participates. This basically induces a sub graph for a given
+   * list of entities.
+   * @param entities the ids of the [[model.Entity]] to search for.
+   * @return List[Relationship]
+   */
+  def getByEntities(entities: List[Long]): List[Relationship]
+
+  /**
    * Returns all [[Relationship]]s per document where an [[model.Entity]] participates.
    * @param entityId the [[model.Entity]] id
    * @param docId the [[model.Document]] id
