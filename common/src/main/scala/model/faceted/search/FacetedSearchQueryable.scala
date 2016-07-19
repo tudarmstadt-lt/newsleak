@@ -39,13 +39,13 @@ trait FacetedSearchQueryable {
    * Example:
    * aggregate(Some("Clinton"), facets, "SignedBy", 4)
    *
-   * @param fullTextSearch
    * @param facets
    * @param aggregationKey
    * @param size
+   * @param filter the response will only contain the instances given in this list.
    * @return
    */
-  def aggregate(facets: Facets, aggregationKey: String, size: Int): Option[Aggregation]
+  def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String] = Nil): Option[Aggregation]
 
   def aggregateKeywords(facets: Facets, size: Int): Aggregation
 

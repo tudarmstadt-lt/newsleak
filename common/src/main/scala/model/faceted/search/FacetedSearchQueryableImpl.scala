@@ -155,12 +155,12 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) })
+    aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
-  override def aggregate(facets: Facets, aggregationKey: String, size: Int): Option[Aggregation] = {
+  override def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String]): Option[Aggregation] = {
     val field = aggregationToField(aggregationKey)
-    aggregate(facets, Map(aggregationKey -> (field, size))).headOption
+    aggregate(facets, Map(aggregationKey -> (field, size)), include).headOption
   }
 
   override def aggregateKeywords(facets: Facets, size: Int): Aggregation = {
@@ -171,7 +171,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     aggregate(facets, nodesField._1, size).get
   }
 
-  private def aggregate(facets: Facets, aggs: Map[String, (String, Int)]): List[Aggregation] = {
+  private def aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String]): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(facets))
       // We are only interested in the document id
@@ -181,7 +181,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val agg = AggregationBuilders.terms(k)
         .field(v)
         .size(size)
-      requestBuilder = requestBuilder.addAggregation(agg)
+
+      // Apply filter to the aggregation request
+      val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
+      requestBuilder = requestBuilder.addAggregation(filteredAgg)
     }
 
     val response = requestBuilder.execute().actionGet()
@@ -191,7 +194,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object Testable extends App {
+/*object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -213,9 +216,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  //println(FacetedSearch.aggregate(emptyFacets, "Entities", 4))
+  println(FacetedSearch.aggregate(emptyFacets, "Tags", 4, List("PREL", "ASEC")))
+  //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
-  val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
-  hitIterator.foreach(d => println(d))
-} */ 
+
+  //val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
+  //hitIterator.foreach(d => println(d))
+}*/ 
