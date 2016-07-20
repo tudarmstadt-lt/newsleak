@@ -109,7 +109,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val dateFilter = QueryBuilders
         .rangeQuery("Created")
         .format("yyyy-MM-dd")
-        .timeZone("+01:00")
 
       val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(dateFormat))).getOrElse(dateFilter)
       val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(dateFormat))).getOrElse(gteFilter)
@@ -195,7 +194,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object Testable extends App {
+object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -215,7 +214,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val entityFacets = Facets(None, genericSimple, List(999999), None, None)
   val complexFacets = Facets(None, genericComplex, List(), None, None)
 
-
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
@@ -224,4 +222,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   //val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   //hitIterator.foreach(d => println(d))
-} */ 
+}
