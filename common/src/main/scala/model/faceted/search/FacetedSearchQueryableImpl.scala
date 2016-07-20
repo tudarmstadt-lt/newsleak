@@ -44,8 +44,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private val yearMonthDayPattern = "yyyy-MM-dd"
   private val yearMonthPattern = "yyyy-MM"
+  private val yearPattern = "yyyy"
   private val yearMonthDayFormat = DateTimeFormat.forPattern(yearMonthDayPattern)
   private val yearMonthFormat = DateTimeFormat.forPattern(yearMonthPattern)
+  private val yearFormat = DateTimeFormat.forPattern(yearPattern)
 
   private lazy val aggregationToField =
     aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
@@ -154,6 +156,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       .setSize(0)
 
     val (format, level, minBound, maxBound) = levelOfDetail match {
+      case LoD.decade =>
+        val from = facets.fromDate.get.toString(yearFormat)
+        val to = facets.toDate.get.toString(yearFormat)
+        (yearPattern, DateHistogramInterval.YEAR, from, to)
       case LoD.month =>
         val from = facets.fromDate.get.toString(yearMonthFormat)
         val to = facets.toDate.get.toString(yearMonthFormat)
@@ -249,11 +255,16 @@ object HistogramTestable extends App {
   val dayFrom = LocalDateTime.parse("1985-12-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val dayTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
+  val decadeFrom = LocalDateTime.parse("1990-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val decadeTo = LocalDateTime.parse("1999-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
+
+  val decadeFacet = Facets(None, Map(), List(), Some(decadeFrom), Some(decadeTo))
   val monthFacet = Facets(None, Map(), List(), Some(monthFrom), Some(monthTo))
   val dayFacet = Facets(None, Map(), List(), Some(dayFrom), Some(dayTo))
 
+  println(FacetedSearch.histogram(decadeFacet, LoD.decade))
   //FacetedSearch.histogram(monthFacet, LoD.month)
-  FacetedSearch.histogram(dayFacet, LoD.day)
+  //FacetedSearch.histogram(dayFacet, LoD.day)
 
 }
 
