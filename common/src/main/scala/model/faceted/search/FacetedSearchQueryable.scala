@@ -19,6 +19,8 @@ package model.faceted.search
 
 trait FacetedSearchQueryable {
 
+  def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation
+
   /**
    * Returns an iterator that contains ids of matched documents.
    *

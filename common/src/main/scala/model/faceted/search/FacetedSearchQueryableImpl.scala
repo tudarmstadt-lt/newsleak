@@ -21,6 +21,7 @@ import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders, QueryBuilder}
 import org.elasticsearch.search.aggregations.AggregationBuilders
+import org.elasticsearch.search.aggregations.bucket.histogram.{Histogram, InternalHistogram, DateHistogramInterval}
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
@@ -41,7 +42,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val nodesField = "Entities" -> "Entities.EntId"
 
-  private val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+  private val yearMonthDayPattern = "yyyy-MM-dd"
+  private val yearMonthPattern = "yyyy-MM"
+  private val yearMonthDayFormat = DateTimeFormat.forPattern(yearMonthDayPattern)
+  private val yearMonthFormat = DateTimeFormat.forPattern(yearMonthPattern)
 
   private lazy val aggregationToField =
     aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, nodesField)
@@ -108,10 +112,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     if (facets.fromDate.isDefined || facets.toDate.isDefined) {
       val dateFilter = QueryBuilders
         .rangeQuery("Created")
-        .format("yyyy-MM-dd")
+        .format(yearMonthDayPattern)
 
-      val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(dateFormat))).getOrElse(dateFilter)
-      val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(dateFormat))).getOrElse(gteFilter)
+      val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(yearMonthDayFormat))).getOrElse(dateFilter)
+      val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(yearMonthDayFormat))).getOrElse(gteFilter)
 
       query.must(lteFilter)
     } else {
@@ -135,6 +139,47 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         Aggregation(k, buckets)
     }
     res.toList
+  }
+
+  // TODO: was not able to incorporate this into the parseResult method. Cannot cast at runtime :(
+  private def parseHistogram(response: SearchResponse, key: String): Aggregation = {
+    val agg = response.getAggregations.get(key).asInstanceOf[Histogram]
+    val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
+    Aggregation(key, buckets)
+  }
+
+  override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
+    var requestBuilder = clientService.client.prepareSearch()
+      .setQuery(createQuery(facets))
+      .setSize(0)
+
+    val (format, level, minBound, maxBound) = levelOfDetail match {
+      case LoD.month =>
+        val from = facets.fromDate.get.toString(yearMonthFormat)
+        val to = facets.toDate.get.toString(yearMonthFormat)
+        (yearMonthPattern, DateHistogramInterval.MONTH, from, to)
+      case LoD.day =>
+        val from = facets.fromDate.get.toString(yearMonthDayFormat)
+        val to = facets.toDate.get.toString(yearMonthDayFormat)
+        (yearMonthDayPattern.toString, DateHistogramInterval.DAY, from, to)
+      case _ => throw new IllegalArgumentException("Unknown level of detail.")
+    }
+
+    val agg = AggregationBuilders
+      .dateHistogram("histogram")
+      .field("Created")
+      .interval(level)
+      .format(format)
+      .minDocCount(0)
+      .extendedBounds(minBound, maxBound)
+
+    requestBuilder = requestBuilder.addAggregation(agg)
+    //println(requestBuilder)
+
+    val response = requestBuilder.execute().actionGet()
+    //println(response)
+
+    parseHistogram(response, "histogram")
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): Iterator[Long] = {
@@ -177,9 +222,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       .addFields("id")
 
     for ((k, (v, size)) <- aggs) {
+      // Default order is bucket size desc
       val agg = AggregationBuilders.terms(k)
         .field(v)
         .size(size)
+        // Include empty buckets
         .minDocCount(0)
 
       // Apply filter to the aggregation request
@@ -194,7 +241,23 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-object Testable extends App {
+object HistogramTestable extends App {
+  // Format should be yyyy-MM-dd
+  val monthFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
+
+  val dayFrom = LocalDateTime.parse("1985-12-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val dayTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
+
+  val monthFacet = Facets(None, Map(), List(), Some(monthFrom), Some(monthTo))
+  val dayFacet = Facets(None, Map(), List(), Some(dayFrom), Some(dayTo))
+
+  //FacetedSearch.histogram(monthFacet, LoD.month)
+  FacetedSearch.histogram(dayFacet, LoD.day)
+
+}
+
+/* object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -205,21 +268,22 @@ object Testable extends App {
     "Tags" -> List("ASEC", "PREL")
   )
 
-  // Any format (e.g yyyy, yyyy-MM-dd, ...) of LocalDateTime is supported
-  val from = LocalDateTime.parse("1966-12-28", DateTimeFormat.forPattern("yyyy-MM-dd"))
-  val to = LocalDateTime.parse("1966-12-28", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  // Format should be yyyy-MM-dd
+  val from = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val to = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
   val emptyFacets = Facets(None, Map(), List(), None, None)
   val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
   val entityFacets = Facets(None, genericSimple, List(999999), None, None)
   val complexFacets = Facets(None, genericComplex, List(), None, None)
 
+
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
+  //println(FacetedSearch.aggregateEntities(dateRangeFacets, 4, Nil))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
 
   //val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   //hitIterator.foreach(d => println(d))
-}
+} */ 

@@ -19,6 +19,11 @@ package model.faceted.search
 
 import org.joda.time.LocalDateTime
 
+// Level of detail for histogram
+object LoD extends Enumeration {
+  val overview, decade, year, month, day = Value
+}
+
 // Builder pattern
 /**
  *

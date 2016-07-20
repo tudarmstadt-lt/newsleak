@@ -47,8 +47,8 @@ object Dependencies {
     val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % "2.3.5" // ApacheV2
     val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % "2.3.5" // ApacheV2
 
-    val elasticsearch = "org.elasticsearch" % "elasticsearch" % "2.2.0" // ApacheV2
-    val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-core" % "2.2.0" // ApacheV2
+    val elasticsearch = "org.elasticsearch" % "elasticsearch" % "2.3.4" // ApacheV2
+    val elastic4s = "com.sksamuel.elastic4s" %% "elastic4s-core" % "2.3.0" // ApacheV2
 
     object Test {
       val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc-test" % "2.3.+" % "test" // ApacheV2
