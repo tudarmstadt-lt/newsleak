@@ -161,6 +161,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String]): Option[Aggregation] = {
     val field = aggregationToField(aggregationKey)
     aggregate(facets, Map(aggregationKey -> (field, size)), include).headOption
+    /* aggs.collect {
+      // in case the aggregation is empty and include is given
+      case Aggregation(k, Nil) if include.nonEmpty => Aggregation(k, )
+      case a@Aggregation(_, _) => a
+    }*/
   }
 
   override def aggregateKeywords(facets: Facets, size: Int): Aggregation = {
@@ -181,6 +186,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val agg = AggregationBuilders.terms(k)
         .field(v)
         .size(size)
+        .minDocCount(0)
 
       // Apply filter to the aggregation request
       val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
@@ -194,7 +200,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/*object Testable extends App {
+/* object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -211,16 +217,16 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   val emptyFacets = Facets(None, Map(), List(), None, None)
   val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
-  val entityFacets = Facets(None, genericSimple, List(21), None, None)
+  val entityFacets = Facets(None, genericSimple, List(999999), None, None)
   val complexFacets = Facets(None, genericComplex, List(), None, None)
 
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  println(FacetedSearch.aggregate(emptyFacets, "Tags", 4, List("PREL", "ASEC")))
+  println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
 
   //val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   //hitIterator.foreach(d => println(d))
-}*/ 
+} */ 
