@@ -45,11 +45,11 @@ trait FacetedSearchQueryable {
    * @param filter the response will only contain the instances given in this list.
    * @return
    */
-  def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String] = Nil): Option[Aggregation]
+  def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String]): Aggregation
 
-  def aggregateKeywords(facets: Facets, size: Int): Aggregation
+  def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation
 
-  def aggregateEntities(facets: Facets, size: Int): Aggregation
+  def aggregateEntities(facets: Facets, size: Int, filter: List[Long]): Aggregation
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations

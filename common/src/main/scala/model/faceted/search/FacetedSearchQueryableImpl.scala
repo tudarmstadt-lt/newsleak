@@ -158,22 +158,17 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
-  override def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String]): Option[Aggregation] = {
+  override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String]): Aggregation = {
     val field = aggregationToField(aggregationKey)
-    aggregate(facets, Map(aggregationKey -> (field, size)), include).headOption
-    /* aggs.collect {
-      // in case the aggregation is empty and include is given
-      case Aggregation(k, Nil) if include.nonEmpty => Aggregation(k, )
-      case a@Aggregation(_, _) => a
-    }*/
+    aggregate(facets, Map(aggregationKey -> (field, size)), filter).head
   }
 
-  override def aggregateKeywords(facets: Facets, size: Int): Aggregation = {
-    aggregate(facets, keywordsField._1, size).get
+  override def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation = {
+    aggregate(facets, keywordsField._1, size, filter)
   }
 
-  override def aggregateEntities(facets: Facets, size: Int): Aggregation = {
-    aggregate(facets, nodesField._1, size).get
+  override def aggregateEntities(facets: Facets, size: Int, filter: List[Long]): Aggregation = {
+    aggregate(facets, nodesField._1, size, filter.map(_.toString))
   }
 
   private def aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String]): List[Aggregation] = {
