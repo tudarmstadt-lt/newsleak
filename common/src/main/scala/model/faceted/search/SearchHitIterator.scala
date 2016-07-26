@@ -18,7 +18,7 @@
 package model.faceted.search
 
 import org.elasticsearch.action.search.SearchRequestBuilder
-import org.elasticsearch.search.SearchHit
+import org.elasticsearch.search.{SearchHits, SearchHit}
 
 /**
  * Custom implementation for paging results. ES implemented scrolling is not intended for real time user requests,
@@ -35,26 +35,28 @@ class SearchHitIterator(request: SearchRequestBuilder) extends Iterator[SearchHi
   private var currentResultIndex = 0
   private var currentPageResults = scroll()
 
-  private def scroll(): Array[SearchHit] = {
+  lazy val hits = currentPageResults.getTotalHits
+
+  private def scroll(): SearchHits = {
     currentResultIndex = 0
     val paginatedRequestBuilder = request.setFrom(searchHitCounter)
     val response = paginatedRequestBuilder.execute().actionGet()
-    response.getHits.getHits()
+    response.getHits
   }
 
   override def hasNext: Boolean = {
-    if (currentResultIndex >= currentPageResults.length) {
+    if (currentResultIndex >= currentPageResults.getHits.length) {
       currentPageResults = scroll()
-      currentPageResults.length >= 1
+      currentPageResults.getHits.nonEmpty
     } else {
       true
     }
   }
 
   override def next(): SearchHit = {
-    val hits = currentPageResults(currentResultIndex)
+    val searchHit = currentPageResults.getAt(currentResultIndex)
     searchHitCounter += 1
     currentResultIndex += 1
-    hits
+    searchHit
   }
 }

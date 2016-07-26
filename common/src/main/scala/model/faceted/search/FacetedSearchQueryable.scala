@@ -33,9 +33,10 @@ trait FacetedSearchQueryable {
    * @param pageSize controls the number of elements per page. If you take more than
    *                 pageSize elements from the iterator it will reload the next pageSize
    *                 elements from the data store. Recommended value 10.
-   * @return
+   * @return tuple (num, it), where num represents the number of matched documents and it
+   *         is a iterator consisting of document ids.
    */
-  def searchDocuments(facets: Facets, pageSize: Int): Iterator[Long]
+  def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long])
 
   /**
    * Example:

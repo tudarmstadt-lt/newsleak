@@ -188,13 +188,14 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     parseHistogram(response, "histogram")
   }
 
-  override def searchDocuments(facets: Facets, pageSize: Int): Iterator[Long] = {
+  override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
     val requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(facets))
       .setSize(pageSize)
 
+    val it = new SearchHitIterator(requestBuilder)
     // TODO: We have to figure out, why this returns "4.4.0" with source name kibana as id when we use a matchAllQuery
-    new SearchHitIterator(requestBuilder).flatMap(_.id().toLongOpt())
+    (it.hits, it.flatMap(_.id().toLongOpt()))
   }
 
   override def aggregateAll(
@@ -295,6 +296,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
 
-  //val hitIterator = FacetedSearch.searchDocuments(dateRangeFacets, 21)
-  //hitIterator.foreach(d => println(d))
+  // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(dateRangeFacets, 21)
+  // println(hitIterator.count(_ => true))
+  // println(numDocs)
 } */ 
