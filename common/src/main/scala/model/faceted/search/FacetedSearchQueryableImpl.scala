@@ -188,6 +188,32 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     parseHistogram(response, "histogram")
   }
 
+  override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
+
+    val nodeBuckets = aggregateEntities(facets, size, Nil).buckets
+    val nodes = nodeBuckets.collect { case NodeBucket(id, _) => id }
+
+    val visitedList = scala.collection.mutable.ListBuffer[Long]()
+    val rels = nodes.flatMap { source =>
+      visitedList.add(source)
+      val rest = nodes.filter(!visitedList.contains(_))
+      rest.flatMap { dest =>
+        val t = List(source, dest)
+        val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t)
+        agg.buckets
+          .collect { case NodeBucket(id, freq) if freq != 0 => (id, freq) }
+          .sliding(2).map {
+            case List((nodeA, freqA), (nodeB, freqB)) if nodeA != nodeB =>
+              assert(nodeA == source || nodeB == source)
+              assert(nodeB == dest || nodeA == dest)
+              assert(freqA == freqB)
+              (source, dest, freqA)
+          }.toList
+      }
+    }
+    (nodeBuckets, rels)
+  }
+
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
     val requestBuilder = clientService.client.prepareSearch()
       .setQuery(createQuery(facets))
@@ -269,7 +295,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
 } */
 
-/* object Testable extends App {
+/*object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -289,6 +315,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
   val complexFacets = Facets(List("Clinton", "Iraq"), genericComplex, List(), None, None)
 
+   println(FacetedSearch.induceSubgraph(emptyFacets, 10))
+
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, Nil))
@@ -299,4 +327,5 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */ 
+
+ }*/ 

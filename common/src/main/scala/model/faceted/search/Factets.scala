@@ -41,6 +41,8 @@ case class Facets(
     toDate: Option[LocalDateTime]
 ) {
 
+  def withEntities(ids: List[Long]): Facets = this.copy(entities = this.entities ++ ids)
+
   def isEmpty(): Boolean = fullTextSearch.isEmpty && generic.isEmpty && entities.isEmpty && !hasDateFilter
   def hasDateFilter(): Boolean = fromDate.isDefined || toDate.isDefined
 }

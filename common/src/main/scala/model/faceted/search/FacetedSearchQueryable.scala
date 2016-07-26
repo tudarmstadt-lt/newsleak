@@ -22,6 +22,13 @@ trait FacetedSearchQueryable {
   def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation
 
   /**
+   *
+   * @param facets
+   * @return tuple (entities, relationships)
+   */
+  def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)])
+
+  /**
    * Returns an iterator that contains ids of matched documents.
    *
    * Example:
