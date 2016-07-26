@@ -180,10 +180,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       .extendedBounds(minBound, maxBound)
 
     requestBuilder = requestBuilder.addAggregation(agg)
-    //println(requestBuilder)
+    // println(requestBuilder)
 
     val response = requestBuilder.execute().actionGet()
-    //println(response)
+    // println(response)
 
     parseHistogram(response, "histogram")
   }
@@ -247,7 +247,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-object HistogramTestable extends App {
+/* object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
   val monthFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
@@ -266,7 +266,7 @@ object HistogramTestable extends App {
   //FacetedSearch.histogram(monthFacet, LoD.month)
   //FacetedSearch.histogram(dayFacet, LoD.day)
 
-}
+} */
 
 /* object Testable extends App {
 
@@ -283,14 +283,14 @@ object HistogramTestable extends App {
   val from = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val to = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-  val emptyFacets = Facets(None, Map(), List(), None, None)
-  val dateRangeFacets = Facets(None, Map(), List(), Some(from), Some(to))
-  val entityFacets = Facets(None, genericSimple, List(999999), None, None)
-  val complexFacets = Facets(None, genericComplex, List(), None, None)
+  val emptyFacets = Facets(List(), Map(), List(), None, None)
+  val dateRangeFacets = Facets(List(), Map(), List(), Some(from), Some(to))
+  val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
+  val complexFacets = Facets(List("Clinton", "Iraq"), genericComplex, List(), None, None)
 
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  //println(FacetedSearch.aggregateEntities(dateRangeFacets, 4, Nil))
+  // println(FacetedSearch.aggregateEntities(complexFacets, 4, Nil))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)

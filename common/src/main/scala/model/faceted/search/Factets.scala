@@ -34,7 +34,7 @@ object LoD extends Enumeration {
  * @param toDate inclusive
  */
 case class Facets(
-    fullTextSearch: Option[String],
+    fullTextSearch: List[String],
     generic: Map[String, List[String]],
     entities: List[Long],
     fromDate: Option[LocalDateTime],
