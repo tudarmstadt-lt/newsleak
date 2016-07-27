@@ -128,16 +128,24 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   /**
    * Convert response to our internal model
    */
-  private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)]): List[Aggregation] = {
+  // TODO: Refactor with creatorMethod that receives a method that creates certain Bucket instances ...
+  private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)], filters: List[String]): List[Aggregation] = {
     val res = aggregations.collect {
       // Create node bucket for entities
       case (k, (v, s)) if k == nodesField._1 =>
         val agg: Terms = response.getAggregations.get(k)
-        val buckets = agg.getBuckets.map(b => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)).toList
+        val buckets = agg.getBuckets.collect {
+          // If include filter is given don't add zero count entries
+          case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
+          case (b) if filters.isEmpty => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
+        }.toList
         Aggregation(k, buckets)
       case (k, (v, s)) =>
         val agg: Terms = response.getAggregations.get(k)
-        val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
+        val buckets = agg.getBuckets.collect {
+          case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => MetaDataBucket(b.getKeyAsString, b.getDocCount)
+          case (b) if filters.isEmpty => MetaDataBucket(b.getKeyAsString, b.getDocCount)
+        }.toList
         Aggregation(k, buckets)
     }
     res.toList
@@ -270,11 +278,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     val response = requestBuilder.execute().actionGet()
     // There is no need to call shutdown, since this node is the only
     // one in the cluster.
-    parseResult(response, aggs)
+    parseResult(response, aggs, filter)
   }
 }
 
- object HistogramTestable extends App {
+/* object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
   val monthFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
@@ -293,9 +301,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   //FacetedSearch.histogram(monthFacet, LoD.month)
   //FacetedSearch.histogram(dayFacet, LoD.day)
 
-}
+}*/
 
-/*object Testable extends App {
+/* object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -315,11 +323,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
   val complexFacets = Facets(List("Clinton", "Iraq"), genericComplex, List(), None, None)
 
-   println(FacetedSearch.induceSubgraph(emptyFacets, 10))
+  // println(FacetedSearch.induceSubgraph(emptyFacets, 10))
 
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  // println(FacetedSearch.aggregateEntities(complexFacets, 4, Nil))
+  println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
@@ -328,4 +336,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // println(hitIterator.count(_ => true))
   // println(numDocs)
 
- }*/
+ } */ 
