@@ -19,9 +19,9 @@ package model.faceted.search
 
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilders, QueryBuilder}
+import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilder, QueryBuilders}
 import org.elasticsearch.search.aggregations.AggregationBuilders
-import org.elasticsearch.search.aggregations.bucket.histogram.{Histogram, InternalHistogram, DateHistogramInterval}
+import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInterval, Histogram}
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
@@ -151,7 +151,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch()
+    var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
       .setQuery(createQuery(facets))
       .setSize(0)
 
@@ -204,8 +204,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
           .collect { case NodeBucket(id, freq) if freq != 0 => (id, freq) }
           .sliding(2).map {
             case List((nodeA, freqA), (nodeB, freqB)) if nodeA != nodeB =>
-              assert(nodeA == source || nodeB == source)
-              assert(nodeB == dest || nodeA == dest)
+              assert(nodeA == source || nodeA == dest)
+              assert(nodeB == source || nodeB == dest)
               assert(freqA == freqB)
               (source, dest, freqA)
           }.toList
@@ -215,7 +215,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
-    val requestBuilder = clientService.client.prepareSearch()
+    val requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
       .setQuery(createQuery(facets))
       .setSize(pageSize)
 
@@ -249,7 +249,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   private def aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String]): List[Aggregation] = {
-    var requestBuilder = clientService.client.prepareSearch()
+    var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
       .setQuery(createQuery(facets))
       // We are only interested in the document id
       .addFields("id")
@@ -274,7 +274,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object HistogramTestable extends App {
+ object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
   val monthFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
@@ -285,15 +285,15 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val decadeFrom = LocalDateTime.parse("1990-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val decadeTo = LocalDateTime.parse("1999-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-  val decadeFacet = Facets(None, Map(), List(), Some(decadeFrom), Some(decadeTo))
-  val monthFacet = Facets(None, Map(), List(), Some(monthFrom), Some(monthTo))
-  val dayFacet = Facets(None, Map(), List(), Some(dayFrom), Some(dayTo))
+  val decadeFacet = Facets(List(), Map(), List(), Some(decadeFrom), Some(decadeTo))
+  val monthFacet = Facets(List(), Map(), List(), Some(monthFrom), Some(monthTo))
+  val dayFacet = Facets(List(), Map(), List(), Some(dayFrom), Some(dayTo))
 
   println(FacetedSearch.histogram(decadeFacet, LoD.decade))
   //FacetedSearch.histogram(monthFacet, LoD.month)
   //FacetedSearch.histogram(dayFacet, LoD.day)
 
-} */
+}
 
 /*object Testable extends App {
 
@@ -328,4 +328,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // println(hitIterator.count(_ => true))
   // println(numDocs)
 
- }*/ 
+ }*/
