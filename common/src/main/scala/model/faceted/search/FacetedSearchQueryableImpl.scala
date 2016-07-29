@@ -28,7 +28,6 @@ import org.joda.time.format.DateTimeFormat
 
 // scalastyle:off
 import scala.collection.JavaConversions._
-// scalastyle:on
 
 import utils.RichString.richString
 
@@ -160,42 +159,75 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     Aggregation(key, buckets)
   }
 
+  private def groupToOverview(originalBuckets: List[Bucket]): Aggregation = {
+    def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
+    // Starting decade
+    val collectionFirstYear = LocalDateTime.parse(originalBuckets.head.asInstanceOf[MetaDataBucket].key, yearFormat)
+    val firstDecade = getDecade(collectionFirstYear)
+    // Number of decades
+    val collectionLastYear = LocalDateTime.parse(originalBuckets.last.asInstanceOf[MetaDataBucket].key, yearFormat)
+    val numDecades = (getDecade(collectionLastYear) - firstDecade) / 10
+
+    //Create map from decade start to buckets
+    val decadeToCount = originalBuckets.collect {
+      case (b: MetaDataBucket) =>
+        val decade = getDecade(LocalDateTime.parse(b.key, yearFormat))
+        decade -> b.docCount
+    }.groupBy(_._1).mapValues(_.map(_._2))
+
+    val buckets = (0 to numDecades).map { decade =>
+      val startDecade = firstDecade + 10 * decade
+      val endDecade = firstDecade + 9 + 10 * decade
+      val key = s"${startDecade}-${endDecade}"
+      MetaDataBucket(key, decadeToCount.getOrElse(startDecade, Nil).sum)
+    }.toList
+
+    Aggregation("histogram", buckets)
+  }
+
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
     var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
       .setQuery(createQuery(facets))
       .setSize(0)
 
     val (format, level, minBound, maxBound) = levelOfDetail match {
+      case LoD.overview =>
+        assert(facets.fromDate.isEmpty)
+        assert(facets.toDate.isEmpty)
+        (yearPattern, DateHistogramInterval.YEAR, None, None)
       case LoD.decade =>
-        val from = facets.fromDate.get.toString(yearFormat)
-        val to = facets.toDate.get.toString(yearFormat)
+        val from = facets.fromDate.map(_.toString(yearFormat))
+        val to = facets.toDate.map(_.toString(yearFormat))
         (yearPattern, DateHistogramInterval.YEAR, from, to)
-      case LoD.month =>
-        val from = facets.fromDate.get.toString(yearMonthFormat)
-        val to = facets.toDate.get.toString(yearMonthFormat)
+      case LoD.year =>
+        val from = facets.fromDate.map(_.toString(yearMonthFormat))
+        val to = facets.toDate.map(_.toString(yearMonthFormat))
         (yearMonthPattern, DateHistogramInterval.MONTH, from, to)
-      case LoD.day =>
-        val from = facets.fromDate.get.toString(yearMonthDayFormat)
-        val to = facets.toDate.get.toString(yearMonthDayFormat)
+      case LoD.month =>
+        val from = facets.fromDate.map(_.toString(yearMonthDayFormat))
+        val to = facets.toDate.map(_.toString(yearMonthDayFormat))
         (yearMonthDayPattern.toString, DateHistogramInterval.DAY, from, to)
       case _ => throw new IllegalArgumentException("Unknown level of detail.")
     }
 
-    val agg = AggregationBuilders
+    val histogramAgg = AggregationBuilders
       .dateHistogram("histogram")
       .field("Created")
       .interval(level)
       .format(format)
       .minDocCount(0)
-      .extendedBounds(minBound, maxBound)
 
-    requestBuilder = requestBuilder.addAggregation(agg)
-    // println(requestBuilder)
+    val boundedAgg = if (minBound.isDefined || maxBound.isDefined) histogramAgg.extendedBounds(minBound.get, maxBound.get) else histogramAgg
+    requestBuilder = requestBuilder.addAggregation(boundedAgg)
 
     val response = requestBuilder.execute().actionGet()
-    // println(response)
-
-    parseHistogram(response, "histogram")
+    val result = parseHistogram(response, "histogram")
+    levelOfDetail match {
+      // Post process result if the overview is requested
+      case LoD.overview =>
+        groupToOverview(result.buckets)
+      case _ => result
+    }
   }
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
@@ -284,26 +316,28 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object HistogramTestable extends App {
+object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
-  val monthFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
-  val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val yearFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val yearTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-  val dayFrom = LocalDateTime.parse("1985-12-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
-  val dayTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val monthFrom = LocalDateTime.parse("1985-12-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
+  val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
   val decadeFrom = LocalDateTime.parse("1990-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val decadeTo = LocalDateTime.parse("1999-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
+  val overviewFacet = Facets(List(), Map(), List(), None, None)
   val decadeFacet = Facets(List(), Map(), List(), Some(decadeFrom), Some(decadeTo))
-  val monthFacet = Facets(List(), Map(), List(), Some(monthFrom), Some(monthTo))
-  val dayFacet = Facets(List(), Map(), List(), Some(dayFrom), Some(dayTo))
+  val monthFacet = Facets(List(), Map(), List(), Some(yearFrom), Some(yearTo))
+  val dayFacet = Facets(List(), Map(), List(), Some(monthFrom), Some(monthTo))
 
-  println(FacetedSearch.histogram(decadeFacet, LoD.decade))
-  //FacetedSearch.histogram(monthFacet, LoD.month)
-  //FacetedSearch.histogram(dayFacet, LoD.day)
+  println(FacetedSearch.histogram(overviewFacet, LoD.overview))
+  //println(FacetedSearch.histogram(decadeFacet, LoD.decade))
+  //FacetedSearch.histogram(monthFacet, LoD.year)
+  //FacetedSearch.histogram(dayFacet, LoD.month)
 
-}*/
+}
 
 /* object Testable extends App {
 
