@@ -135,17 +135,19 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       case (k, (v, s)) if k == nodesField._1 =>
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.collect {
-          // If include filter is given don't add zero count entries
+          // If include filter is given don't add zero count entries (will be post processed)
           case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
           case (b) if filters.isEmpty => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
         }.toList
-        Aggregation(k, buckets)
+        // We need to add missing zero buckets for entities filters manually,
+        // because aggregation is not able to process long ids with zero buckets
+        val addedBuckets = buckets.map(_.id)
+        val zeroEntities = filters.filterNot(s => addedBuckets.contains(s.toInt))
+
+        Aggregation(k, buckets ::: zeroEntities.map(s => NodeBucket(s.toInt, 0)))
       case (k, (v, s)) =>
         val agg: Terms = response.getAggregations.get(k)
-        val buckets = agg.getBuckets.collect {
-          case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => MetaDataBucket(b.getKeyAsString, b.getDocCount)
-          case (b) if filters.isEmpty => MetaDataBucket(b.getKeyAsString, b.getDocCount)
-        }.toList
+        val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
         Aggregation(k, buckets)
     }
     res.toList
@@ -327,7 +329,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
 
   //println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
-  println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
+  //println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
+  println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
+  println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   //println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
@@ -335,5 +339,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-
  } */ 
