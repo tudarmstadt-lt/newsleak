@@ -17,6 +17,8 @@
 
 package model.faceted.search
 
+import model.EntityType
+
 trait FacetedSearchQueryable {
 
   def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation
@@ -60,6 +62,8 @@ trait FacetedSearchQueryable {
   def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation
 
   def aggregateEntities(facets: Facets, size: Int, filter: List[Long]): Aggregation
+
+  def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations
