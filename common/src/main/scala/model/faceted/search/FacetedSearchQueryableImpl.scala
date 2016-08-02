@@ -20,7 +20,7 @@ package model.faceted.search
 import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.index.query.{BoolQueryBuilder, QueryBuilder, QueryBuilders}
+import org.elasticsearch.index.query.{QueryStringQueryBuilder, BoolQueryBuilder, QueryBuilder, QueryBuilders}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInterval, Histogram}
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
@@ -83,10 +83,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     }
   }
 
-  private def addFulltextQuery(facets: Facets): BoolQueryBuilder = {
-    val query = QueryBuilders.boolQuery()
-    facets.fullTextSearch.map(t => query.must(QueryBuilders.matchQuery("Content", t)))
-    query
+  private def addFulltextQuery(facets: Facets): QueryStringQueryBuilder = {
+    val luceneQuery = facets.fullTextSearch.mkString(" ")
+    QueryBuilders.queryStringQuery(luceneQuery).field("Content")
   }
 
   private def addGenericFilter(facets: Facets): BoolQueryBuilder = {
@@ -289,10 +288,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
-    val agg = aggregate(facets, entityIdsField._1, size*7, filter.map(_.toString))
+    val agg = aggregate(facets, entityIdsField._1, size * 7, filter.map(_.toString))
 
     def isType(id: Long, t: EntityType.Value) = model.Entity.getById(id).get.entityType == t
-    val buckets = agg.buckets.collect { case b@NodeBucket(k, _) if isType(k, etype)  => b }.take(size)
+    val buckets = agg.buckets.collect { case b @ NodeBucket(k, _) if isType(k, etype) => b }.take(size)
     Aggregation(agg.key, buckets)
   }
 
@@ -371,16 +370,15 @@ object Testable extends App {
   val emptyFacets = Facets(List(), Map(), List(), None, None)
   val dateRangeFacets = Facets(List(), Map(), List(), Some(from), Some(to))
   val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
-  val complexFacets = Facets(List("Clinton", "Iraq"), genericComplex, List(), None, None)
+  val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\""), genericComplex, List(), None, None)
 
   // println(FacetedSearch.induceSubgraph(emptyFacets, 10))
-
 
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
-  // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
-  println(FacetedSearch.aggregateEntitiesByType(complexFacets, EntityType.Person, 10, List()))
+  println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
+  // println(FacetedSearch.aggregateEntitiesByType(complexFacets, EntityType.Person, 10, List()))
   // println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   // println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
@@ -389,4 +387,4 @@ object Testable extends App {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(dateRangeFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
- }
+}
