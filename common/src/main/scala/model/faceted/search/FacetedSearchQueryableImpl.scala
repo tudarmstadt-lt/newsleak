@@ -290,7 +290,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
     val agg = aggregate(facets, entityIdsField._1, size * 7, filter.map(_.toString))
 
-    def isType(id: Long, t: EntityType.Value) = model.Entity.getById(id).get.entityType == t
+    def isType(id: Long, t: EntityType.Value) = {
+      val entity = model.Entity.getById(id)
+      entity.exists(_.entityType == t)
+    }
     val buckets = agg.buckets.collect { case b @ NodeBucket(k, _) if isType(k, etype) => b }.take(size)
     Aggregation(agg.key, buckets)
   }
