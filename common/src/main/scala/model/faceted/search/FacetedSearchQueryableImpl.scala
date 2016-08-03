@@ -172,10 +172,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   private def groupToOverview(originalBuckets: List[Bucket]): Aggregation = {
     def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
     // Starting decade
-    val collectionFirstYear = LocalDateTime.parse(originalBuckets.head.asInstanceOf[MetaDataBucket].key, yearFormat)
+    val collectionFirstYear = model.Document.getFirstDate().get
     val firstDecade = getDecade(collectionFirstYear)
     // Number of decades
-    val collectionLastYear = LocalDateTime.parse(originalBuckets.last.asInstanceOf[MetaDataBucket].key, yearFormat)
+    val collectionLastYear = model.Document.getLastDate().get
     val numDecades = (getDecade(collectionLastYear) - firstDecade) / 10
 
     //Create map from decade start to buckets
@@ -252,7 +252,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       rest.flatMap { dest =>
         val t = List(source, dest)
         val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t)
-        println(agg)
         agg.buckets
           .collect { case NodeBucket(id, freq) if freq != 0 => (id, freq) }
           .sliding(2).map {
@@ -260,7 +259,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
               assert(nodeA == source || nodeA == dest)
               assert(nodeB == source || nodeB == dest)
               assert(freqA == freqB)
-              println((source, dest, freqA))
               (source, dest, freqA)
           }.toList
       }
@@ -333,8 +331,6 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       requestBuilder = requestBuilder.addAggregation(filteredAgg)
     }
 
-    println(requestBuilder)
-
     val response = requestBuilder.execute().actionGet()
     // There is no need to call shutdown, since this node is the only
     // one in the cluster.
@@ -352,7 +348,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val yearFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val yearTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-  val overviewFacet = Facets(List(), Map(), List(), None, None)
+  val overviewFacet = Facets(List(), Map(), List(1020533, 508729, 141643), None, None)
   val decadeFacet = Facets(List(), Map(), List(), Some(decadeFrom), Some(decadeTo))
   val yearFacet = Facets(List(), Map(), List(), Some(yearFrom), Some(yearTo))
 
@@ -360,13 +356,13 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val monthTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
   // Fulltext filter, metadata filter, entities filter, from and to range filter
   val monthFacet = Facets(List(), Map(), List(), Some(monthFrom), Some(monthTo))
-  println(FacetedSearch.histogram(monthFacet, LoD.month))
+  //println(FacetedSearch.histogram(monthFacet, LoD.month))
   //println(FacetedSearch.histogram(yearFacet, LoD.year))
   //println(FacetedSearch.histogram(decadeFacet, LoD.decade))
-  //println(FacetedSearch.histogram(overviewFacet, LoD.overview))
+  // println(FacetedSearch.histogram(overviewFacet, LoD.overview))
 } */
 
-object Testable extends App {
+/* object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -386,7 +382,7 @@ object Testable extends App {
   val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
   val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\""), genericComplex, List(), None, None)
 
-  println(FacetedSearch.induceSubgraph(emptyFacets, 5))
+  // println(FacetedSearch.induceSubgraph(emptyFacets, 5))
 
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
@@ -401,4 +397,4 @@ object Testable extends App {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-}
+} */ 

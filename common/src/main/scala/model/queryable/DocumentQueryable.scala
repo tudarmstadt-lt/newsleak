@@ -18,7 +18,7 @@
 package model.queryable
 
 import model.{TimeExpression, Document}
-import org.joda.time.LocalDate
+import org.joda.time.{LocalDateTime, LocalDate}
 
 trait DocumentQueryable {
 
@@ -73,6 +73,18 @@ trait DocumentQueryable {
    * @return List of [[model.TimeExpression]]
    */
   def getTimeExpressions(docId: Long): List[TimeExpression]
+
+  /**
+   * TODO
+   * @return
+   */
+  def getFirstDate(): Option[LocalDateTime]
+
+  /**
+   * TODO
+   * @return
+   */
+  def getLastDate(): Option[LocalDateTime]
 
   /**
    * Returns a list of tuple, where each tuple (key, type) represents
