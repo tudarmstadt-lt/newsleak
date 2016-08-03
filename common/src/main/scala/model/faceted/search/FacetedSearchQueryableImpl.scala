@@ -20,6 +20,7 @@ package model.faceted.search
 import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
+import org.elasticsearch.index.query.QueryStringQueryBuilder._
 import org.elasticsearch.index.query.{QueryStringQueryBuilder, BoolQueryBuilder, QueryBuilder, QueryBuilders}
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInterval, Histogram}
@@ -85,7 +86,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private def addFulltextQuery(facets: Facets): QueryStringQueryBuilder = {
     val luceneQuery = facets.fullTextSearch.mkString(" ")
-    QueryBuilders.queryStringQuery(luceneQuery).field("Content")
+    QueryBuilders.queryStringQuery(luceneQuery).field("Content").defaultOperator(Operator.AND)
   }
 
   private def addGenericFilter(facets: Facets): BoolQueryBuilder = {
