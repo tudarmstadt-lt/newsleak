@@ -75,7 +75,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val request = QueryBuilders.boolQuery()
 
       request
-        .must(addFulltextQuery(facets))
+        .must(addFulltextQuery(facets).getOrElse(QueryBuilders.boolQuery()))
         .must(addGenericFilter(facets))
         .must(addEntitiesFilter(facets))
         .must(addDateFilter(facets))
@@ -84,9 +84,17 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     }
   }
 
-  private def addFulltextQuery(facets: Facets): QueryStringQueryBuilder = {
-    val luceneQuery = facets.fullTextSearch.mkString(" ")
-    QueryBuilders.queryStringQuery(luceneQuery).field("Content").defaultOperator(Operator.AND)
+  private def addFulltextQuery(facets: Facets): Option[QueryStringQueryBuilder] = {
+    if (facets.fullTextSearch.nonEmpty) {
+      val luceneQuery = facets.fullTextSearch.mkString(" ")
+      val query = QueryBuilders
+        .queryStringQuery(luceneQuery)
+        .field("Content")
+        .defaultOperator(Operator.AND)
+      Some(query)
+    } else {
+      None
+    }
   }
 
   private def addGenericFilter(facets: Facets): BoolQueryBuilder = {
@@ -244,6 +252,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       rest.flatMap { dest =>
         val t = List(source, dest)
         val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t)
+        println(agg)
         agg.buckets
           .collect { case NodeBucket(id, freq) if freq != 0 => (id, freq) }
           .sliding(2).map {
@@ -251,6 +260,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
               assert(nodeA == source || nodeA == dest)
               assert(nodeB == source || nodeB == dest)
               assert(freqA == freqB)
+              println((source, dest, freqA))
               (source, dest, freqA)
           }.toList
       }
@@ -376,19 +386,19 @@ object Testable extends App {
   val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
   val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\""), genericComplex, List(), None, None)
 
-  // println(FacetedSearch.induceSubgraph(emptyFacets, 10))
+  println(FacetedSearch.induceSubgraph(emptyFacets, 5))
 
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
-  println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
+  // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
   // println(FacetedSearch.aggregateEntitiesByType(complexFacets, EntityType.Person, 10, List()))
   // println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   // println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
   // val hitIterator = FacetedSearch.searchDocuments(emptyFacets, 21)
 
-  // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(dateRangeFacets, 21)
+  // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
 }
