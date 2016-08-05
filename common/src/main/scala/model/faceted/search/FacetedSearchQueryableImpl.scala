@@ -137,7 +137,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   /**
    * Convert response to our internal model
    */
-  // TODO: Refactor with creatorMethod that receives a method that creates certain Bucket instances ...
+  // TODO: Refactor with creatorMethod that receives a method that creates certain Bucket instances, because both
+  // directions are almost the same ...
   private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)], filters: List[String]): List[Aggregation] = {
     val res = aggregations.collect {
       // Create node bucket for entities
@@ -153,11 +154,17 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         val addedBuckets = buckets.map(_.id)
         val zeroEntities = filters.filterNot(s => addedBuckets.contains(s.toInt))
 
-        Aggregation(k, buckets ::: zeroEntities.map(s => NodeBucket(s.toInt, 0)))
+        val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
+        Aggregation(k, resBuckets ::: zeroEntities.map(s => NodeBucket(s.toInt, 0)))
       case (k, (v, s)) =>
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
-        Aggregation(k, buckets)
+
+        val addedBuckets = buckets.map(_.key)
+        val zeroMetadata = filters.filterNot(s => addedBuckets.contains(s))
+
+        val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
+        Aggregation(k, resBuckets ::: zeroMetadata.map(s => MetaDataBucket(s, 0)))
     }
     res.toList
   }
@@ -386,6 +393,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
+  // println(FacetedSearch.aggregateEntities(entityFacets, 4, List()))
+  // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List()))
+  // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
   // println(FacetedSearch.aggregateEntitiesByType(complexFacets, EntityType.Person, 10, List()))
