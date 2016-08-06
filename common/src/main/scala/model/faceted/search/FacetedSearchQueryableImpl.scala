@@ -161,7 +161,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
 
         val addedBuckets = buckets.map(_.key)
-        val zeroMetadata = filters.filterNot(s => addedBuckets.contains(s))
+        val zeroMetadata = filters.filter(s => addedBuckets.contains(s))
 
         val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
         Aggregation(k, resBuckets ::: zeroMetadata.map(s => MetaDataBucket(s, 0)))
@@ -394,6 +394,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List()))
+  // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
   // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List()))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
