@@ -161,7 +161,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
 
         val addedBuckets = buckets.map(_.key)
-        val zeroMetadata = filters.filter(s => addedBuckets.contains(s))
+        val zeroMetadata = filters.filterNot(s => addedBuckets.contains(s))
 
         val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
         Aggregation(k, resBuckets ::: zeroMetadata.map(s => MetaDataBucket(s, 0)))
@@ -345,7 +345,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-/* object HistogramTestable extends App {
+object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
 
 
@@ -355,7 +355,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   val yearFrom = LocalDateTime.parse("1985-01-01", DateTimeFormat.forPattern("yyyy-MM-dd"))
   val yearTo = LocalDateTime.parse("1985-12-31", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-  val overviewFacet = Facets(List(), Map(), List(1020533, 508729, 141643), None, None)
+  val overviewFacet = Facets(List("\"idjwidjwidw\""), Map(), List(1020533, 508729, 141643), None, None)
   val decadeFacet = Facets(List(), Map(), List(), Some(decadeFrom), Some(decadeTo))
   val yearFacet = Facets(List(), Map(), List(), Some(yearFrom), Some(yearTo))
 
@@ -366,8 +366,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   //println(FacetedSearch.histogram(monthFacet, LoD.month))
   //println(FacetedSearch.histogram(yearFacet, LoD.year))
   //println(FacetedSearch.histogram(decadeFacet, LoD.decade))
-  // println(FacetedSearch.histogram(overviewFacet, LoD.overview))
-} */
+   println(FacetedSearch.histogram(overviewFacet, LoD.overview))
+}
 
 /* object Testable extends App {
 
@@ -386,8 +386,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   val emptyFacets = Facets(List(), Map(), List(), None, None)
   val dateRangeFacets = Facets(List(), Map(), List(), Some(from), Some(to))
-  val entityFacets = Facets(List(), genericSimple, List(999999), None, None)
-  val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\""), genericComplex, List(), None, None)
+  val entityFacets = Facets(List(), genericSimple, List(), None, None)
+  val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\"", "\"wdawdad\""), genericComplex, List(), None, None)
+  val zeroFacets = Facets(List("\"wdawdad\""), genericComplex, List(), None, None)
 
   // println(FacetedSearch.induceSubgraph(emptyFacets, 5))
 
@@ -396,6 +397,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List()))
   // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
   // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List()))
+  // println(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List()))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
@@ -408,4 +410,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */ 
+} */
