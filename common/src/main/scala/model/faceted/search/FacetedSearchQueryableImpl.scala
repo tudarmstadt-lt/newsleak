@@ -160,11 +160,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         val agg: Terms = response.getAggregations.get(k)
         val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
 
-        val addedBuckets = buckets.map(_.key)
-        val zeroMetadata = filters.filterNot(s => addedBuckets.contains(s))
-
-        val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
-        Aggregation(k, resBuckets ::: zeroMetadata.map(s => MetaDataBucket(s, 0)))
+        val resBuckets = if (response.getHits.getTotalHits == 0) buckets.filter(b => filters.contains(b.key)) else buckets
+        Aggregation(k, resBuckets)
     }
     res.toList
   }
@@ -345,7 +342,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 }
 
-object HistogramTestable extends App {
+/*object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
 
 
@@ -367,9 +364,9 @@ object HistogramTestable extends App {
   //println(FacetedSearch.histogram(yearFacet, LoD.year))
   //println(FacetedSearch.histogram(decadeFacet, LoD.decade))
    println(FacetedSearch.histogram(overviewFacet, LoD.overview))
-}
+}*/
 
-/* object Testable extends App {
+object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -395,9 +392,15 @@ object HistogramTestable extends App {
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List()))
-  // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")))
-  // println(FacetedSearch.aggregate(entityFacets, "Tags", 4, List()))
-  // println(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List()))
+
+  // TODO write unit tests since there are so many expectations. However, this should work for now.
+  def asAggregation(key: String, buckets: (String, Int)*) = {
+    Aggregation(key, buckets.map { case (a, b) => MetaDataBucket(a, b) }.toList)
+  }
+  assert(FacetedSearch.aggregate(entityFacets, "Tags", 4, List("PREL")) == asAggregation("Tags", ("PREL", 70681)))
+  assert(FacetedSearch.aggregate(entityFacets, "Tags", 2, List()) == asAggregation("Tags", ("PREL", 70681), ("PGOV", 62763)))
+  assert(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List()) == asAggregation("Tags"))
+  assert(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List("PREL")) == asAggregation("Tags", ("PREL", 0)))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
@@ -410,4 +413,4 @@ object HistogramTestable extends App {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */
+}
