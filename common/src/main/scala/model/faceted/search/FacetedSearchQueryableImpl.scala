@@ -248,7 +248,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
       rest.map { dest =>
         val t = List(source, dest)
-        val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t)
+        val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t, 1)
         agg match {
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
             (nodeA, nodeB, freqA)
@@ -277,12 +277,12 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
+    _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
-  override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String]): Aggregation = {
+  override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
     val field = aggregationToField(aggregationKey)
-    aggregate(facets, Map(aggregationKey -> (field, size)), filter).head
+    _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
 
   override def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation = {
@@ -300,11 +300,11 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     Aggregation(agg.key, buckets)
   }
 
-  override def aggregateEntities(facets: Facets, size: Int, filter: List[Long]): Aggregation = {
-    aggregate(facets, entityIdsField._1, size, filter.map(_.toString))
+  override def aggregateEntities(facets: Facets, size: Int, filter: List[Long], thresholdDocCount: Int = 0): Aggregation = {
+    aggregate(facets, entityIdsField._1, size, filter.map(_.toString), thresholdDocCount)
   }
 
-  private def aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String]): List[Aggregation] = {
+  private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
       .setQuery(createQuery(facets))
       .setSize(0)
@@ -317,7 +317,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
         .field(v)
         .size(size)
         // Include empty buckets
-        .minDocCount(0)
+        .minDocCount(thresholdDocCount)
 
       // Apply filter to the aggregation request
       val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
