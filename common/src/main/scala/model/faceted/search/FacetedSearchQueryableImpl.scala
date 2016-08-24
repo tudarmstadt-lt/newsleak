@@ -98,12 +98,12 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   private def addGenericFilter(facets: Facets): List[BoolQueryBuilder] = {
-      facets.generic.flatMap {
-        case (k, v) =>
-          val filter = QueryBuilders.boolQuery()
-          // Query for raw field
-          v.map(meta => filter.should(QueryBuilders.termQuery(s"$k.raw", meta)))
-      }.toList
+    facets.generic.flatMap {
+      case (k, v) =>
+        val filter = QueryBuilders.boolQuery()
+        // Query for raw field
+        v.map(meta => filter.should(QueryBuilders.termQuery(s"$k.raw", meta)))
+    }.toList
   }
 
   private def addEntitiesFilter(facets: Facets): List[TermQueryBuilder] = {
@@ -324,8 +324,8 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       requestBuilder = requestBuilder.addAggregation(filteredAgg)
     }
 
-    //val response = requestBuilder.setRequestCache(true).execute().actionGet()
-    val response = requestBuilder.execute().actionGet()
+    val response = requestBuilder.setRequestCache(true).execute().actionGet()
+    //val response = requestBuilder.execute().actionGet()
     // There is no need to call shutdown, since this node is the only
     // one in the cluster.
     parseResult(response, aggs, filter)
@@ -413,4 +413,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */
+} */ 
