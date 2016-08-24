@@ -21,12 +21,13 @@ import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.QueryStringQueryBuilder._
-import org.elasticsearch.index.query.{QueryStringQueryBuilder, BoolQueryBuilder, QueryBuilder, QueryBuilders}
+import org.elasticsearch.index.query._
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInterval, Histogram}
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
+// import utils.Timing
 
 // scalastyle:off
 import scala.collection.JavaConversions._
@@ -74,11 +75,10 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     } else {
       val request = QueryBuilders.boolQuery()
 
-      request
-        .must(addFulltextQuery(facets).getOrElse(QueryBuilders.boolQuery()))
-        .must(addGenericFilter(facets))
-        .must(addEntitiesFilter(facets))
-        .must(addDateFilter(facets))
+      addFulltextQuery(facets).map(request.must)
+      addGenericFilter(facets).map(request.must)
+      addEntitiesFilter(facets).map(request.must)
+      addDateFilter(facets).map(request.must)
 
       request
     }
@@ -97,30 +97,22 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     }
   }
 
-  private def addGenericFilter(facets: Facets): BoolQueryBuilder = {
-    // Search for generic facets
-    val query = QueryBuilders.boolQuery()
-    facets.generic.foreach {
-      case (k, v) =>
-        val filter = QueryBuilders.boolQuery()
-        // Query for raw field
-        v.map(meta => filter.should(QueryBuilders.termQuery(s"$k.raw", meta)))
-        query.must(filter)
-    }
-    query
+  private def addGenericFilter(facets: Facets): List[BoolQueryBuilder] = {
+      facets.generic.flatMap {
+        case (k, v) =>
+          val filter = QueryBuilders.boolQuery()
+          // Query for raw field
+          v.map(meta => filter.should(QueryBuilders.termQuery(s"$k.raw", meta)))
+      }.toList
   }
 
-  private def addEntitiesFilter(facets: Facets): BoolQueryBuilder = {
-    val entitiesFilter = QueryBuilders.boolQuery()
-    facets.entities.map { e =>
-      entitiesFilter.must(QueryBuilders.termQuery(entityIdsField._2, e))
-    }
-    entitiesFilter
+  private def addEntitiesFilter(facets: Facets): List[TermQueryBuilder] = {
+    facets.entities.map { QueryBuilders.termQuery(entityIdsField._2, _) }
   }
 
-  private def addDateFilter(facets: Facets): BoolQueryBuilder = {
-    val query = QueryBuilders.boolQuery()
+  private def addDateFilter(facets: Facets): Option[BoolQueryBuilder] = {
     if (facets.fromDate.isDefined || facets.toDate.isDefined) {
+      val query = QueryBuilders.boolQuery()
       val dateFilter = QueryBuilders
         .rangeQuery("Created")
         .format(yearMonthDayPattern)
@@ -128,9 +120,9 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       val gteFilter = facets.fromDate.map(d => dateFilter.gte(d.toString(yearMonthDayFormat))).getOrElse(dateFilter)
       val lteFilter = facets.toDate.map(d => dateFilter.lte(d.toString(yearMonthDayFormat))).getOrElse(gteFilter)
 
-      query.must(lteFilter)
+      Some(query.must(lteFilter))
     } else {
-      query
+      None
     }
   }
 
@@ -253,18 +245,15 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     val rels = nodes.flatMap { source =>
       visitedList.add(source)
       val rest = nodes.filter(!visitedList.contains(_))
-      rest.flatMap { dest =>
+
+      rest.map { dest =>
         val t = List(source, dest)
         val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t)
-        agg.buckets
-          .collect { case NodeBucket(id, freq) if freq != 0 => (id, freq) }
-          .sliding(2).map {
-            case List((nodeA, freqA), (nodeB, freqB)) if nodeA != nodeB =>
-              assert(nodeA == source || nodeA == dest)
-              assert(nodeB == source || nodeB == dest)
-              assert(freqA == freqB)
-              (source, dest, freqA)
-          }.toList
+        agg match {
+          case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
+            (nodeA, nodeB, freqA)
+          case _ => throw new RuntimeException("Wrong bucket type!")
+        }
       }
     }
     (nodeBuckets, rels)
@@ -335,6 +324,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
       requestBuilder = requestBuilder.addAggregation(filteredAgg)
     }
 
+    //val response = requestBuilder.setRequestCache(true).execute().actionGet()
     val response = requestBuilder.execute().actionGet()
     // There is no need to call shutdown, since this node is the only
     // one in the cluster.
@@ -366,7 +356,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
    println(FacetedSearch.histogram(overviewFacet, LoD.overview))
 }*/
 
-object Testable extends App {
+/* object Testable extends App {
 
   val genericSimple = Map(
     "Classification" -> List("CONFIDENTIAL")
@@ -384,10 +374,19 @@ object Testable extends App {
   val emptyFacets = Facets(List(), Map(), List(), None, None)
   val dateRangeFacets = Facets(List(), Map(), List(), Some(from), Some(to))
   val entityFacets = Facets(List(), genericSimple, List(), None, None)
-  val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\"", "\"wdawdad\""), genericComplex, List(), None, None)
+  val complexFacets = Facets(List("\"Bill Clinton\" Merkel", "\"Frank White\""), genericComplex, List(), None, None)
   val zeroFacets = Facets(List("\"wdawdad\""), genericComplex, List(), None, None)
 
-  // println(FacetedSearch.induceSubgraph(emptyFacets, 5))
+
+  //FacetedSearch.aggregateEntities(emptyFacets.withEntities(List(902475, 1352530)), 2, List(902475, 1352530))
+
+  /*val ns = Timing.time {
+   // (1 to 4).foreach { d =>
+      println(FacetedSearch.induceSubgraph(emptyFacets, 5))
+   // }
+  }
+  System.err.println()
+  System.err.println("Completed in " + Timing.Seconds.format(ns) + " seconds")*/
 
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
@@ -401,6 +400,7 @@ object Testable extends App {
   assert(FacetedSearch.aggregate(entityFacets, "Tags", 2, List()) == asAggregation("Tags", ("PREL", 70681), ("PGOV", 62763)))
   assert(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List()) == asAggregation("Tags"))
   assert(FacetedSearch.aggregate(zeroFacets, "Tags", 4, List("PREL")) == asAggregation("Tags", ("PREL", 0)))
+
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
@@ -413,4 +413,4 @@ object Testable extends App {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-}
+} */
