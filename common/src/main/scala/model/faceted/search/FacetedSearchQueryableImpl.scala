@@ -17,6 +17,7 @@
 
 package model.faceted.search
 
+// scalastyle:off
 import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
@@ -27,9 +28,9 @@ import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInte
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
+import utils.MyDBs
 // import utils.Timing
 
-// scalastyle:off
 import scala.collection.JavaConversions._
 
 import utils.RichString.richString
@@ -39,7 +40,7 @@ object FacetedSearch extends FacetedSearchQueryableImpl
 class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
 
   private val clientService = new ESTransportClient
-  private val elasticSearchIndex = "cable"
+  private val elasticSearchIndex = MyDBs.config.getString("es.index")
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"

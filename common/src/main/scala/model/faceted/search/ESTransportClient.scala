@@ -37,10 +37,8 @@ class ESTransportClient extends SearchClientService {
   private val settings = Settings.settingsBuilder()
     .put("cluster.name", clusterName).build()
 
-  // scalastyle:off
   private lazy val transportClient = TransportClient.builder().settings(settings).build()
     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(address), port))
-  // scalastyle:on
 
   override def client: Client = transportClient
 
