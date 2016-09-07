@@ -19,9 +19,9 @@ package utils
 
 import java.io.File
 
-import com.typesafe.config.{ConfigFactory, Config}
-import scalikejdbc.{SQLFormatterSettings, GlobalSettings}
-import scalikejdbc.config.{NoEnvPrefix, StandardTypesafeConfig, TypesafeConfigReader, DBs}
+import com.typesafe.config.{Config, ConfigFactory}
+import scalikejdbc.{ConnectionPool, GlobalSettings, NamedDB, SQLFormatterSettings}
+import scalikejdbc.config.{DBs, NoEnvPrefix, StandardTypesafeConfig, TypesafeConfigReader}
 
 /**
  * Mix in this trait if you are going to use database interactions.
@@ -37,12 +37,15 @@ import scalikejdbc.config.{NoEnvPrefix, StandardTypesafeConfig, TypesafeConfigRe
  * For more information refer to: http://scalikejdbc.org/documentation/configuration.html
  */
 trait DBSettings {
-  DBSettings.initialize()
+  DBService.initialize()
 }
 
-object DBSettings {
+object DBService {
 
   private var isInitialized = false
+
+  private var activeDBName = ConnectionPool.DEFAULT_NAME
+  def connector: NamedDB = NamedDB(activeDBName)
 
   def initialize(): Unit = this.synchronized {
     if (!isInitialized) {
@@ -52,6 +55,8 @@ object DBSettings {
       isInitialized = true
     }
   }
+
+  def changeDB(dbName: String): Unit = activeDBName = Symbol(dbName)
 }
 
 /**

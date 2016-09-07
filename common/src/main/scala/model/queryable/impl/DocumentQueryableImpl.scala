@@ -17,10 +17,10 @@
 
 package model.queryable.impl
 
-import model.{TimeExpression, Document}
 import model.queryable.DocumentQueryable
-import org.joda.time.{LocalDateTime, LocalDate}
-import utils.DBSettings
+import model.{Document, TimeExpression}
+import org.joda.time.{LocalDate, LocalDateTime}
+import utils.{DBService, DBSettings}
 
 // scalastyle:off
 import scalikejdbc._
@@ -28,7 +28,7 @@ import scalikejdbc._
 
 class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
 
-  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
+  def connector: NamedDB = DBService.connector
 
   override def getIds(): List[Long] = connector.readOnly { implicit session =>
     sql"SELECT id FROM document".map(_.long("id")).list.apply()
@@ -55,8 +55,8 @@ class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
 
   override def getByRelationshipId(id: Long): List[Document] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM document d
-         INNER JOIN documentrelationship dr ON d.id = dr.docid
-         WHERE dr.relid = ${id}
+          INNER JOIN documentrelationship dr ON d.id = dr.docid
+          WHERE dr.relid = ${id}
    """.map(Document(_)).list.apply()
   }
 

@@ -19,10 +19,10 @@ package model.queryable.impl
 
 import java.time.LocalDate
 
-import model.{EntityType, Entity}
 import model.queryable.EntityQueryable
+import model.{Entity, EntityType}
 import scalikejdbc.NamedDB
-import utils.DBSettings
+import utils.{DBService, DBSettings}
 
 // scalastyle:off
 import scalikejdbc._
@@ -30,7 +30,7 @@ import scalikejdbc._
 
 class EntityQueryableImpl extends EntityQueryable with DBSettings {
 
-  def connector: NamedDB = NamedDB(ConnectionPool.DEFAULT_NAME)
+  def connector: NamedDB = DBService.connector
   // Access other QueryableImpl's via class instance rather than the object,
   // because this is how we can loan in database instances for testing.
   val relationship = new RelationshipQueryableImpl
