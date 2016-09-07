@@ -17,11 +17,8 @@
 
 package utils
 
-import java.io.File
-
-import com.typesafe.config.{Config, ConfigFactory}
 import scalikejdbc.{ConnectionPool, GlobalSettings, NamedDB, SQLFormatterSettings}
-import scalikejdbc.config.{DBs, NoEnvPrefix, StandardTypesafeConfig, TypesafeConfigReader}
+
 
 /**
  * Mix in this trait if you are going to use database interactions.
@@ -49,7 +46,8 @@ object DBService {
 
   def initialize(): Unit = this.synchronized {
     if (!isInitialized) {
-      MyDBs.setupAll()
+      // Initialize all connections configured in conf/application.conf
+      NewsleakConfigReader.setupAll()
       GlobalSettings.loggingSQLErrors = true
       GlobalSettings.sqlFormatter = SQLFormatterSettings("utils.HibernateSQLFormatter")
       isInitialized = true
@@ -57,15 +55,4 @@ object DBService {
   }
 
   def changeDB(dbName: String): Unit = activeDBName = Symbol(dbName)
-}
-
-/**
- * Handles the initialization of the connections defined in the
- * conf/application.conf file.
- */
-object MyDBs extends DBs
-    with TypesafeConfigReader
-    with StandardTypesafeConfig
-    with NoEnvPrefix {
-  override lazy val config: Config = ConfigFactory.parseFile(new File("conf/application.conf"))
 }

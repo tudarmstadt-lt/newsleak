@@ -28,19 +28,22 @@ import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInte
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import utils.MyDBs
+import utils.NewsleakConfigReader.{esIndices, esDefaultIndexPosition}
 // import utils.Timing
 
 import scala.collection.JavaConversions._
 
 import utils.RichString.richString
 
-object FacetedSearch extends FacetedSearchQueryableImpl
+object FacetedSearch extends FacetedSearchQueryableImpl(esIndices, esDefaultIndexPosition) {
 
-class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
+  def changeIndex(name: String): Unit = currentIndexName = name
+}
+
+class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: Int) extends FacetedSearchQueryable {
 
   private val clientService = new ESTransportClient
-  private val elasticSearchIndex = MyDBs.config.getString("es.index")
+  protected var currentIndexName: String = indices(defaultIndexPosition)
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
@@ -52,16 +55,19 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   private val yearMonthFormat = DateTimeFormat.forPattern(yearMonthPattern)
   private val yearFormat = DateTimeFormat.forPattern(yearPattern)
 
-  private lazy val aggregationToField =
-    aggregationFields().map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField)
+  // Aggregation fields for each ES index
+  private lazy val aggregationToField: List[Map[String, String]] = {
+    indices.map(aggregationFields(_).map(k => k -> s"$k.raw").toMap) ::: List(Map(keywordsField, entityIdsField))
+  }
 
   // Always remove these fields from the aggregation.
   private val defaultExcludedAggregations = List("Content")
   private val defaultAggregationSize = 15
 
-  private def aggregationFields(): List[String] = {
-    val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(elasticSearchIndex)).get()
-    val mapping = res.mappings().get(elasticSearchIndex)
+
+  private def aggregationFields(index: String): List[String] = {
+    val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(index)).get()
+    val mapping = res.mappings().get(index)
     val terms = mapping.flatMap { m =>
       val source = m.value.sourceAsMap()
       val properties = source.get("properties").asInstanceOf[java.util.LinkedHashMap[String, java.util.LinkedHashMap[String, String]]]
@@ -193,7 +199,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
+    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
       .setQuery(createQuery(facets))
       .setSize(0)
 
@@ -261,7 +267,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
-    val requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
+    val requestBuilder = clientService.client.prepareSearch(currentIndexName)
       .setQuery(createQuery(facets))
       .setSize(pageSize)
 
@@ -275,14 +281,15 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
     size: Int = defaultAggregationSize,
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
+    println(currentIndexName)
     val excluded = defaultExcludedAggregations ++ excludedAggregations
-    val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
+    val validAggregations = aggregationToField(indices.indexOf(currentIndexName)).filterKeys(!excluded.contains(_))
 
     _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
-    val field = aggregationToField(aggregationKey)
+    val field = aggregationToField(indices.indexOf(currentIndexName))(aggregationKey)
     _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
 
@@ -306,7 +313,7 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   }
 
   private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
-    var requestBuilder = clientService.client.prepareSearch(elasticSearchIndex)
+    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
       .setQuery(createQuery(facets))
       .setSize(0)
       // We are only interested in the document id
@@ -414,4 +421,4 @@ class FacetedSearchQueryableImpl extends FacetedSearchQueryable {
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */ 
+} */
