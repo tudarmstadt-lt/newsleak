@@ -39,6 +39,13 @@ class EntityQueryableImpl extends EntityQueryable with DBSettings {
     sql"SELECT * FROM entity WHERE id = ${id} AND NOT isblacklisted".map(Entity(_)).toOption().apply()
   }
 
+  override def getByIds(ids: List[Long]): List[Entity] = connector.readOnly { implicit session =>
+    sql"""SELECT * FROM entity
+          WHERE id IN (${ids})
+                AND NOT isblacklisted
+          ORDER BY frequency DESC""".map(Entity(_)).list.apply()
+  }
+
   override def getByName(name: String): List[Entity] = connector.readOnly { implicit session =>
     sql"SELECT * FROM entity WHERE name = ${name} AND NOT isblacklisted".map(Entity(_)).list().apply()
   }

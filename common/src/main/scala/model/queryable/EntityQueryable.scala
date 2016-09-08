@@ -33,6 +33,17 @@ trait EntityQueryable {
   def getById(id: Long): Option[Entity]
 
   /**
+   * Returns a ordered list of [[model.Entity]] associated with the given ids. The list
+   * is ordered according to the decreasing frequency of the entities in the underlying
+   * dataset.
+   *
+   * @param ids list of entity ids
+   * @return Non empty list of [[model.Entity]] if at least one entity exists.
+   *         Nil otherwise.
+   */
+  def getByIds(ids: List[Long]): List[Entity]
+
+  /**
    * Returns a list of entities with the given name. This is an exact match!
    * The result can also contain entities that share the same name, but have
    * different types like (Angela, PER) and (Angela, ORG).
