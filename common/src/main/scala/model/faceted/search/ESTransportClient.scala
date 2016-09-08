@@ -25,7 +25,6 @@ import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.transport.InetSocketTransportAddress
 import utils.NewsleakConfigReader
 
-
 /**
  * Wrapper around an ElasticSearch {@link TransportClient} node.
  */

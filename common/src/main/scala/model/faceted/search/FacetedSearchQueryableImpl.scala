@@ -64,7 +64,6 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private val defaultExcludedAggregations = List("Content")
   private val defaultAggregationSize = 15
 
-
   private def aggregationFields(index: String): List[String] = {
     val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(index)).get()
     val mapping = res.mappings().get(index)
@@ -276,12 +275,16 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
     (it.hits, it.flatMap(_.id().toLongOpt()))
   }
 
+  /* override def getDocument(docId: Long, fields: List[String]): Map[String, String] = {
+    val response = clientService.client.prepareGet(currentIndexName, null, docId.toString).setFields(fields:_*).execute().actionGet()
+    val result = response.getSource.mapValues(_.toString)
+  } */
+
   override def aggregateAll(
     facets: Facets,
     size: Int = defaultAggregationSize,
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
-    println(currentIndexName)
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField(indices.indexOf(currentIndexName)).filterKeys(!excluded.contains(_))
 
@@ -289,7 +292,6 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
-    println(aggregationToField(indices.indexOf(currentIndexName)))
     val field = aggregationToField(indices.indexOf(currentIndexName))(aggregationKey)
     _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
@@ -423,4 +425,4 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   // val (numDocs, hitIterator) = FacetedSearch.searchDocuments(complexFacets, 21)
   // println(hitIterator.count(_ => true))
   // println(numDocs)
-} */
+} */ 

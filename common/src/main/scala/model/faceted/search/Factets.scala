@@ -44,6 +44,16 @@ case class Facets(
   def withEntities(ids: List[Long]): Facets = this.copy(entities = this.entities ++ ids)
 
   def isEmpty(): Boolean = fullTextSearch.isEmpty && generic.isEmpty && entities.isEmpty && !hasDateFilter
+
   def hasDateFilter(): Boolean = fromDate.isDefined || toDate.isDefined
+
+}
+
+/**
+ * Companion object for Facets
+ */
+object Facets {
+
+  val emptyFacets = Facets(List(), Map(), List(), None, None)
 }
 

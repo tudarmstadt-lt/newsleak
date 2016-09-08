@@ -134,4 +134,6 @@ trait DocumentQueryable {
    * @return  List[(String, String)].
    */
   def getMetadataKeyValueByDocumentId(docId: Long): List[(String, String)]
+
+  def getMetadataForDocuments(docIds: List[Long], fields: List[String]): List[(Long, String, String)]
 }

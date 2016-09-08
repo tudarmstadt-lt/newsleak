@@ -100,4 +100,11 @@ class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
   override def getMetadataKeyValueByDocumentId(docId: Long): List[(String, String)] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT key, value FROM metadata WHERE docid = ${docId}".map(rs => (rs.string("key"), rs.string("value"))).list.apply()
   }
+
+  override def getMetadataForDocuments(docIds: List[Long], fields: List[String]): List[(Long, String, String)] = connector.readOnly { implicit session =>
+    sql"""SELECT m.docid id, m.value, m.key
+          FROM metadata m
+          WHERE m.key IN (${fields}) AND m.docid IN (${docIds})
+      """.map(rs => (rs.long("id"), rs.string("key"), rs.string("value"))).list().apply()
+  }
 }

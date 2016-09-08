@@ -26,13 +26,12 @@ import scalikejdbc.config.{DBs, NoEnvPrefix, StandardTypesafeConfig, TypesafeCon
 import scala.collection.JavaConverters._
 // scalastyle:on
 
-
 case class ESSettings(clusterName: String, address: String, port: Int)
 
 /**
-  * Handles the initialization of the connections defined in the
-  * conf/application.conf file and provides parameter from it.
-  */
+ * Handles the initialization of the connections defined in the
+ * conf/application.conf file and provides parameter from it.
+ */
 object NewsleakConfigReader extends DBs
     with TypesafeConfigReader
     with StandardTypesafeConfig
@@ -40,8 +39,8 @@ object NewsleakConfigReader extends DBs
   override lazy val config: Config = ConfigFactory.parseFile(new File("conf/application.conf"))
 
   /**
-    * Position of the default index in <code>esIndices</code>
-    */
+   * Position of the default index in <code>esIndices</code>
+   */
   lazy val esDefaultIndexPosition: Int = {
     val indexName = config.getString("es.index.default")
     esIndices.indexOf(indexName)

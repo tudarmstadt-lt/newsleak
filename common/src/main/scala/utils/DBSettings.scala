@@ -19,7 +19,6 @@ package utils
 
 import scalikejdbc.{ConnectionPool, GlobalSettings, NamedDB, SQLFormatterSettings}
 
-
 /**
  * Mix in this trait if you are going to use database interactions.
  * It will initialize the connection pool, if the pool isn't already
