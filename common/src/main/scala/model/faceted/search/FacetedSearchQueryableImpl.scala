@@ -57,7 +57,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
 
   // Aggregation fields for each ES index
   private lazy val aggregationToField: List[Map[String, String]] = {
-    indices.map(aggregationFields(_).map(k => k -> s"$k.raw").toMap) ::: List(Map(keywordsField, entityIdsField))
+    indices.map(aggregationFields(_).map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField))
   }
 
   // Always remove these fields from the aggregation.
@@ -289,6 +289,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
+    println(aggregationToField(indices.indexOf(currentIndexName)))
     val field = aggregationToField(indices.indexOf(currentIndexName))(aggregationKey)
     _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
@@ -399,6 +400,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   // println(FacetedSearch.aggregateAll(dateRangeFacets, 10, List("Header")))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341)))
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List()))
+  // println(FacetedSearch.aggregateEntities(emptyFacets, 4, List()))
 
   // TODO write unit tests since there are so many expectations. However, this should work for now.
   def asAggregation(key: String, buckets: (String, Int)*) = {
