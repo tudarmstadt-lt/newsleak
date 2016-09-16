@@ -48,6 +48,14 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
 
+  // TODO: in course of making other entity types available, we need to adapt these hardcoded labels
+  private val entityTypeToField = Map(
+    EntityType.Person -> "Entitiesper.EntId",
+    EntityType.Organization -> "Entitiesorg.EntId",
+    EntityType.Location -> "Entitiesloc.EntId",
+    EntityType.Misc -> "Entitiesmisc.EntId"
+  )
+
   private val yearMonthDayPattern = "yyyy-MM-dd"
   private val yearMonthPattern = "yyyy-MM"
   private val yearPattern = "yyyy"
@@ -300,19 +308,13 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
     aggregate(facets, keywordsField._1, size, filter)
   }
 
-  override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
-    val agg = aggregate(facets, entityIdsField._1, size * 7, filter.map(_.toString))
-
-    def isType(id: Long, t: EntityType.Value) = {
-      val entity = model.Entity.getById(id)
-      entity.exists(_.entityType == t)
-    }
-    val buckets = agg.buckets.collect { case b @ NodeBucket(k, _) if isType(k, etype) => b }.take(size)
-    Aggregation(agg.key, buckets)
-  }
-
   override def aggregateEntities(facets: Facets, size: Int, filter: List[Long], thresholdDocCount: Int = 0): Aggregation = {
     aggregate(facets, entityIdsField._1, size, filter.map(_.toString), thresholdDocCount)
+  }
+
+  override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
+    val agg = Map(entityIdsField._1 -> (entityTypeToField(etype), size))
+    _aggregate(facets, agg, filter.map(_.toString)).head
   }
 
   private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
@@ -416,7 +418,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
-  // println(FacetedSearch.aggregateEntitiesByType(complexFacets, EntityType.Person, 10, List()))
+  println(FacetedSearch.aggregateEntitiesByType(entityFacets, EntityType.Misc, 10, List()))
   // println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   // println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))
