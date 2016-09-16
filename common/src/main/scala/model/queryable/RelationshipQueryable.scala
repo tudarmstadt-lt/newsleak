@@ -59,7 +59,7 @@ trait RelationshipQueryable {
    * @return List[[Relationship]]
    */
   def getByDocument(docId: Long): List[Relationship]
-
+  def getRelations(entities: List[Long], minEdgeFreq: Int, maxEdgeFreq: Int): List[Relationship]
   // Put Methods
 
   /**

@@ -81,4 +81,16 @@ class RelationshipQueryableImpl extends RelationshipQueryable with DBSettings {
     val count = sql"UPDATE relationship SET isblacklisted = TRUE WHERE id = ${relId}".update().apply()
     count == 1
   }
+
+  override def getRelations(entities: List[Long], minEdgeFreq: Int, maxEdgeFreq: Int): List[Relationship] = connector.readOnly { implicit session =>
+    sql"""SELECT DISTINCT ON (id, frequency) id, entity1, entity2, frequency
+        FROM relationship
+        WHERE entity1 IN (${entities})
+        AND entity2 IN (${entities})
+        AND frequency >= ${minEdgeFreq}
+        AND frequency <= ${maxEdgeFreq}
+        ORDER BY frequency DESC
+        LIMIT 100"""
+      .map(Relationship(_)).list.apply()
+  }
 }
