@@ -38,10 +38,11 @@ trait DBSettings {
 
 object DBService {
 
+
   private var isInitialized = false
 
-  private var activeDBName = ConnectionPool.DEFAULT_NAME
-  def connector: NamedDB = NamedDB(activeDBName)
+  // private var activeDBName = ConnectionPool.DEFAULT_NAME
+  // def connector: NamedDB = NamedDB(activeDBName)
 
   def initialize(): Unit = this.synchronized {
     if (!isInitialized) {
@@ -53,5 +54,6 @@ object DBService {
     }
   }
 
-  def changeDB(dbName: String): Unit = activeDBName = Symbol(dbName)
+  // def changeDB(dbName: String): Unit = activeDBName = Symbol(dbName)
+  def dbForName(name: String): () => NamedDB = () => NamedDB(Symbol(name))
 }

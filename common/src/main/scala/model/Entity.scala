@@ -17,8 +17,10 @@
 
 package model
 
+import model.queryable.EntityQueryable
 import model.queryable.impl.EntityQueryableImpl
 import scalikejdbc.WrappedResultSet
+import utils.DBService
 
 /**
  * Entity type (<tt>Person</tt>, <tt>Organisation</tt>, <tt>Location</tt>).
@@ -43,7 +45,9 @@ case class Entity(id: Long, name: String, entityType: EntityType.Value, frequenc
 /**
  * Companion object for [[model.Entity]] instances.
  */
-object Entity extends EntityQueryableImpl {
+object Entity {
+
+  def fromDBName(name: String): EntityQueryable = new EntityQueryableImpl(DBService.dbForName(name))
 
   def apply(rs: WrappedResultSet): Entity = Entity(
     rs.long("id"),

@@ -30,12 +30,12 @@ class EntityQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRol
   override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
   // Mocking setup
-  final class RelationshipQueryableTestable extends RelationshipQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
+  final class RelationshipQueryableTestable extends RelationshipQueryableImpl(() => testDatabase) // {
+    // override def connector: NamedDB = testDatabase
+  // }
 
-  final class EntityQueryableTestable extends EntityQueryableImpl {
-    override def connector: NamedDB = testDatabase
+  final class EntityQueryableTestable extends EntityQueryableImpl(() => testDatabase) {
+    // override def connector: NamedDB = testDatabase
     override val relationship = new RelationshipQueryableTestable
   }
 

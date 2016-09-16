@@ -28,12 +28,12 @@ import utils.{DBService, DBSettings}
 import scalikejdbc._
 // scalastyle:on
 
-class EntityQueryableImpl extends EntityQueryable with DBSettings {
+class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSettings {
 
-  def connector: NamedDB = DBService.connector
+   def connector: NamedDB = conn()
   // Access other QueryableImpl's via class instance rather than the object,
   // because this is how we can loan in database instances for testing.
-  val relationship = new RelationshipQueryableImpl
+  val relationship = new RelationshipQueryableImpl(conn)
 
   override def getById(id: Long): Option[Entity] = connector.readOnly { implicit session =>
     sql"SELECT * FROM entity WHERE id = ${id} AND NOT isblacklisted".map(Entity(_)).toOption().apply()
