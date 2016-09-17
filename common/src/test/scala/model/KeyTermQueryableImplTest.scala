@@ -17,7 +17,7 @@
 
 package model
 
-import model.queryable.impl.{DocumentQueryableImpl, KeyTermQueryableImpl}
+import model.queryable.impl.KeyTermQueryableImpl
 import org.scalatest.BeforeAndAfterAll
 import testFactories.FlatSpecWithDatabaseTrait
 // scalastyle:off
@@ -27,15 +27,7 @@ import scalikejdbc._
 class KeyTermQueryableImplTest extends FlatSpecWithDatabaseTrait with BeforeAndAfterAll {
 
   def testDatabase: NamedDB = NamedDB('newsleakTestDB)
-
-  // Mocking setup
-  final class DocumentQueryableTestable extends DocumentQueryableImpl(() => testDatabase)
-
-  final class KeyTermQueryableTestable extends KeyTermQueryableImpl(() => testDatabase) {
-    override val document = new DocumentQueryableTestable
-  }
-
-  val uut = new KeyTermQueryableTestable
+  val uut = new KeyTermQueryableImpl(() => testDatabase)
 
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>

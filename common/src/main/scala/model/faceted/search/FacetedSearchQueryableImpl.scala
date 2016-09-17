@@ -18,7 +18,7 @@
 package model.faceted.search
 
 // scalastyle:off
-import model.{Document, EntityType}
+import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.QueryStringQueryBuilder._
@@ -28,7 +28,6 @@ import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInte
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import utils.NewsleakConfigReader
 // import utils.Timing
 
 import utils.RichString.richString
@@ -344,18 +343,6 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     parseResult(response, aggs, filter)
   }
 }
-
-/* object Samp extends App {
-
-  val cableSearchInterface = FacetedSearch.fromIndexName("cable")
-  println(cableSearchInterface.aggregateAll(Facets.emptyFacets, 3))
-
-  val enronSearchInterface = FacetedSearch.fromIndexName("enron")
-  println(enronSearchInterface.aggregateAll(Facets.emptyFacets, 3))
-
-
-  println(Document.fromDBName(NewsleakConfigReader.dbNames.head).getById(1))
-} */
 
 /*object HistogramTestable extends App {
   // Format should be yyyy-MM-dd

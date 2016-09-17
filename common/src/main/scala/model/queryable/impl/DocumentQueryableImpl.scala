@@ -20,7 +20,7 @@ package model.queryable.impl
 import model.queryable.DocumentQueryable
 import model.{Document, TimeExpression}
 import org.joda.time.{LocalDate, LocalDateTime}
-import utils.{DBService, DBSettings}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._

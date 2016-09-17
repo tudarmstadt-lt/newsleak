@@ -28,11 +28,7 @@ import scalikejdbc._
 class TagQueryableImplTest extends FlatSpecWithDatabaseTrait with BeforeAndAfter {
 
   def testDatabase: NamedDB = NamedDB('newsleakTestDB)
-
-  // Mocking setup
-  final class TagQueryableTestable extends TagQueryableImpl(() => testDatabase)
-
-  val uut = new TagQueryableTestable
+  val uut = new TagQueryableImpl(() => testDatabase)
 
   after {
     // Local cleanup, because we have no common fixture
