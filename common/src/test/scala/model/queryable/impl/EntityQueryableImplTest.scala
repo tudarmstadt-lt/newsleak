@@ -31,7 +31,7 @@ class EntityQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRol
 
   // Mocking setup
   final class RelationshipQueryableTestable extends RelationshipQueryableImpl(() => testDatabase) // {
-    // override def connector: NamedDB = testDatabase
+  // override def connector: NamedDB = testDatabase
   // }
 
   final class EntityQueryableTestable extends EntityQueryableImpl(() => testDatabase) {

@@ -29,12 +29,9 @@ class KeyTermQueryableImplTest extends FlatSpecWithDatabaseTrait with BeforeAndA
   def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
   // Mocking setup
-  final class DocumentQueryableTestable extends DocumentQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
+  final class DocumentQueryableTestable extends DocumentQueryableImpl(() => testDatabase)
 
-  final class KeyTermQueryableTestable extends KeyTermQueryableImpl {
-    override def connector: NamedDB = testDatabase
+  final class KeyTermQueryableTestable extends KeyTermQueryableImpl(() => testDatabase) {
     override val document = new DocumentQueryableTestable
   }
 

@@ -19,15 +19,15 @@ package model.queryable.impl
 
 import model.Tag
 import model.queryable.TagQueryable
-import utils.{DBService, DBSettings}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class TagQueryableImpl extends TagQueryable with DBSettings {
+class TagQueryableImpl(conn: () => NamedDB) extends TagQueryable with DBSettings {
 
-  def connector: NamedDB = DBService.connector
+  def connector: NamedDB = conn()
 
   override def getById(tagId: Long): Option[Tag] = connector.readOnly { implicit session =>
     sql"""SELECT t.id, t.documentid, l.label FROM tags t

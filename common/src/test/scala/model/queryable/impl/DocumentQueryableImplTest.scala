@@ -28,9 +28,7 @@ class DocumentQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseR
 
   override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
-  final class DocumentQueryableTestable extends DocumentQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
+  final class DocumentQueryableTestable extends DocumentQueryableImpl(() => testDatabase)
 
   val uut = new DocumentQueryableTestable
 

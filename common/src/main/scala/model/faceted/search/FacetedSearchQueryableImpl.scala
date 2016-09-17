@@ -18,7 +18,7 @@
 package model.faceted.search
 
 // scalastyle:off
-import model.EntityType
+import model.{Document, EntityType}
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query.QueryStringQueryBuilder._
@@ -28,22 +28,21 @@ import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInte
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import utils.NewsleakConfigReader.{esIndices, esDefaultIndexPosition}
+import utils.NewsleakConfigReader
 // import utils.Timing
-
-import scala.collection.JavaConversions._
 
 import utils.RichString.richString
 
-object FacetedSearch extends FacetedSearchQueryableImpl(esIndices, esDefaultIndexPosition) {
+import scala.collection.JavaConversions._
 
-  def changeIndex(name: String): Unit = currentIndexName = name
+object FacetedSearch {
+
+  private val client = new ESTransportClient
+  def fromIndexName(name: String): FacetedSearchQueryable = new FacetedSearchQueryableImpl(client, name)
 }
 
-class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: Int) extends FacetedSearchQueryable {
+class FacetedSearchQueryableImpl(clientService: SearchClientService, index: String) extends FacetedSearchQueryable {
 
-  private val clientService = new ESTransportClient
-  protected var currentIndexName: String = indices(defaultIndexPosition)
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
@@ -63,9 +62,10 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private val yearMonthFormat = DateTimeFormat.forPattern(yearMonthPattern)
   private val yearFormat = DateTimeFormat.forPattern(yearPattern)
 
+  // TODO: Move to companion
   // Aggregation fields for each ES index
-  private lazy val aggregationToField: List[Map[String, String]] = {
-    indices.map(aggregationFields(_).map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField))
+  private lazy val aggregationToField: Map[String, String] = {
+    aggregationFields(index).map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField)
   }
 
   // Always remove these fields from the aggregation.
@@ -182,10 +182,10 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private def groupToOverview(originalBuckets: List[Bucket]): Aggregation = {
     def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
     // Starting decade
-    val collectionFirstYear = model.Document.getFirstDate().get
+    val collectionFirstYear = model.Document.fromDBName(index).getFirstDate().get
     val firstDecade = getDecade(collectionFirstYear)
     // Number of decades
-    val collectionLastYear = model.Document.getLastDate().get
+    val collectionLastYear = model.Document.fromDBName(index).getLastDate().get
     val numDecades = (getDecade(collectionLastYear) - firstDecade) / 10
 
     //Create map from decade start to buckets
@@ -206,7 +206,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    var requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(0)
 
@@ -262,7 +262,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
 
       rest.map { dest =>
         val t = List(source, dest)
-        val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t, 1)
+        val agg = aggregateEntities(facets.withEntities(t), 2, t, 1)
         agg match {
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
             (nodeA, nodeB, freqA)
@@ -274,7 +274,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
-    val requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    val requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(pageSize)
 
@@ -294,13 +294,13 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
-    val validAggregations = aggregationToField(indices.indexOf(currentIndexName)).filterKeys(!excluded.contains(_))
+    val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
     _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
-    val field = aggregationToField(indices.indexOf(currentIndexName))(aggregationKey)
+    val field = aggregationToField(aggregationKey)
     _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
 
@@ -318,7 +318,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
-    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    var requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(0)
       // We are only interested in the document id
@@ -344,6 +344,18 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
     parseResult(response, aggs, filter)
   }
 }
+
+/* object Samp extends App {
+
+  val cableSearchInterface = FacetedSearch.fromIndexName("cable")
+  println(cableSearchInterface.aggregateAll(Facets.emptyFacets, 3))
+
+  val enronSearchInterface = FacetedSearch.fromIndexName("enron")
+  println(enronSearchInterface.aggregateAll(Facets.emptyFacets, 3))
+
+
+  println(Document.fromDBName(NewsleakConfigReader.dbNames.head).getById(1))
+} */
 
 /*object HistogramTestable extends App {
   // Format should be yyyy-MM-dd
@@ -418,7 +430,8 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
-  println(FacetedSearch.aggregateEntitiesByType(entityFacets, EntityType.Misc, 10, List()))
+  //println(FacetedSearch.aggregateEntitiesByType(entityFacets, EntityType.Misc, 10, List()))
+  println(FacetedSearch.aggregateEntities(Facets(List(), Map(), List(268826), None, None), 100, List(), 1))
   // println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   // println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))

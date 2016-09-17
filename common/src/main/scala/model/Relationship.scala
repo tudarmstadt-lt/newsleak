@@ -17,8 +17,10 @@
 
 package model
 
+import model.queryable.RelationshipQueryable
 import model.queryable.impl.RelationshipQueryableImpl
 import scalikejdbc.WrappedResultSet
+import utils.DBService
 
 /**
  * Representation for relationships.
@@ -34,7 +36,9 @@ case class Relationship(id: Long, e1: Long, e2: Long, var frequency: Int = 0)
 /**
  * Companion object for [[model.Relationship]] instances.
  */
-object Relationship extends RelationshipQueryableImpl {
+object Relationship {
+
+  def fromDBName(name: String): RelationshipQueryable = new RelationshipQueryableImpl(DBService.dbForName(name))
 
   def apply(rs: WrappedResultSet): Relationship = Relationship(
 

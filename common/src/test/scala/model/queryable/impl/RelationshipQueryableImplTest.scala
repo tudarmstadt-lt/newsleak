@@ -29,9 +29,7 @@ class RelationshipQueryableImplTest extends FlatSpecWithDatabaseTrait with Datab
   override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
   // Mocking setup
-  final class RelationshipQueryableTestable extends RelationshipQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
+  final class RelationshipQueryableTestable extends RelationshipQueryableImpl(() => testDatabase)
 
   val uut = new RelationshipQueryableTestable
 

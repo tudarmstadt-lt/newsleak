@@ -17,12 +17,16 @@
 
 package model
 
+import model.queryable.KeyTermQueryable
 import model.queryable.impl.KeyTermQueryableImpl
 import scalikejdbc.WrappedResultSet
+import utils.DBService
 
 case class KeyTerm(term: String, score: Int)
 
-object KeyTerm extends KeyTermQueryableImpl {
+object KeyTerm {
+
+  def fromDBName(name: String): KeyTermQueryable = new KeyTermQueryableImpl(DBService.dbForName(name))
 
   def apply(rs: WrappedResultSet): KeyTerm = KeyTerm(rs.string("term"), rs.int("frequency"))
 }

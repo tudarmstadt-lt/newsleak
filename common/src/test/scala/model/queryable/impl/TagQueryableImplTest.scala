@@ -30,9 +30,7 @@ class TagQueryableImplTest extends FlatSpecWithDatabaseTrait with BeforeAndAfter
   def testDatabase: NamedDB = NamedDB('newsleakTestDB)
 
   // Mocking setup
-  final class TagQueryableTestable extends TagQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
+  final class TagQueryableTestable extends TagQueryableImpl(() => testDatabase)
 
   val uut = new TagQueryableTestable
 
