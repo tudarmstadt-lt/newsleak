@@ -99,9 +99,14 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
   private def addFulltextQuery(facets: Facets): Option[QueryStringQueryBuilder] = {
     if (facets.fullTextSearch.nonEmpty) {
-      val luceneQuery = facets.fullTextSearch.mkString(" ")
+      // Add trailing quote if number of quotes is uneven e.g "Angela
+      // ES cannot parse query otherwise.
+      val terms = facets.fullTextSearch.map {
+        case term if term.count(_ == '"') % 2 != 0 => term + "\""
+        case term => term
+      }
       val query = QueryBuilders
-        .queryStringQuery(luceneQuery)
+        .queryStringQuery(terms.mkString(" "))
         .field("Content")
         .defaultOperator(Operator.AND)
       Some(query)
@@ -120,7 +125,9 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   private def addEntitiesFilter(facets: Facets): List[TermQueryBuilder] = {
-    facets.entities.map { QueryBuilders.termQuery(entityIdsField._2, _) }
+    facets.entities.map {
+      QueryBuilders.termQuery(entityIdsField._2, _)
+    }
   }
 
   private def addDateFilter(facets: Facets): Option[BoolQueryBuilder] = {
@@ -251,7 +258,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
 
-    val nodeBuckets = aggregateEntities(facets, size, Nil).buckets
+    val nodeBuckets = aggregateEntities(facets, size, Nil, 1).buckets
     val nodes = nodeBuckets.collect { case NodeBucket(id, _) => id }
 
     val visitedList = scala.collection.mutable.ListBuffer[Long]()
@@ -264,6 +271,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
         val agg = aggregateEntities(facets.withEntities(t), 2, t, 1)
         agg match {
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
+            // freqA and freqB are the same since we query for docs containing both
             (nodeA, nodeB, freqA)
           case _ => throw new RuntimeException("Wrong bucket type!")
         }
