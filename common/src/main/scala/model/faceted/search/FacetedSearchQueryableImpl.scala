@@ -257,11 +257,25 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
+    val buckets = aggregateEntities(facets, size, Nil, 1).buckets
+    val rels = induceRelationships(facets, buckets)
+    (buckets, rels)
+  }
 
-    val nodeBuckets = aggregateEntities(facets, size, Nil, 1).buckets
-    val nodes = nodeBuckets.collect { case NodeBucket(id, _) => id }
+  override def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int]): (List[Bucket], List[(Long, Long, Long)]) = {
+    val buckets = nodeFraction.flatMap {
+      case (t, size) =>
+        aggregateEntitiesByType(facets, t, size, Nil).buckets
+    }.toList
 
+    val rels = induceRelationships(facets, buckets)
+    (buckets, rels)
+  }
+
+  private def induceRelationships(facets: Facets, buckets: List[Bucket]): List[(Long, Long, Long)] = {
+    val nodes = buckets.collect { case NodeBucket(id, _) => id }
     val visitedList = scala.collection.mutable.ListBuffer[Long]()
+
     val rels = nodes.flatMap { source =>
       visitedList.add(source)
       val rest = nodes.filter(!visitedList.contains(_))
@@ -277,7 +291,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
         }
       }
     }
-    (nodeBuckets, rels)
+    rels
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
@@ -321,7 +335,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
   override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
     val agg = Map(entityIdsField._1 -> (entityTypeToField(etype), size))
-    _aggregate(facets, agg, filter.map(_.toString)).head
+    _aggregate(facets, agg, filter.map(_.toString), 1).head
   }
 
   private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
@@ -331,24 +345,27 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
       // We are only interested in the document id
       .addFields("id")
 
-    for ((k, (v, size)) <- aggs) {
-      // Default order is bucket size desc
-      val agg = AggregationBuilders.terms(k)
-        .field(v)
-        .size(size)
-        // Include empty buckets
-        .minDocCount(thresholdDocCount)
+    val nonEmptyAggs = aggs.collect {
+      // Ignore aggregations with zero size since ES returns all indexed types in this case.
+      // We do not want this behaviour and return Aggregations with empty buckets instead.
+      case (entry @ (k, (v, size))) if size != 0 =>
+        // Default order is bucket size desc
+        val agg = AggregationBuilders.terms(k)
+          .field(v)
+          .size(size)
+          // Include empty buckets
+          .minDocCount(thresholdDocCount)
 
-      // Apply filter to the aggregation request
-      val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
-      requestBuilder = requestBuilder.addAggregation(filteredAgg)
+        // Apply filter to the aggregation request
+        val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
+        requestBuilder = requestBuilder.addAggregation(filteredAgg)
+        entry
     }
-
     val response = requestBuilder.setRequestCache(true).execute().actionGet()
-    //val response = requestBuilder.execute().actionGet()
-    // There is no need to call shutdown, since this node is the only
-    // one in the cluster.
-    parseResult(response, aggs, filter)
+    // val response = requestBuilder.execute().actionGet()
+
+    // There is no need to call shutdown, since this node is the only one in the cluster.
+    parseResult(response, nonEmptyAggs, filter) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
   }
 }
 
