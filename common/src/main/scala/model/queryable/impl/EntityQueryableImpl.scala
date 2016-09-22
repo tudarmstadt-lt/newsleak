@@ -59,6 +59,14 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
     sql"SELECT * FROM entity WHERE type = ${entityType.toString} AND NOT isblacklisted".map(Entity(_)).list.apply()
   }
 
+  override def getByDocId(docId: Long): List[Entity] = connector.readOnly { implicit session =>
+    sql"""SELECT e.id, e.name, e.type, e.frequency FROM entity AS e
+          INNER JOIN documententity AS de ON e.id = de.entityid
+          WHERE de.docid = ${docId}
+          AND NOT e.isblacklisted
+       """.map(Entity(_)).list.apply()
+  }
+
   override def getTypes(): List[EntityType.Value] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT type FROM entity WHERE NOT isblacklisted".map(rs => EntityType.withName(rs.string("type"))).list.apply()
   }

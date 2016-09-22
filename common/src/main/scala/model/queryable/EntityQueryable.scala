@@ -71,6 +71,8 @@ trait EntityQueryable {
    */
   def getByType(entityType: EntityType.Value): List[Entity]
 
+  def getByDocId(docId: Long): List[Entity]
+
   /**
    * Returns all available entity types.
    * @return List[EntityType]
