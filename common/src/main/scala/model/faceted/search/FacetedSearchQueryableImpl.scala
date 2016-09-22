@@ -28,22 +28,20 @@ import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInte
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import utils.NewsleakConfigReader.{esIndices, esDefaultIndexPosition}
 // import utils.Timing
-
-import scala.collection.JavaConversions._
 
 import utils.RichString.richString
 
-object FacetedSearch extends FacetedSearchQueryableImpl(esIndices, esDefaultIndexPosition) {
+import scala.collection.JavaConversions._
 
-  def changeIndex(name: String): Unit = currentIndexName = name
+object FacetedSearch {
+
+  private val client = new ESTransportClient
+  def fromIndexName(name: String): FacetedSearchQueryable = new FacetedSearchQueryableImpl(client, name)
 }
 
-class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: Int) extends FacetedSearchQueryable {
+class FacetedSearchQueryableImpl(clientService: SearchClientService, index: String) extends FacetedSearchQueryable {
 
-  private val clientService = new ESTransportClient
-  protected var currentIndexName: String = indices(defaultIndexPosition)
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
@@ -63,9 +61,10 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private val yearMonthFormat = DateTimeFormat.forPattern(yearMonthPattern)
   private val yearFormat = DateTimeFormat.forPattern(yearPattern)
 
+  // TODO: Move to companion
   // Aggregation fields for each ES index
-  private lazy val aggregationToField: List[Map[String, String]] = {
-    indices.map(aggregationFields(_).map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField))
+  private lazy val aggregationToField: Map[String, String] = {
+    aggregationFields(index).map(k => k -> s"$k.raw").toMap ++ Map(keywordsField, entityIdsField)
   }
 
   // Always remove these fields from the aggregation.
@@ -100,9 +99,14 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
 
   private def addFulltextQuery(facets: Facets): Option[QueryStringQueryBuilder] = {
     if (facets.fullTextSearch.nonEmpty) {
-      val luceneQuery = facets.fullTextSearch.mkString(" ")
+      // Add trailing quote if number of quotes is uneven e.g "Angela
+      // ES cannot parse query otherwise.
+      val terms = facets.fullTextSearch.map {
+        case term if term.count(_ == '"') % 2 != 0 => term + "\""
+        case term => term
+      }
       val query = QueryBuilders
-        .queryStringQuery(luceneQuery)
+        .queryStringQuery(terms.mkString(" "))
         .field("Content")
         .defaultOperator(Operator.AND)
       Some(query)
@@ -121,7 +125,9 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   private def addEntitiesFilter(facets: Facets): List[TermQueryBuilder] = {
-    facets.entities.map { QueryBuilders.termQuery(entityIdsField._2, _) }
+    facets.entities.map {
+      QueryBuilders.termQuery(entityIdsField._2, _)
+    }
   }
 
   private def addDateFilter(facets: Facets): Option[BoolQueryBuilder] = {
@@ -182,10 +188,10 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   private def groupToOverview(originalBuckets: List[Bucket]): Aggregation = {
     def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
     // Starting decade
-    val collectionFirstYear = model.Document.getFirstDate().get
+    val collectionFirstYear = model.Document.fromDBName(index).getFirstDate().get
     val firstDecade = getDecade(collectionFirstYear)
     // Number of decades
-    val collectionLastYear = model.Document.getLastDate().get
+    val collectionLastYear = model.Document.fromDBName(index).getLastDate().get
     val numDecades = (getDecade(collectionLastYear) - firstDecade) / 10
 
     //Create map from decade start to buckets
@@ -206,7 +212,7 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    var requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(0)
 
@@ -251,30 +257,45 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   }
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
+    val buckets = aggregateEntities(facets, size, Nil, 1).buckets
+    val rels = induceRelationships(facets, buckets)
+    (buckets, rels)
+  }
 
-    val nodeBuckets = aggregateEntities(facets, size, Nil).buckets
-    val nodes = nodeBuckets.collect { case NodeBucket(id, _) => id }
+  override def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int]): (List[Bucket], List[(Long, Long, Long)]) = {
+    val buckets = nodeFraction.flatMap {
+      case (t, size) =>
+        aggregateEntitiesByType(facets, t, size, Nil).buckets
+    }.toList
 
+    val rels = induceRelationships(facets, buckets)
+    (buckets, rels)
+  }
+
+  private def induceRelationships(facets: Facets, buckets: List[Bucket]): List[(Long, Long, Long)] = {
+    val nodes = buckets.collect { case NodeBucket(id, _) => id }
     val visitedList = scala.collection.mutable.ListBuffer[Long]()
+
     val rels = nodes.flatMap { source =>
       visitedList.add(source)
       val rest = nodes.filter(!visitedList.contains(_))
 
       rest.map { dest =>
         val t = List(source, dest)
-        val agg = FacetedSearch.aggregateEntities(facets.withEntities(t), 2, t, 1)
+        val agg = aggregateEntities(facets.withEntities(t), 2, t, 1)
         agg match {
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
+            // freqA and freqB are the same since we query for docs containing both
             (nodeA, nodeB, freqA)
           case _ => throw new RuntimeException("Wrong bucket type!")
         }
       }
     }
-    (nodeBuckets, rels)
+    rels
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
-    val requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    val requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(pageSize)
 
@@ -294,13 +315,13 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
     excludedAggregations: List[String] = List()
   ): List[Aggregation] = {
     val excluded = defaultExcludedAggregations ++ excludedAggregations
-    val validAggregations = aggregationToField(indices.indexOf(currentIndexName)).filterKeys(!excluded.contains(_))
+    val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
     _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
-    val field = aggregationToField(indices.indexOf(currentIndexName))(aggregationKey)
+    val field = aggregationToField(aggregationKey)
     _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
   }
 
@@ -314,34 +335,37 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
 
   override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
     val agg = Map(entityIdsField._1 -> (entityTypeToField(etype), size))
-    _aggregate(facets, agg, filter.map(_.toString)).head
+    _aggregate(facets, agg, filter.map(_.toString), 1).head
   }
 
   private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
-    var requestBuilder = clientService.client.prepareSearch(currentIndexName)
+    var requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(0)
       // We are only interested in the document id
       .addFields("id")
 
-    for ((k, (v, size)) <- aggs) {
-      // Default order is bucket size desc
-      val agg = AggregationBuilders.terms(k)
-        .field(v)
-        .size(size)
-        // Include empty buckets
-        .minDocCount(thresholdDocCount)
+    val nonEmptyAggs = aggs.collect {
+      // Ignore aggregations with zero size since ES returns all indexed types in this case.
+      // We do not want this behaviour and return Aggregations with empty buckets instead.
+      case (entry @ (k, (v, size))) if size != 0 =>
+        // Default order is bucket size desc
+        val agg = AggregationBuilders.terms(k)
+          .field(v)
+          .size(size)
+          // Include empty buckets
+          .minDocCount(thresholdDocCount)
 
-      // Apply filter to the aggregation request
-      val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
-      requestBuilder = requestBuilder.addAggregation(filteredAgg)
+        // Apply filter to the aggregation request
+        val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
+        requestBuilder = requestBuilder.addAggregation(filteredAgg)
+        entry
     }
-
     val response = requestBuilder.setRequestCache(true).execute().actionGet()
-    //val response = requestBuilder.execute().actionGet()
-    // There is no need to call shutdown, since this node is the only
-    // one in the cluster.
-    parseResult(response, aggs, filter)
+    // val response = requestBuilder.execute().actionGet()
+
+    // There is no need to call shutdown, since this node is the only one in the cluster.
+    parseResult(response, nonEmptyAggs, filter) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
   }
 }
 
@@ -418,7 +442,8 @@ class FacetedSearchQueryableImpl(indices: List[String], defaultIndexPosition: In
   // println(FacetedSearch.aggregateEntities(entityFacets, 4, List(9)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 4, List(653341, 3)))
   // println(FacetedSearch.aggregateEntities(complexFacets, 10, List()))
-  println(FacetedSearch.aggregateEntitiesByType(entityFacets, EntityType.Misc, 10, List()))
+  //println(FacetedSearch.aggregateEntitiesByType(entityFacets, EntityType.Misc, 10, List()))
+  println(FacetedSearch.aggregateEntities(Facets(List(), Map(), List(268826), None, None), 100, List(), 1))
   // println(FacetedSearch.aggregate(complexFacets, "Tags", 4, List("ASEC", "SAMA")))
   // println(FacetedSearch.aggregate(emptyFacets, "Tags", 4))
   // println(FacetedSearch.aggregateKeywords(f, 4))

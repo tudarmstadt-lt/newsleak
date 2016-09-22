@@ -19,15 +19,15 @@ package model.queryable.impl
 
 import model.Relationship
 import model.queryable.RelationshipQueryable
-import utils.{DBService, DBSettings}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class RelationshipQueryableImpl extends RelationshipQueryable with DBSettings {
+class RelationshipQueryableImpl(conn: () => NamedDB) extends RelationshipQueryable with DBSettings {
 
-  def connector: NamedDB = DBService.connector
+  def connector: NamedDB = conn()
 
   override def getById(relId: Long): Option[Relationship] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM relationship r

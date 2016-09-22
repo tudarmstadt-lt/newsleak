@@ -27,12 +27,7 @@ import testFactories.{DatabaseRollback, FlatSpecWithDatabaseTrait}
 class DocumentQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRollback {
 
   override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
-
-  final class DocumentQueryableTestable extends DocumentQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
-
-  val uut = new DocumentQueryableTestable
+  val uut = new DocumentQueryableImpl(() => testDatabase)
 
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>

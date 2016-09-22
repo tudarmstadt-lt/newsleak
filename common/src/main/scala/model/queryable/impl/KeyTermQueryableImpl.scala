@@ -19,16 +19,16 @@ package model.queryable.impl
 
 import model.KeyTerm
 import model.queryable.KeyTermQueryable
-import utils.{DBService, DBSettings}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class KeyTermQueryableImpl extends KeyTermQueryable with DBSettings {
+class KeyTermQueryableImpl(conn: () => NamedDB) extends KeyTermQueryable with DBSettings {
 
-  def connector: NamedDB = DBService.connector
-  protected val document = new DocumentQueryableImpl
+  def connector: NamedDB = conn()
+  protected val document = new DocumentQueryableImpl(conn)
 
   override def getDocumentKeyTerms(docId: Long, limit: Option[Int] = None): List[KeyTerm] = connector.readOnly { implicit session =>
     SQL("""SELECT term, frequency

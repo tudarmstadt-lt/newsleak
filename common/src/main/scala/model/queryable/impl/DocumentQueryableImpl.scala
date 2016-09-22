@@ -20,15 +20,15 @@ package model.queryable.impl
 import model.queryable.DocumentQueryable
 import model.{Document, TimeExpression}
 import org.joda.time.{LocalDate, LocalDateTime}
-import utils.{DBService, DBSettings}
+import utils.DBSettings
 
 // scalastyle:off
 import scalikejdbc._
 // scalastyle:on
 
-class DocumentQueryableImpl extends DocumentQueryable with DBSettings {
+class DocumentQueryableImpl(conn: () => NamedDB) extends DocumentQueryable with DBSettings {
 
-  def connector: NamedDB = DBService.connector
+  def connector: NamedDB = conn()
 
   override def getIds(): List[Long] = connector.readOnly { implicit session =>
     sql"SELECT id FROM document".map(_.long("id")).list.apply()

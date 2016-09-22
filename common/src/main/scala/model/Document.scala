@@ -17,9 +17,11 @@
 
 package model
 
+import model.queryable.DocumentQueryable
 import model.queryable.impl.DocumentQueryableImpl
 import org.joda.time.LocalDateTime
 import scalikejdbc.WrappedResultSet
+import utils.DBService
 
 /**
  * Document representation.
@@ -33,7 +35,9 @@ case class Document(id: Long, content: String, created: LocalDateTime)
 /**
  * Companion object for [[model.Document]] instances.
  */
-object Document extends DocumentQueryableImpl {
+object Document {
+
+  def fromDBName(name: String): DocumentQueryable = new DocumentQueryableImpl(DBService.dbForName(name))
 
   def apply(rs: WrappedResultSet): Document = Document(
     rs.int("id"),

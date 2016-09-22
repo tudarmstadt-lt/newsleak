@@ -17,12 +17,16 @@
 
 package model
 
+import model.queryable.TagQueryable
 import model.queryable.impl.TagQueryableImpl
 import scalikejdbc.WrappedResultSet
+import utils.DBService
 
 case class Tag(id: Long, documentId: Long, label: String)
 
-object Tag extends TagQueryableImpl {
+object Tag {
+
+  def fromDBName(name: String): TagQueryable = new TagQueryableImpl(DBService.dbForName(name))
 
   def apply(rs: WrappedResultSet): Tag = Tag(
     rs.long("id"),

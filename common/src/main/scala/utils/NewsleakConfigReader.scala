@@ -36,15 +36,10 @@ object NewsleakConfigReader extends DBs
     with TypesafeConfigReader
     with StandardTypesafeConfig
     with NoEnvPrefix {
+
   override lazy val config: Config = ConfigFactory.parseFile(new File("conf/application.conf"))
 
-  /**
-   * Position of the default index in <code>esIndices</code>
-   */
-  lazy val esDefaultIndexPosition: Int = {
-    val indexName = config.getString("es.index.default")
-    esIndices.indexOf(indexName)
-  }
+  lazy val esDefaultIndex: String = config.getString("es.index.default")
 
   lazy val esIndices: List[String] = config.getStringList("es.indices").asScala.toList
 

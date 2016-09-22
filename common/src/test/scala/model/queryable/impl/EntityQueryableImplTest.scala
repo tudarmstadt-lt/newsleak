@@ -28,18 +28,7 @@ import scalikejdbc._
 class EntityQueryableImplTest extends FlatSpecWithDatabaseTrait with DatabaseRollback {
 
   override def testDatabase: NamedDB = NamedDB('newsleakTestDB)
-
-  // Mocking setup
-  final class RelationshipQueryableTestable extends RelationshipQueryableImpl {
-    override def connector: NamedDB = testDatabase
-  }
-
-  final class EntityQueryableTestable extends EntityQueryableImpl {
-    override def connector: NamedDB = testDatabase
-    override val relationship = new RelationshipQueryableTestable
-  }
-
-  val uut = new EntityQueryableTestable
+  val uut = new EntityQueryableImpl(() => testDatabase)
 
   override def beforeAll(): Unit = {
     testDatabase.localTx { implicit session =>
