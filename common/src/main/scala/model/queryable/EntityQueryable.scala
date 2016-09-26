@@ -140,10 +140,11 @@ trait EntityQueryable {
    * all adjacent relationships.
    *
    * @param entityId entity to blacklist
-   * @return <code>True</code> if successful. <code>False</code>, otherwise
+   * @return <code>True</code> if successful. <code>False</code>, otherwise.
    */
   def delete(entityId: Long): Boolean
 
+  def undoDelete(entityId: Long): Boolean
   /**
    * Blacklists the given `duplicates` and updates the frequency of
    * the entity associated with the given `focalId` with the
