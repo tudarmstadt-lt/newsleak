@@ -67,6 +67,10 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
        """.map(Entity(_)).list.apply()
   }
 
+  override def getBlacklisted(): List[Entity] = connector.readOnly { implicit session =>
+    sql"SELECT * FROM entity WHERE isblacklisted".map(Entity(_)).list.apply()
+  }
+
   override def getTypes(): List[EntityType.Value] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT type FROM entity WHERE NOT isblacklisted".map(rs => EntityType.withName(rs.string("type"))).list.apply()
   }
@@ -75,7 +79,7 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
     sql"""SELECT * FROM entity
           WHERE type = ${entity} AND NOT isblacklisted
           ORDER BY frequency ASC limit ${limit}
-    """.map(Entity(_)).list.apply()
+      """.map(Entity(_)).list.apply()
   }
 
   override def getOrderedByFreqAsc(entityType: EntityType.Value, created: LocalDate, limit: Int): List[Entity] = connector.readOnly { implicit session =>

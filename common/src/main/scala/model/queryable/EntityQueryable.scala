@@ -73,6 +73,7 @@ trait EntityQueryable {
 
   def getByDocId(docId: Long): List[Entity]
 
+  def getBlacklisted(): List[Entity]
   /**
    * Returns all available entity types.
    * @return List[EntityType]

@@ -257,15 +257,15 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
-    val buckets = aggregateEntities(facets, size, Nil, 1).buckets
+    val buckets = aggregateEntities(facets, size, thresholdDocCount = 1).buckets
     val rels = induceRelationships(facets, buckets)
     (buckets, rels)
   }
 
-  override def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int]): (List[Bucket], List[(Long, Long, Long)]) = {
+  override def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int], exclude: List[Long] = Nil): (List[Bucket], List[(Long, Long, Long)]) = {
     val buckets = nodeFraction.flatMap {
       case (t, size) =>
-        aggregateEntitiesByType(facets, t, size, Nil).buckets
+        aggregateEntitiesByType(facets, t, size, exclude = exclude).buckets
     }.toList
 
     val rels = induceRelationships(facets, buckets)
@@ -282,7 +282,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
       rest.map { dest =>
         val t = List(source, dest)
-        val agg = aggregateEntities(facets.withEntities(t), 2, t, 1)
+        val agg = aggregateEntities(facets.withEntities(t), 2, t, thresholdDocCount = 1)
         agg match {
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
             // freqA and freqB are the same since we query for docs containing both
@@ -317,28 +317,28 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) }, Nil)
+    _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) })
   }
 
-  override def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation = {
+  override def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): Aggregation = {
     val field = aggregationToField(aggregationKey)
-    _aggregate(facets, Map(aggregationKey -> (field, size)), filter, thresholdDocCount).head
+    _aggregate(facets, Map(aggregationKey -> (field, size)), include, exclude, thresholdDocCount).head
   }
 
-  override def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation = {
-    aggregate(facets, keywordsField._1, size, filter)
+  override def aggregateKeywords(facets: Facets, size: Int, include: List[String] = Nil): Aggregation = {
+    aggregate(facets, keywordsField._1, size, include)
   }
 
-  override def aggregateEntities(facets: Facets, size: Int, filter: List[Long], thresholdDocCount: Int = 0): Aggregation = {
-    aggregate(facets, entityIdsField._1, size, filter.map(_.toString), thresholdDocCount)
+  override def aggregateEntities(facets: Facets, size: Int, include: List[Long] = Nil, exclude: List[Long] = Nil, thresholdDocCount: Int = 0): Aggregation = {
+    aggregate(facets, entityIdsField._1, size, include.map(_.toString), exclude.map(_.toString), thresholdDocCount)
   }
 
-  override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation = {
+  override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, include: List[Long] = Nil, exclude: List[Long] = Nil): Aggregation = {
     val agg = Map(entityIdsField._1 -> (entityTypeToField(etype), size))
-    _aggregate(facets, agg, filter.map(_.toString), 1).head
+    _aggregate(facets, agg, include.map(_.toString), exclude.map(_.toString), 1).head
   }
 
-  private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], filter: List[String], thresholdDocCount: Int = 0): List[Aggregation] = {
+  private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): List[Aggregation] = {
     var requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
       .setSize(0)
@@ -357,15 +357,16 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
           .minDocCount(thresholdDocCount)
 
         // Apply filter to the aggregation request
-        val filteredAgg = if (filter.isEmpty) agg else agg.include(filter.toArray)
-        requestBuilder = requestBuilder.addAggregation(filteredAgg)
+        val includeAggOpt = if (include.isEmpty) agg else agg.include(include.toArray)
+        val excludeAggOpt = if (exclude.isEmpty) includeAggOpt else includeAggOpt.exclude(exclude.toArray)
+        requestBuilder = requestBuilder.addAggregation(excludeAggOpt)
         entry
     }
     val response = requestBuilder.setRequestCache(true).execute().actionGet()
     // val response = requestBuilder.execute().actionGet()
 
     // There is no need to call shutdown, since this node is the only one in the cluster.
-    parseResult(response, nonEmptyAggs, filter) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
+    parseResult(response, nonEmptyAggs, include) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
   }
 }
 

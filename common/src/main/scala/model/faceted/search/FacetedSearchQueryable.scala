@@ -30,7 +30,7 @@ trait FacetedSearchQueryable {
    */
   def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)])
 
-  def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int]): (List[Bucket], List[(Long, Long, Long)])
+  def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int], exclude: List[Long]): (List[Bucket], List[(Long, Long, Long)])
 
   /**
    * Returns an iterator that contains ids of matched documents.
@@ -59,13 +59,13 @@ trait FacetedSearchQueryable {
    * @param filter the response will only contain the instances given in this list.
    * @return
    */
-  def aggregate(facets: Facets, aggregationKey: String, size: Int, filter: List[String], thresholdDocCount: Int = 0): Aggregation
+  def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String], exclude: List[String], thresholdDocCount: Int = 0): Aggregation
 
-  def aggregateKeywords(facets: Facets, size: Int, filter: List[String]): Aggregation
+  def aggregateKeywords(facets: Facets, size: Int, include: List[String]): Aggregation
 
-  def aggregateEntities(facets: Facets, size: Int, filter: List[Long], thresholdDocCount: Int = 0): Aggregation
+  def aggregateEntities(facets: Facets, size: Int, include: List[Long], exclude: List[Long], thresholdDocCount: Int = 0): Aggregation
 
-  def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, filter: List[Long]): Aggregation
+  def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, include: List[Long], exclude: List[Long]): Aggregation
 
   /**
    * Applies the given facets and full-text search to the underling document collection and returns aggregations
