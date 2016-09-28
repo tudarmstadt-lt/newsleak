@@ -326,7 +326,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def aggregateKeywords(facets: Facets, size: Int, include: List[String] = Nil): Aggregation = {
-    aggregate(facets, keywordsField._1, size, include)
+    aggregate(facets, keywordsField._1, size, include, Nil, 1)
   }
 
   override def aggregateEntities(facets: Facets, size: Int, include: List[Long] = Nil, exclude: List[Long] = Nil, thresholdDocCount: Int = 0): Aggregation = {
