@@ -28,6 +28,8 @@ trait RelationshipQueryable {
    */
   def getById(relId: Long): Option[Relationship]
 
+  def getByAdjacentEntities(first: Long, second: Long): Option[Relationship]
+
   /**
    * Returns all [[Relationship]]s where the given [[model.Entity]] participates.
    * @param entityId the id of the [[model.Entity]] to search for.

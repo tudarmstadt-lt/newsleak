@@ -39,6 +39,17 @@ class RelationshipQueryableImpl(conn: () => NamedDB) extends RelationshipQueryab
           AND NOT r.isblacklisted""".map(Relationship(_)).toOption().apply()
   }
 
+  override def getByAdjacentEntities(first: Long, second: Long): Option[Relationship] = connector.readOnly { implicit session =>
+    sql"""SELECT r.id, entity1, entity2, r.frequency FROM relationship r
+            INNER JOIN entity e1 ON r.entity1 = e1.id
+            INNER JOIN entity e2 ON r.entity2 = e2.id
+          WHERE
+            entity1 = ${first} and entity2 = ${second}
+          AND NOT (e1.isblacklisted OR e2.isblacklisted)
+          AND NOT r.isblacklisted
+       """.map(Relationship(_)).toOption().apply()
+  }
+
   override def getByEntity(entityId: Long): List[Relationship] = connector.readOnly { implicit session =>
     sql"""SELECT * FROM relationship r
             INNER JOIN entity e1 ON r.entity1 = e1.id

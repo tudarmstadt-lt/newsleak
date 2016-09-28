@@ -43,7 +43,7 @@ class KeyTermQueryableImpl(conn: () => NamedDB) extends KeyTermQueryable with DB
     val terms = sql"""
           SELECT term
           FROM terms
-          WHERE docid IN (${docIds.mkString(",")})
+          WHERE docid IN (${docIds})
       """.map(_.string("term")).list.apply()
 
     val res = aggregateKeyTerms(terms)

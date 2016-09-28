@@ -24,6 +24,7 @@ import utils.DBService
 
 case class KeyTerm(term: String, score: Int)
 
+@deprecated("Use ES methods instead")
 object KeyTerm {
 
   def fromDBName(name: String): KeyTermQueryable = new KeyTermQueryableImpl(DBService.dbForName(name))
