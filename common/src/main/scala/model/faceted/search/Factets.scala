@@ -54,6 +54,6 @@ case class Facets(
  */
 object Facets {
 
-  val emptyFacets = Facets(List(), Map(), List(), None, None)
+  val empty = Facets(List(), Map(), List(), None, None)
 }
 

@@ -49,6 +49,8 @@ trait FacetedSearchQueryable {
    */
   def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long])
 
+  def getNeighborCounts(facets: Facets, entityId: Int): Aggregation
+
   /**
    * Example:
    * aggregate(Some("Clinton"), facets, "SignedBy", 4)

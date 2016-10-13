@@ -20,12 +20,13 @@ package model.faceted.search
 // scalastyle:off
 import model.EntityType
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
-import org.elasticsearch.action.search.SearchResponse
+import org.elasticsearch.action.search.{SearchRequestBuilder, SearchResponse}
 import org.elasticsearch.index.query.QueryStringQueryBuilder._
 import org.elasticsearch.index.query._
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.histogram.{DateHistogramInterval, Histogram}
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
+import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 // import utils.Timing
@@ -304,6 +305,12 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     (it.hits, it.flatMap(_.id().toLongOpt()))
   }
 
+  override def getNeighborCounts(facets: Facets, entityId: Int): Aggregation = {
+    // Add entity id as entities filter in order to receive documents where both co-occur
+    val neighborFacets = facets.withEntities(List(entityId))
+    cardinalityAggregate(neighborFacets)
+  }
+
   /* override def getDocument(docId: Long, fields: List[String]): Map[String, String] = {
     val response = clientService.client.prepareGet(currentIndexName, null, docId.toString).setFields(fields:_*).execute().actionGet()
     val result = response.getSource.mapValues(_.toString)
@@ -317,12 +324,12 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     val excluded = defaultExcludedAggregations ++ excludedAggregations
     val validAggregations = aggregationToField.filterKeys(!excluded.contains(_))
 
-    _aggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) })
+    termAggregate(facets, validAggregations.map { case (k, v) => (k, (v, size)) })
   }
 
   override def aggregate(facets: Facets, aggregationKey: String, size: Int, include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): Aggregation = {
     val field = aggregationToField(aggregationKey)
-    _aggregate(facets, Map(aggregationKey -> (field, size)), include, exclude, thresholdDocCount).head
+    termAggregate(facets, Map(aggregationKey -> (field, size)), include, exclude, thresholdDocCount).head
   }
 
   override def aggregateKeywords(facets: Facets, size: Int, include: List[String] = Nil): Aggregation = {
@@ -335,15 +342,33 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
   override def aggregateEntitiesByType(facets: Facets, etype: EntityType.Value, size: Int, include: List[Long] = Nil, exclude: List[Long] = Nil): Aggregation = {
     val agg = Map(entityIdsField._1 -> (entityTypeToField(etype), size))
-    _aggregate(facets, agg, include.map(_.toString), exclude.map(_.toString), 1).head
+    termAggregate(facets, agg, include.map(_.toString), exclude.map(_.toString), 1).head
   }
 
-  private def _aggregate(facets: Facets, aggs: Map[String, (String, Int)], include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): List[Aggregation] = {
-    var requestBuilder = clientService.client.prepareSearch(index)
-      .setQuery(createQuery(facets))
-      .setSize(0)
-      // We are only interested in the document id
-      .addFields("id")
+  private def cardinalityAggregate(facets: Facets): Aggregation = {
+    val requestBuilder = createSearchRequest(facets)
+    // Add neighbor aggregation for each NE type
+    entityTypeToField.foreach {
+      case (eType, f) =>
+        val aggregation = AggregationBuilders
+          .cardinality(eType.toString)
+          .field(f)
+
+        requestBuilder.addAggregation(aggregation)
+    }
+    val response = requestBuilder.setRequestCache(true).execute().actionGet()
+    // Parse result
+    val buckets = entityTypeToField.map {
+      case (eType, _) =>
+        val agg: Cardinality = response.getAggregations.get(eType.toString)
+        MetaDataBucket(eType.toString, agg.getValue)
+    }.toList
+
+    Aggregation("neighbors", buckets)
+  }
+
+  private def termAggregate(facets: Facets, aggs: Map[String, (String, Int)], include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): List[Aggregation] = {
+    var requestBuilder = createSearchRequest(facets)
 
     val nonEmptyAggs = aggs.collect {
       // Ignore aggregations with zero size since ES returns all indexed types in this case.
@@ -367,6 +392,16 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
     // There is no need to call shutdown, since this node is the only one in the cluster.
     parseResult(response, nonEmptyAggs, include) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
+  }
+
+  private def createSearchRequest(facets: Facets): SearchRequestBuilder = {
+    val requestBuilder = clientService.client.prepareSearch(index)
+      .setQuery(createQuery(facets))
+      .setSize(0)
+      // We are only interested in the document id
+      .addFields("id")
+
+    requestBuilder
   }
 }
 
