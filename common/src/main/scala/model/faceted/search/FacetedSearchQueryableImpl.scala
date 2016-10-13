@@ -305,7 +305,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     (it.hits, it.flatMap(_.id().toLongOpt()))
   }
 
-  override def getNeighborCounts(facets: Facets, entityId: Int): Aggregation = {
+  override def getNeighborCounts(facets: Facets, entityId: Long): Aggregation = {
     // Add entity id as entities filter in order to receive documents where both co-occur
     val neighborFacets = facets.withEntities(List(entityId))
     cardinalityAggregate(neighborFacets)

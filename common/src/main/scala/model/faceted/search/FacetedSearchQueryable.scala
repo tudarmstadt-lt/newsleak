@@ -49,7 +49,7 @@ trait FacetedSearchQueryable {
    */
   def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long])
 
-  def getNeighborCounts(facets: Facets, entityId: Int): Aggregation
+  def getNeighborCounts(facets: Facets, entityId: Long): Aggregation
 
   /**
    * Example:
