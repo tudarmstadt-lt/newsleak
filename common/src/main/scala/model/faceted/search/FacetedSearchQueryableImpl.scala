@@ -281,13 +281,16 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
       visitedList.add(source)
       val rest = nodes.filter(!visitedList.contains(_))
 
-      rest.map { dest =>
+      rest.flatMap { dest =>
         val t = List(source, dest)
         val agg = aggregateEntities(facets.withEntities(t), 2, t, thresholdDocCount = 1)
         agg match {
+          // No edge between both since their frequency is zero
+          case Aggregation(_, NodeBucket(nodeA, 0) :: NodeBucket(nodeB, 0) :: Nil) =>
+            None
           case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
             // freqA and freqB are the same since we query for docs containing both
-            (nodeA, nodeB, freqA)
+            Some((nodeA, nodeB, freqA))
           case _ => throw new RuntimeException("Wrong bucket type!")
         }
       }
