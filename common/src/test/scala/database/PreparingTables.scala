@@ -58,13 +58,13 @@ trait PreparingTables {
     }
   } catch { case e: Exception => }
 
+  // Without primary key reference a foreign key constraint is assumed
   try {
     NamedDB('newsleakTestDB).autoCommit { implicit s =>
       SQL("""CREATE TABLE IF NOT EXISTS documententity (
                 docid BIGINT NOT NULL,
                 entityid BIGINT NOT NULL,
-                frequency INTEGER NOT NULL,
-                CONSTRAINT documententity_pkey PRIMARY KEY(docid, entityid)
+                frequency INTEGER NOT NULL
       )""").execute.apply()
     }
   } catch { case e: Exception => }
@@ -74,8 +74,7 @@ trait PreparingTables {
       SQL("""CREATE TABLE IF NOT EXISTS documentrelationship (
                 docid BIGINT NOT NULL,
                 relid BIGINT NOT NULL,
-                frequency INTEGER NOT NULL,
-                CONSTRAINT documentrelationship_pkey PRIMARY KEY(docid, relid)
+                frequency INTEGER NOT NULL
       )""").execute.apply()
     }
   } catch { case e: Exception => }
@@ -108,7 +107,6 @@ trait PreparingTables {
     }
   } catch { case e: Exception => }
 
-  // TODO: Primary key?
   try {
     NamedDB('newsleakTestDB).autoCommit { implicit s =>
       SQL("""CREATE TABLE IF NOT EXISTS terms (
@@ -116,6 +114,15 @@ trait PreparingTables {
                 term CHARACTER VARYING NOT NULL,
                 frequency INTEGER NOT NULL
               )""").execute.apply()
+    }
+  } catch { case e: Exception => }
+
+  try {
+    NamedDB('newsleakTestDB).autoCommit { implicit s =>
+      SQL("""CREATE TABLE IF NOT EXISTS duplicates (
+                duplicateid BIGINT NOT NULL,
+                focalid BIGINT NOT NULL
+            )""").execute.apply()
     }
   } catch { case e: Exception => }
 }

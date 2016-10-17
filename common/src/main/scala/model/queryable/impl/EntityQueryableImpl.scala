@@ -71,6 +71,23 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
     sql"SELECT * FROM entity WHERE isblacklisted".map(Entity(_)).list.apply()
   }
 
+  override def getDuplicates(): Map[Entity, List[Entity]] = connector.readOnly { implicit session =>
+    val duplicates = sql"""SELECT e1.id, e1.name, e1.type, e1.frequency,
+                                  e2.id AS focalId, e2.name AS focalName, e2.type AS focalType, e2.frequency AS focalFreq
+                           FROM duplicates AS d
+                           INNER JOIN entity AS e1 ON e1.id = d.duplicateid
+                           INNER JOIN entity AS e2 ON e2.id = d.focalid""".map { rs =>
+      (Entity(rs), Entity(
+        rs.long("focalId"),
+        rs.string("focalName"),
+        EntityType.withName(rs.string("focalType")),
+        rs.int("focalFreq")
+      ))
+    }.list.apply()
+
+    duplicates.groupBy { case (_, focalEntity) => focalEntity }.mapValues(_.map(_._1))
+  }
+
   override def getTypes(): List[EntityType.Value] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT type FROM entity WHERE NOT isblacklisted".map(rs => EntityType.withName(rs.string("type"))).list.apply()
   }
@@ -141,21 +158,15 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
   }
 
   override def merge(focalId: Int, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
-    val sumFreq = duplicates.flatMap { id =>
-      // Override each document occurrence with the focalId
-      sql"UPDATE documententity SET entityid = ${focalId} WHERE entityid = ${id}".update().apply()
-      // Need to override relationship both directions, since relationships table is symmetric
-      sql"UPDATE relationship SET entity1 = ${focalId} WHERE entity1 = ${id}".update().apply()
-      sql"UPDATE relationship SET entity2 = ${focalId} WHERE entity2 = ${id}".update().apply()
-      // Delete self-referring relationships, possible introduced by relationship overwriting
-      sql"DELETE FROM relationship WHERE entity1 = entity2".update().apply()
-      val entity = getById(id)
+    // Keep track of the origin entities for these duplicates
+    val merged = duplicates.map { id =>
+      sql"INSERT INTO duplicates VALUES (${id}, ${focalId})".update.apply()
+      // Blacklist duplicates in order to prevent that they show up in any query
       delete(id)
-      entity
-    }.foldLeft(0)(_ + _.frequency)
-
-    val count = sql"UPDATE entity SET frequency = frequency + ${sumFreq} WHERE id = ${focalId}".update().apply()
-    count == 1
+    }
+    // scalastyle:off
+    merged.length == duplicates.length && merged.forall(a => true)
+    // scalastyle:on
   }
 
   override def changeName(entityId: Long, newName: String): Boolean = connector.localTx { implicit session =>
