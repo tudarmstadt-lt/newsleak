@@ -157,7 +157,7 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
     entityCount == 1
   }
 
-  override def merge(focalId: Int, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
+  override def merge(focalId: Long, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
     // Keep track of the origin entities for these duplicates
     val merged = duplicates.map { id =>
       sql"INSERT INTO duplicates VALUES (${id}, ${focalId})".update.apply()
@@ -167,6 +167,18 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
     // scalastyle:off
     merged.length == duplicates.length && merged.forall(a => true)
     // scalastyle:on
+  }
+
+  override def undoMerge(focalId: Long): Boolean = connector.autoCommit { implicit session =>
+    // Remove blacklist flag from all duplicate entries with matching focalId
+    sql"""UPDATE entity
+          SET isblacklisted = FALSE
+          FROM duplicates
+          WHERE duplicateid = id AND focalid = ${focalId}""".update().apply()
+
+    sql"DELETE FROM duplicates WHERE focalid = ${focalId}".update().apply()
+    // TODO
+    true
   }
 
   override def changeName(entityId: Long, newName: String): Boolean = connector.localTx { implicit session =>
