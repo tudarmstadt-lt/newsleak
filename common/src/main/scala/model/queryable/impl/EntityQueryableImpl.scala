@@ -153,8 +153,10 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
 
   override def undoDelete(entityId: Long): Boolean = connector.localTx { implicit session =>
     val entityCount = sql"UPDATE entity SET isblacklisted = FALSE WHERE id = ${entityId}".update().apply()
+    // Remove entity also from the duplicates list
+    val duplicateCount = sql"DELETE FROM duplicates WHERE duplicateid = ${entityId}".update().apply()
     // Successful, if updates one entity
-    entityCount == 1
+    entityCount == 1 && duplicateCount == 1
   }
 
   override def merge(focalId: Long, duplicates: List[Long]): Boolean = connector.autoCommit { implicit session =>
