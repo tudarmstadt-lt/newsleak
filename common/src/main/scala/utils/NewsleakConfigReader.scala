@@ -49,4 +49,8 @@ object NewsleakConfigReader extends DBs
     val port = NewsleakConfigReader.config.getInt("es.port")
     ESSettings(clusterName, address, port)
   }
+
+  lazy val excludedMetadataTypes: Map[String, List[String]] = {
+    esIndices.map { index => index -> config.getStringList(s"es.$index.excludeTypes").asScala.toList }.toMap
+  }
 }
