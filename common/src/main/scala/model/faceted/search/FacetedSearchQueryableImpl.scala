@@ -78,16 +78,10 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   private val defaultExcludedAggregations = List(docContentField)
   private val defaultAggregationSize = 15
 
-  private def aggregationFields(index: String): List[String] = {
-    val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(index)).get()
-    val mapping = res.mappings().get(index)
-    val terms = mapping.flatMap { m =>
-      val source = m.value.sourceAsMap()
-      val properties = source.get("properties").asInstanceOf[java.util.LinkedHashMap[String, java.util.LinkedHashMap[String, String]]]
-      properties.keySet()
-    }
-    terms.toList
-  }
+  // ----------------------------------------------------------------------------------
+  // Document filtering
+  //
+  // ----------------------------------------------------------------------------------
 
   private def createQuery(facets: Facets): QueryBuilder = {
     if (facets.isEmpty) {
@@ -162,116 +156,13 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     }
   }
 
-  /**
-   * Convert response to our internal model
-   */
-  // TODO: Refactor with creatorMethod that receives a method that creates certain Bucket instances, because both
-  // directions are almost the same ...
-  private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)], filters: List[String]): List[Aggregation] = {
-    val res = aggregations.collect {
-      // Create node bucket for entities
-      case (k, (v, s)) if k == entityIdsField._1 =>
-        val agg: Terms = response.getAggregations.get(k)
-        val buckets = agg.getBuckets.collect {
-          // If include filter is given don't add zero count entries (will be post processed)
-          case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
-          case (b) if filters.isEmpty => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
-        }.toList
-        // We need to add missing zero buckets for entities filters manually,
-        // because aggregation is not able to process long ids with zero buckets
-        val addedBuckets = buckets.map(_.id)
-        val zeroEntities = filters.filterNot(s => addedBuckets.contains(s.toInt))
-
-        val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
-        Aggregation(k, resBuckets ::: zeroEntities.map(s => NodeBucket(s.toInt, 0)))
-      case (k, (v, s)) =>
-        val agg: Terms = response.getAggregations.get(k)
-        val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
-
-        val resBuckets = if (response.getHits.getTotalHits == 0) buckets.filter(b => filters.contains(b.key)) else buckets
-        Aggregation(k, resBuckets)
-    }
-    res.toList
-  }
-
-  // TODO: was not able to incorporate this into the parseResult method. Cannot cast at runtime :(
-  private def parseHistogram(response: SearchResponse, key: String): Aggregation = {
-    val agg = response.getAggregations.get(key).asInstanceOf[Histogram]
-    val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
-    Aggregation(key, buckets)
-  }
-
-  private def parseXHistogram(response: SearchResponse, key: String, lod: LoD.Value, from: Option[LocalDateTime], to: Option[LocalDateTime]): Aggregation = {
-    val agg = response.getAggregations.get(key).asInstanceOf[Histogram]
-    val buckets = agg.getBuckets.collect {
-        // Filter date buckets, which are out of the given range.
-      case b if lod != LoD.overview && isBetweenInclusive(from.get, to.get, b.getKeyAsString) =>
-        MetaDataBucket(b.getKeyAsString, b.getDocCount)
-        // Take everything from ES for the overview
-      case b if lod == LoD.overview =>
-        MetaDataBucket(b.getKeyAsString, b.getDocCount)
-    }.toList
-    Aggregation(key, buckets)
-  }
-
-  // Utils
-  private def isBetweenInclusive(from: LocalDateTime, to: LocalDateTime, target: String): Boolean = {
-    val targetDate = LocalDateTime.parse(target)
-    !targetDate.isBefore(from) && !targetDate.isAfter(to)
-  }
-
-  // TODO: Remove duplication
-  private def minDate(field: String): LocalDateTime = {
-    val request = createSearchRequest(Facets.empty)
-    val agg = AggregationBuilders.min("min_aggregation").field(field)
-    request.addAggregation(agg)
-
-    val response = request.setRequestCache(true).execute().actionGet()
-    val res: Min = response.getAggregations.get("min_aggregation")
-
-    LocalDateTime.parse(res.getValueAsString, yearMonthDayFormat)
-  }
-
-  private def maxDate(field: String): LocalDateTime = {
-    val request = createSearchRequest(Facets.empty)
-    val agg = AggregationBuilders.max("max_aggregation").field(field)
-    request.addAggregation(agg)
-
-    val response = request.setRequestCache(true).execute().actionGet()
-    val res: Max = response.getAggregations.get("max_aggregation")
-
-    LocalDateTime.parse(res.getValueAsString, yearMonthDayFormat)
-  }
-
-
-  private def groupToOverview(originalBuckets: List[Bucket], minDate: LocalDateTime, maxDate: LocalDateTime): Aggregation = {
-    def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
-    // Starting decade
-    val firstDecade = getDecade(minDate)
-    // Number of decades
-    val numDecades = (getDecade(maxDate) - firstDecade) / 10
-
-    //Create map from decade start to buckets
-    val decadeToCount = originalBuckets.collect {
-      case (b: MetaDataBucket) =>
-        val decade = getDecade(LocalDateTime.parse(b.key, yearFormat))
-        decade -> b.docCount
-    }.groupBy(_._1).mapValues(_.map(_._2))
-
-    val buckets = (0 to numDecades).map { decade =>
-      val startDecade = firstDecade + 10 * decade
-      val endDecade = firstDecade + 9 + 10 * decade
-      val key = s"$startDecade-$endDecade"
-      MetaDataBucket(key, decadeToCount.getOrElse(startDecade, Nil).sum)
-    }.toList
-
-    Aggregation("histogram", buckets)
-  }
+  // ----------------------------------------------------------------------------------
+  // Timeline
+  //
+  // ----------------------------------------------------------------------------------
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch(index)
-      .setQuery(createQuery(facets))
-      .setSize(0)
+    var requestBuilder = createSearchRequest(facets)
 
     val (format, level, minBound, maxBound) = levelOfDetail match {
       case LoD.overview =>
@@ -308,8 +199,8 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     levelOfDetail match {
       // Post process result if the overview is requested
       case LoD.overview =>
-        val collectionFirstDate = model.Document.fromDBName(index).getMinDate().get
-        val collectionLastDate = model.Document.fromDBName(index).getMaxDate().get
+        val collectionFirstDate = minDate(docDateField)
+        val collectionLastDate = maxDate(docDateField)
 
         groupToOverview(result.buckets, collectionFirstDate, collectionLastDate)
       case _ => result
@@ -317,9 +208,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def timeXHistogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = clientService.client.prepareSearch(index)
-      .setQuery(createQuery(facets))
-      .setSize(0)
+    var requestBuilder = createSearchRequest(facets)
 
     val (format, level, minBound, maxBound) = levelOfDetail match {
       case LoD.overview =>
@@ -366,6 +255,35 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     }
   }
 
+  private def groupToOverview(originalBuckets: List[Bucket], minDate: LocalDateTime, maxDate: LocalDateTime): Aggregation = {
+    def getDecade(date: LocalDateTime) = date.getYear - (date.getYear % 10)
+    // Starting decade
+    val firstDecade = getDecade(minDate)
+    // Number of decades
+    val numDecades = (getDecade(maxDate) - firstDecade) / 10
+
+    //Create map from decade start to buckets
+    val decadeToCount = originalBuckets.collect {
+      case (b: MetaDataBucket) =>
+        val decade = getDecade(LocalDateTime.parse(b.key, yearFormat))
+        decade -> b.docCount
+    }.groupBy(_._1).mapValues(_.map(_._2))
+
+    val buckets = (0 to numDecades).map { decade =>
+      val startDecade = firstDecade + 10 * decade
+      val endDecade = firstDecade + 9 + 10 * decade
+      val key = s"$startDecade-$endDecade"
+      MetaDataBucket(key, decadeToCount.getOrElse(startDecade, Nil).sum)
+    }.toList
+
+    Aggregation("histogram", buckets)
+  }
+
+  // ----------------------------------------------------------------------------------
+  // Dynamic network generation
+  //
+  // ----------------------------------------------------------------------------------
+
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
     val buckets = aggregateEntities(facets, size, thresholdDocCount = 1).buckets
     val rels = induceRelationships(facets, buckets)
@@ -408,10 +326,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
-    val requestBuilder = clientService.client.prepareSearch(index)
-      .setQuery(createQuery(facets))
-      .setSize(pageSize)
-
+    val requestBuilder = createSearchRequest(facets, pageSize)
     val it = new SearchHitIterator(requestBuilder)
     // TODO: We have to figure out, why this returns "4.4.0" with source name kibana as id when we use a matchAllQuery
     (it.hits, it.flatMap(_.id().toLongOpt()))
@@ -423,10 +338,37 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     cardinalityAggregate(neighborFacets)
   }
 
+  private def cardinalityAggregate(facets: Facets): Aggregation = {
+    val requestBuilder = createSearchRequest(facets)
+    // Add neighbor aggregation for each NE type
+    entityTypeToField.foreach {
+      case (eType, f) =>
+        val aggregation = AggregationBuilders
+          .cardinality(eType.toString)
+          .field(f)
+
+        requestBuilder.addAggregation(aggregation)
+    }
+    val response = executeRequest(requestBuilder)
+    // Parse result
+    val buckets = entityTypeToField.map {
+      case (eType, _) =>
+        val agg: Cardinality = response.getAggregations.get(eType.toString)
+        MetaDataBucket(eType.toString, agg.getValue)
+    }.toList
+
+    Aggregation("neighbors", buckets)
+  }
+
   /* override def getDocument(docId: Long, fields: List[String]): Map[String, String] = {
     val response = clientService.client.prepareGet(currentIndexName, null, docId.toString).setFields(fields:_*).execute().actionGet()
     val result = response.getSource.mapValues(_.toString)
   } */
+
+  // ----------------------------------------------------------------------------------
+  // Term Aggregations
+  //
+  // ----------------------------------------------------------------------------------
 
   override def aggregateAll(
     facets: Facets,
@@ -457,28 +399,6 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     termAggregate(facets, agg, include.map(_.toString), exclude.map(_.toString), 1).head
   }
 
-  private def cardinalityAggregate(facets: Facets): Aggregation = {
-    val requestBuilder = createSearchRequest(facets)
-    // Add neighbor aggregation for each NE type
-    entityTypeToField.foreach {
-      case (eType, f) =>
-        val aggregation = AggregationBuilders
-          .cardinality(eType.toString)
-          .field(f)
-
-        requestBuilder.addAggregation(aggregation)
-    }
-    val response = requestBuilder.setRequestCache(true).execute().actionGet()
-    // Parse result
-    val buckets = entityTypeToField.map {
-      case (eType, _) =>
-        val agg: Cardinality = response.getAggregations.get(eType.toString)
-        MetaDataBucket(eType.toString, agg.getValue)
-    }.toList
-
-    Aggregation("neighbors", buckets)
-  }
-
   private def termAggregate(facets: Facets, aggs: Map[String, (String, Int)], include: List[String] = Nil, exclude: List[String] = Nil, thresholdDocCount: Int = 0): List[Aggregation] = {
     var requestBuilder = createSearchRequest(facets)
 
@@ -499,21 +419,128 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
         requestBuilder = requestBuilder.addAggregation(excludeAggOpt)
         entry
     }
-    val response = requestBuilder.setRequestCache(true).execute().actionGet()
-    // val response = requestBuilder.execute().actionGet()
-
+    val response = executeRequest(requestBuilder)
     // There is no need to call shutdown, since this node is the only one in the cluster.
     parseResult(response, nonEmptyAggs, include) ++ aggs.collect { case ((k, (_, 0))) => Aggregation(k, List()) }
   }
 
-  private def createSearchRequest(facets: Facets): SearchRequestBuilder = {
+  // ----------------------------------------------------------------------------------
+  // Aggregation result parsing
+  //
+  // ----------------------------------------------------------------------------------
+
+  /**
+   * Convert response to our internal model
+   */
+  // TODO: Refactor with creatorMethod that receives a method that creates certain Bucket instances, because both
+  // directions are almost the same ...
+  private def parseResult(response: SearchResponse, aggregations: Map[String, (String, Int)], filters: List[String]): List[Aggregation] = {
+    val res = aggregations.collect {
+      // Create node bucket for entities
+      case (k, (v, s)) if k == entityIdsField._1 =>
+        val agg: Terms = response.getAggregations.get(k)
+        val buckets = agg.getBuckets.collect {
+          // If include filter is given don't add zero count entries (will be post processed)
+          case (b) if filters.nonEmpty && filters.contains(b.getKeyAsString) => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
+          case (b) if filters.isEmpty => NodeBucket(b.getKeyAsNumber.longValue(), b.getDocCount)
+        }.toList
+        // We need to add missing zero buckets for entities filters manually,
+        // because aggregation is not able to process long ids with zero buckets
+        val addedBuckets = buckets.map(_.id)
+        val zeroEntities = filters.filterNot(s => addedBuckets.contains(s.toInt))
+
+        val resBuckets = if (response.getHits.getTotalHits == 0) List() else buckets
+        Aggregation(k, resBuckets ::: zeroEntities.map(s => NodeBucket(s.toInt, 0)))
+      case (k, (v, s)) =>
+        val agg: Terms = response.getAggregations.get(k)
+        val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
+
+        val resBuckets = if (response.getHits.getTotalHits == 0) buckets.filter(b => filters.contains(b.key)) else buckets
+        Aggregation(k, resBuckets)
+    }
+    res.toList
+  }
+
+  // TODO: was not able to incorporate this into the parseResult method. Cannot cast at runtime :(
+  private def parseHistogram(response: SearchResponse, key: String): Aggregation = {
+    val agg = response.getAggregations.get(key).asInstanceOf[Histogram]
+    val buckets = agg.getBuckets.map(b => MetaDataBucket(b.getKeyAsString, b.getDocCount)).toList
+    Aggregation(key, buckets)
+  }
+
+  private def parseXHistogram(response: SearchResponse, key: String, lod: LoD.Value, from: Option[LocalDateTime], to: Option[LocalDateTime]): Aggregation = {
+    val agg = response.getAggregations.get(key).asInstanceOf[Histogram]
+    val buckets = agg.getBuckets.collect {
+      // Filter date buckets, which are out of the given range.
+      case b if lod != LoD.overview && isBetweenInclusive(from.get, to.get, b.getKeyAsString) =>
+        MetaDataBucket(b.getKeyAsString, b.getDocCount)
+      // Take everything from ES for the overview
+      case b if lod == LoD.overview =>
+        MetaDataBucket(b.getKeyAsString, b.getDocCount)
+    }.toList
+    Aggregation(key, buckets)
+  }
+
+  // ----------------------------------------------------------------------------------
+  // Connection utils
+  //
+  // ----------------------------------------------------------------------------------
+
+  private def createSearchRequest(facets: Facets, documentSize: Int = 0): SearchRequestBuilder = {
     val requestBuilder = clientService.client.prepareSearch(index)
       .setQuery(createQuery(facets))
-      .setSize(0)
+      .setSize(documentSize)
       // We are only interested in the document id
       .addFields("id")
 
     requestBuilder
+  }
+
+  private def executeRequest(request: SearchRequestBuilder, cache: Boolean = true): SearchResponse = request.setRequestCache(cache).execute().actionGet()
+
+  // ----------------------------------------------------------------------------------
+  // Misc utils
+  //
+  // ----------------------------------------------------------------------------------
+
+  private def aggregationFields(index: String): List[String] = {
+    val res = clientService.client.admin().indices().getMappings(new GetMappingsRequest().indices(index)).get()
+    val mapping = res.mappings().get(index)
+    val terms = mapping.flatMap { m =>
+      val source = m.value.sourceAsMap()
+      val properties = source.get("properties").asInstanceOf[java.util.LinkedHashMap[String, java.util.LinkedHashMap[String, String]]]
+      properties.keySet()
+    }
+    terms.toList
+  }
+
+  private def isBetweenInclusive(from: LocalDateTime, to: LocalDateTime, target: String): Boolean = {
+    val targetDate = LocalDateTime.parse(target)
+    !targetDate.isBefore(from) && !targetDate.isAfter(to)
+  }
+
+  private def minDate(field: String): LocalDateTime = {
+    val aggName = "min_aggregation"
+    val requestBuilder = createSearchRequest(Facets.empty)
+    val agg = AggregationBuilders.min(aggName).field(field)
+    requestBuilder.addAggregation(agg)
+
+    val response = executeRequest(requestBuilder)
+    val res: Min = response.getAggregations.get(aggName)
+
+    LocalDateTime.parse(res.getValueAsString, yearMonthDayFormat)
+  }
+
+  private def maxDate(field: String): LocalDateTime = {
+    val aggName = "max_aggregation"
+    val requestBuilder = createSearchRequest(Facets.empty)
+    val agg = AggregationBuilders.max(aggName).field(field)
+    requestBuilder.addAggregation(agg)
+
+    val response = executeRequest(requestBuilder)
+    val res: Max = response.getAggregations.get(aggName)
+
+    LocalDateTime.parse(res.getValueAsString, yearMonthDayFormat)
   }
 }
 
@@ -529,7 +556,6 @@ object HistogramTestable extends App {
 
   val filter = Facets(List(), Map(), List(), None, None, Some(monthFrom), Some(monthTo))
   val overview = Facets(List(), Map(), List(), None, None, None, None)
-
 
   var res = FacetedSearch.fromIndexName("enron").timeXHistogram(filter, LoD.month)
   //var res = FacetedSearch.fromIndexName("enron").timeXHistogram(overview, LoD.overview)
