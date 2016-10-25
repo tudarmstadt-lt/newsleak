@@ -38,7 +38,9 @@ case class Facets(
     generic: Map[String, List[String]],
     entities: List[Long],
     fromDate: Option[LocalDateTime],
-    toDate: Option[LocalDateTime]
+    toDate: Option[LocalDateTime],
+    fromXDate: Option[LocalDateTime],
+    toXDate: Option[LocalDateTime]
 ) {
 
   def withEntities(ids: List[Long]): Facets = this.copy(entities = this.entities ++ ids)
@@ -54,6 +56,6 @@ case class Facets(
  */
 object Facets {
 
-  val empty = Facets(List(), Map(), List(), None, None)
+  val empty = Facets(List(), Map(), List(), None, None, None, None)
 }
 

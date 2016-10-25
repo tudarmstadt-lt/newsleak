@@ -23,6 +23,8 @@ trait FacetedSearchQueryable {
 
   def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation
 
+  def timeXHistogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation
+
   /**
    *
    * @param facets

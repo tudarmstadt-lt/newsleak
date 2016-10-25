@@ -78,13 +78,13 @@ trait DocumentQueryable {
    * TODO
    * @return
    */
-  def getFirstDate(): Option[LocalDateTime]
+  def getMinDate(): Option[LocalDateTime]
 
   /**
    * TODO
    * @return
    */
-  def getLastDate(): Option[LocalDateTime]
+  def getMaxDate(): Option[LocalDateTime]
 
   /**
    * Returns a list of tuple, where each tuple (key, type) represents
