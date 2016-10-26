@@ -49,6 +49,8 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   private val docXDateField = "SimpleTimeExpresion"
   private val docContentField = "Content"
 
+  private val histogramAggName = "histogram"
+
   // These two fields differ from the generic metadata
   private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
@@ -162,31 +164,37 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   // ----------------------------------------------------------------------------------
 
   override def histogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = createSearchRequest(facets)
+    val lodToFormat = Map(
+      LoD.overview -> yearPattern,
+      LoD.decade -> yearPattern,
+      LoD.year -> yearMonthPattern,
+      LoD.month -> yearMonthDayPattern
+    )
+    val parser = (r: SearchResponse) => parseHistogram(r, histogramAggName)
 
-    val (format, level, minBound, maxBound) = levelOfDetail match {
-      case LoD.overview =>
-        assert(facets.fromDate.isEmpty)
-        assert(facets.toDate.isEmpty)
-        (yearPattern, DateHistogramInterval.YEAR, None, None)
-      case LoD.decade =>
-        val from = facets.fromDate.map(_.toString(yearFormat))
-        val to = facets.toDate.map(_.toString(yearFormat))
-        (yearPattern, DateHistogramInterval.YEAR, from, to)
-      case LoD.year =>
-        val from = facets.fromDate.map(_.toString(yearMonthFormat))
-        val to = facets.toDate.map(_.toString(yearMonthFormat))
-        (yearMonthPattern, DateHistogramInterval.MONTH, from, to)
-      case LoD.month =>
-        val from = facets.fromDate.map(_.toString(yearMonthDayFormat))
-        val to = facets.toDate.map(_.toString(yearMonthDayFormat))
-        (yearMonthDayPattern.toString, DateHistogramInterval.DAY, from, to)
-      case _ => throw new IllegalArgumentException("Unknown level of detail.")
-    }
+    createDateHistogram(facets, docDateField, facets.fromDate, facets.toDate, levelOfDetail, parser, lodToFormat)
+  }
+
+  override def timeXHistogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
+    // The first element in the format is used as bucket key format
+    val lodToFormat = Map(
+      LoD.overview -> s"$yearPattern || $yearMonthPattern || $yearMonthDayPattern",
+      LoD.decade -> s"$yearPattern || $yearMonthPattern || $yearMonthDayPattern",
+      LoD.year -> s"$yearMonthPattern || $yearPattern || $yearMonthDayPattern",
+      LoD.month -> s"$yearMonthDayPattern || $yearMonthPattern || $yearPattern"
+    )
+    val parser = (r: SearchResponse) => parseXHistogram(r, histogramAggName, levelOfDetail, facets.fromXDate, facets.toXDate)
+
+    createDateHistogram(facets, docXDateField, facets.fromXDate, facets.toXDate, levelOfDetail, parser, lodToFormat)
+  }
+
+  private def createDateHistogram(facets: Facets, dateField: String, fromDate: Option[LocalDateTime], toDate: Option[LocalDateTime], levelOfDetail: LoD.Value, parser: SearchResponse => Aggregation, lodToFormat: Map[LoD.Value, String]): Aggregation = {
+    var requestBuilder = createSearchRequest(facets)
+    val (format, level, minBound, maxBound) = getParameter(fromDate, toDate, levelOfDetail, lodToFormat)
 
     val histogramAgg = AggregationBuilders
-      .dateHistogram("histogram")
-      .field(docDateField)
+      .dateHistogram(histogramAggName)
+      .field(dateField)
       .interval(level)
       .format(format)
       .minDocCount(0)
@@ -194,64 +202,39 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     val boundedAgg = if (minBound.isDefined || maxBound.isDefined) histogramAgg.extendedBounds(minBound.get, maxBound.get) else histogramAgg
     requestBuilder = requestBuilder.addAggregation(boundedAgg)
 
-    val response = requestBuilder.execute().actionGet()
-    val result = parseHistogram(response, "histogram")
+    val response = executeRequest(requestBuilder, cache = false)
+    val result = parser(response)
+
     levelOfDetail match {
       // Post process result if the overview is requested
       case LoD.overview =>
-        val collectionFirstDate = minDate(docDateField)
-        val collectionLastDate = maxDate(docDateField)
+        val collectionFirstDate = minDate(dateField)
+        val collectionLastDate = maxDate(dateField)
 
         groupToOverview(result.buckets, collectionFirstDate, collectionLastDate)
       case _ => result
     }
   }
 
-  override def timeXHistogram(facets: Facets, levelOfDetail: LoD.Value): Aggregation = {
-    var requestBuilder = createSearchRequest(facets)
-
-    val (format, level, minBound, maxBound) = levelOfDetail match {
-      case LoD.overview =>
-        assert(facets.fromXDate.isEmpty)
-        assert(facets.toXDate.isEmpty)
-        // The first element in the format is used as bucket key format
-        (s"$yearPattern || $yearMonthPattern || $yearMonthDayPattern", DateHistogramInterval.YEAR, None, None)
-      case LoD.decade =>
-        val from = facets.fromXDate.map(_.toString(yearFormat))
-        val to = facets.toXDate.map(_.toString(yearFormat))
-        (s"$yearPattern || $yearMonthPattern || $yearMonthDayPattern", DateHistogramInterval.YEAR, from, to)
-      case LoD.year =>
-        val from = facets.fromXDate.map(_.toString(yearMonthFormat))
-        val to = facets.toXDate.map(_.toString(yearMonthFormat))
-        (s"$yearMonthPattern || $yearPattern || $yearMonthDayPattern", DateHistogramInterval.MONTH, from, to)
-      case LoD.month =>
-        val from = facets.fromXDate.map(_.toString(yearMonthDayFormat))
-        val to = facets.toXDate.map(_.toString(yearMonthDayFormat))
-        (s"$yearMonthDayPattern || $yearMonthPattern || $yearPattern", DateHistogramInterval.DAY, from, to)
-      case _ => throw new IllegalArgumentException("Unknown level of detail.")
-    }
-
-    val histogramAgg = AggregationBuilders
-      .dateHistogram("histogram")
-      .field(docXDateField)
-      .interval(level)
-      .format(format)
-      .minDocCount(0)
-
-    val boundedAgg = if (minBound.isDefined || maxBound.isDefined) histogramAgg.extendedBounds(minBound.get, maxBound.get) else histogramAgg
-    requestBuilder = requestBuilder.addAggregation(boundedAgg)
-
-    val response = requestBuilder.execute().actionGet()
-    // TODO: Facets dates should be tuple and pass tuple everywhere .. shortens amount of parameter
-    val result = parseXHistogram(response, "histogram", levelOfDetail, facets.fromXDate, facets.toXDate)
+  private def getParameter(fromDate: Option[LocalDateTime], toDate: Option[LocalDateTime], levelOfDetail: _root_.model.faceted.search.LoD.Value, lodToFormat: Map[_root_.model.faceted.search.LoD.Value, String]): (String, DateHistogramInterval, Option[String], Option[String]) = {
     levelOfDetail match {
-      // Post process result if the overview is requested
       case LoD.overview =>
-        val collectionFirstDate = minDate(docXDateField)
-        val collectionLastDate = maxDate(docXDateField)
-
-        groupToOverview(result.buckets, collectionFirstDate, collectionLastDate)
-      case _ => result
+        assert(fromDate.isEmpty)
+        assert(toDate.isEmpty)
+        (lodToFormat(levelOfDetail), DateHistogramInterval.YEAR, None, None)
+      case LoD.decade =>
+        val from = fromDate.map(_.toString(yearFormat))
+        val to = toDate.map(_.toString(yearFormat))
+        (lodToFormat(levelOfDetail), DateHistogramInterval.YEAR, from, to)
+      case LoD.year =>
+        val from = fromDate.map(_.toString(yearMonthFormat))
+        val to = toDate.map(_.toString(yearMonthFormat))
+        (lodToFormat(levelOfDetail), DateHistogramInterval.MONTH, from, to)
+      case LoD.month =>
+        val from = fromDate.map(_.toString(yearMonthDayFormat))
+        val to = toDate.map(_.toString(yearMonthDayFormat))
+        (lodToFormat(levelOfDetail), DateHistogramInterval.DAY, from, to)
+      case _ => throw new IllegalArgumentException("Unknown level of detail.")
     }
   }
 
@@ -262,7 +245,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     // Number of decades
     val numDecades = (getDecade(maxDate) - firstDecade) / 10
 
-    //Create map from decade start to buckets
+    // Create map from decade start to buckets
     val decadeToCount = originalBuckets.collect {
       case (b: MetaDataBucket) =>
         val decade = getDecade(LocalDateTime.parse(b.key, yearFormat))
@@ -276,7 +259,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
       MetaDataBucket(key, decadeToCount.getOrElse(startDecade, Nil).sum)
     }.toList
 
-    Aggregation("histogram", buckets)
+    Aggregation(histogramAggName, buckets)
   }
 
   // ----------------------------------------------------------------------------------
