@@ -47,7 +47,7 @@ case class Facets(
 
   def isEmpty(): Boolean = fullTextSearch.isEmpty && generic.isEmpty && entities.isEmpty && !hasDateFilter
 
-  def hasDateFilter(): Boolean = fromDate.isDefined || toDate.isDefined
+  def hasDateFilter(): Boolean = fromDate.isDefined || toDate.isDefined || fromXDate.isDefined || toXDate.isDefined
 
 }
 
