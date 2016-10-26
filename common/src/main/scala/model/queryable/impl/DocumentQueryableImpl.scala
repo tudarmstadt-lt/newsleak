@@ -102,12 +102,16 @@ class DocumentQueryableImpl(conn: () => NamedDB) extends DocumentQueryable with 
   }
 
   override def getMetadataForDocuments(docIds: List[Long], fields: List[String]): List[(Long, String, String)] = connector.readOnly { implicit session =>
-    val generic = sql"""SELECT m.docid id, m.value, m.key
-                        FROM metadata m
-                        WHERE m.key IN (${fields}) AND m.docid IN (${docIds})
-                    """.map(rs => (rs.long("id"), rs.string("key"), rs.string("value"))).list().apply()
-    // Add creates fields for documents that are not explicit added as metadata
-    val dates = sql"SELECT id, created FROM document WHERE id IN (${docIds})".map(rs => (rs.long("id"), "Created", rs.string("created"))).list().apply()
-    dates ++ generic
+    if (fields.nonEmpty && docIds.nonEmpty) {
+      val generic = sql"""SELECT m.docid id, m.value, m.key
+                          FROM metadata m
+                          WHERE m.key IN (${fields}) AND m.docid IN (${docIds})
+                      """.map(rs => (rs.long("id"), rs.string("key"), rs.string("value"))).list().apply()
+      // Add creates fields for documents that are not explicit added as metadata
+      val dates = sql"SELECT id, created FROM document WHERE id IN (${docIds})".map(rs => (rs.long("id"), "Created", rs.string("created"))).list().apply()
+      dates ++ generic
+    } else {
+      List()
+    }
   }
 }
