@@ -67,6 +67,14 @@ class EntityQueryableImpl(conn: () => NamedDB) extends EntityQueryable with DBSe
        """.map(Entity(_)).list.apply()
   }
 
+  override def getEntityDocumentOffsets(docId: Long): List[(Entity, Int, Int)] = connector.readOnly { implicit session =>
+    sql"""SELECT entid AS id, e.name, e.type, e.frequency, entitystart, entityend FROM entityoffset
+          INNER JOIN entity AS e ON e.id = entid
+          WHERE docid = ${docId}
+          AND NOT e.isblacklisted
+       """.map(rs => (Entity(rs), rs.int("entitystart"), rs.int("entityend"))).list.apply()
+  }
+
   override def getBlacklisted(): List[Entity] = connector.readOnly { implicit session =>
     sql"SELECT * FROM entity WHERE isblacklisted".map(Entity(_)).list.apply()
   }

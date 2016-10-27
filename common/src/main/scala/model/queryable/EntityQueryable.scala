@@ -73,6 +73,8 @@ trait EntityQueryable {
 
   def getByDocId(docId: Long): List[Entity]
 
+  def getEntityDocumentOffsets(docId: Long): List[(Entity, Int, Int)]
+
   def getBlacklisted(): List[Entity]
 
   def getDuplicates(): Map[Entity, List[Entity]]
