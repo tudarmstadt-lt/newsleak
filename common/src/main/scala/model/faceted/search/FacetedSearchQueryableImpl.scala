@@ -269,7 +269,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
 
   override def induceSubgraph(facets: Facets, size: Int): (List[Bucket], List[(Long, Long, Long)]) = {
     val buckets = aggregateEntities(facets, size, thresholdDocCount = 1).buckets
-    val rels = induceRelationships(facets, buckets)
+    val rels = induceRelationships(facets, buckets.collect { case NodeBucket(id, _) => id })
     (buckets, rels)
   }
 
@@ -279,33 +279,43 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
         aggregateEntitiesByType(facets, t, size, exclude = exclude).buckets
     }.toList
 
-    val rels = induceRelationships(facets, buckets)
+    val rels = induceRelationships(facets, buckets.collect { case NodeBucket(id, _) => id })
     (buckets, rels)
   }
 
-  private def induceRelationships(facets: Facets, buckets: List[Bucket]): List[(Long, Long, Long)] = {
-    val nodes = buckets.collect { case NodeBucket(id, _) => id }
-    val visitedList = scala.collection.mutable.ListBuffer[Long]()
+  override def addNodes(facets: Facets, currentNetwork: List[Long], nodes: List[Long]): (List[NodeBucket], List[(Long, Long, Long)]) = {
+    val buckets = aggregateEntities(facets, 1, nodes, thresholdDocCount = 1).buckets.collect { case a @ NodeBucket(_, _) => a }
+    // Fetch relationships between new nodes
+    val inBetweenRels = induceRelationships(facets, nodes)
+    // Fetch relationships between new nodes and current network
+    val connectingRels = nodes.flatMap { source =>
+      currentNetwork.flatMap { dest => getRelationship(facets, source, dest) }
+    }
+    (buckets, inBetweenRels ++ connectingRels)
+  }
 
+  private def induceRelationships(facets: Facets, nodes: List[Long]): List[(Long, Long, Long)] = {
+    val visitedList = scala.collection.mutable.ListBuffer[Long]()
     val rels = nodes.flatMap { source =>
       visitedList.add(source)
       val rest = nodes.filter(!visitedList.contains(_))
-
-      rest.flatMap { dest =>
-        val t = List(source, dest)
-        val agg = aggregateEntities(facets.withEntities(t), 2, t, thresholdDocCount = 1)
-        agg match {
-          // No edge between both since their frequency is zero
-          case Aggregation(_, NodeBucket(nodeA, 0) :: NodeBucket(nodeB, 0) :: Nil) =>
-            None
-          case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
-            // freqA and freqB are the same since we query for docs containing both
-            Some((nodeA, nodeB, freqA))
-          case _ => throw new RuntimeException("Wrong bucket type!")
-        }
-      }
+      rest.flatMap { dest => getRelationship(facets, source, dest) }
     }
     rels
+  }
+
+  private def getRelationship(facets: Facets, source: Long, dest: Long): Option[(Long, Long, Long)] = {
+    val t = List(source, dest)
+    val agg = aggregateEntities(facets.withEntities(t), 2, t, thresholdDocCount = 1)
+    agg match {
+      // No edge between both since their frequency is zero
+      case Aggregation(_, NodeBucket(nodeA, 0) :: NodeBucket(nodeB, 0) :: Nil) =>
+        None
+      case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
+        // freqA and freqB are the same since we query for docs containing both
+        Some((nodeA, nodeB, freqA))
+      case _ => throw new RuntimeException("Wrong bucket type!")
+    }
   }
 
   override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {

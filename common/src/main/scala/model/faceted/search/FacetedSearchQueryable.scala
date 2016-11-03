@@ -34,6 +34,8 @@ trait FacetedSearchQueryable {
 
   def induceSubgraph(facets: Facets, nodeFraction: Map[EntityType.Value, Int], exclude: List[Long]): (List[Bucket], List[(Long, Long, Long)])
 
+  def addNodes(facets: Facets, currentNetwork: List[Long], nodes: List[Long]): (List[NodeBucket], List[(Long, Long, Long)])
+
   /**
    * Returns an iterator that contains ids of matched documents.
    *
