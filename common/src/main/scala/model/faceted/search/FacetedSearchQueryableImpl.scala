@@ -52,7 +52,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   private val histogramAggName = "histogram"
 
   // These two fields differ from the generic metadata
-  private val keywordsField = "Keywords" -> "Keywords.Keyword"
+  private val keywordsField = "Keywords" -> "Keywords.Keyword.raw"
   private val entityIdsField = "Entities" -> "Entities.EntId"
 
   // TODO: in course of making other entity types available, we need to adapt these hardcoded labels
