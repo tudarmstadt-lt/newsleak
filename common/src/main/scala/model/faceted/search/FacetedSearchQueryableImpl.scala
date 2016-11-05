@@ -314,7 +314,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
       case Aggregation(_, NodeBucket(nodeA, freqA) :: NodeBucket(nodeB, freqB) :: Nil) =>
         // freqA and freqB are the same since we query for docs containing both
         Some((nodeA, nodeB, freqA))
-      case _ => throw new RuntimeException("Wrong bucket type!")
+      case _ => None
     }
   }
 
@@ -552,7 +552,9 @@ object HistogramTestable extends App {
 
   var res = FacetedSearch.fromIndexName("enron").timeXHistogram(filter, LoD.month)
   //var res = FacetedSearch.fromIndexName("enron").timeXHistogram(overview, LoD.overview)
-  println(res)
+  //println(res)
+
+  println(FacetedSearch.fromIndexName("cars").aggregateEntitiesByType(Facets.empty, EntityType.Location, 10, Nil, Nil))
 }
 
 /* object Testable extends App {
