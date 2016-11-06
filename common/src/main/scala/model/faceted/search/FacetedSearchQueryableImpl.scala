@@ -284,7 +284,7 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   }
 
   override def addNodes(facets: Facets, currentNetwork: List[Long], nodes: List[Long]): (List[NodeBucket], List[(Long, Long, Long)]) = {
-    val buckets = aggregateEntities(facets, 1, nodes, thresholdDocCount = 1).buckets.collect { case a @ NodeBucket(_, _) => a }
+    val buckets = aggregateEntities(facets, nodes.length, nodes, thresholdDocCount = 1).buckets.collect { case a @ NodeBucket(_, _) => a }
     // Fetch relationships between new nodes
     val inBetweenRels = induceRelationships(facets, nodes)
     // Fetch relationships between new nodes and current network
