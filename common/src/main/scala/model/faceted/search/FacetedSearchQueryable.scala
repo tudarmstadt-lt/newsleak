@@ -17,7 +17,7 @@
 
 package model.faceted.search
 
-import model.EntityType
+import model.{Document, EntityType}
 
 trait FacetedSearchQueryable {
 
@@ -51,7 +51,7 @@ trait FacetedSearchQueryable {
    * @return tuple (num, it), where num represents the number of matched documents and it
    *         is a iterator consisting of document ids.
    */
-  def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long])
+  def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Document])
 
   def getNeighborCounts(facets: Facets, entityId: Long): Aggregation
 

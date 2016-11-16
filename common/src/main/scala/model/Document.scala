@@ -30,7 +30,7 @@ import utils.DBService
  * @param content  document body that contains raw text.
  * @param created  creation date and time of the document.
  */
-case class Document(id: Long, content: String, created: LocalDateTime)
+case class Document(id: Long, content: String, created: LocalDateTime, highlightedContent: Option[String] = None)
 
 /**
  * Companion object for [[model.Document]] instances.

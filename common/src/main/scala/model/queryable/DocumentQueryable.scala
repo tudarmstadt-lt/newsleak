@@ -75,18 +75,6 @@ trait DocumentQueryable {
   def getTimeExpressions(docId: Long): List[TimeExpression]
 
   /**
-   * TODO
-   * @return
-   */
-  def getMinDate(): Option[LocalDateTime]
-
-  /**
-   * TODO
-   * @return
-   */
-  def getMaxDate(): Option[LocalDateTime]
-
-  /**
    * Returns a list of tuple, where each tuple (key, type) represents
    * the available metadata key associated with its type in the <b>whole</b> collection.
    * Example: List(("Subject", "TEXT", "Position":"GEO", ...)

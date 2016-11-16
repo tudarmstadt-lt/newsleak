@@ -73,14 +73,6 @@ class DocumentQueryableImpl(conn: () => NamedDB) extends DocumentQueryable with 
        """.map(TimeExpression(_)).list.apply()
   }
 
-  override def getMinDate(): Option[LocalDateTime] = connector.readOnly { implicit session =>
-    sql"""SELECT MIN(created) AS min FROM document""".map(_.jodaLocalDateTime("min")).toOption().apply()
-  }
-
-  override def getMaxDate(): Option[LocalDateTime] = connector.readOnly { implicit session =>
-    sql"""SELECT MAX(created) AS max FROM document""".map(_.jodaLocalDateTime("max")).toOption().apply()
-  }
-
   override def getMetadataKeysAndTypes(): List[(String, String)] = connector.readOnly { implicit session =>
     sql"SELECT DISTINCT key, type FROM metadata".map(rs => (rs.string("key"), rs.string("type"))).list.apply()
   }

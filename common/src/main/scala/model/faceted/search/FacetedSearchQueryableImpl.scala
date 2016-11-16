@@ -18,7 +18,7 @@
 package model.faceted.search
 
 // scalastyle:off
-import model.EntityType
+import model.{Document, EntityType}
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest
 import org.elasticsearch.action.search.{SearchRequestBuilder, SearchResponse}
 import org.elasticsearch.index.query.QueryStringQueryBuilder._
@@ -48,6 +48,9 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
   private val docDateField = "Created"
   private val docXDateField = "SimpleTimeExpresion"
   private val docContentField = "Content"
+
+  private val startHighlight = "<em>"
+  private val endHighlight = "</em>"
 
   private val histogramAggName = "histogram"
 
@@ -318,11 +321,28 @@ class FacetedSearchQueryableImpl(clientService: SearchClientService, index: Stri
     }
   }
 
-  override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Long]) = {
+  override def searchDocuments(facets: Facets, pageSize: Int): (Long, Iterator[Document]) = {
     val requestBuilder = createSearchRequest(facets, pageSize)
-    val it = new SearchHitIterator(requestBuilder)
-    // TODO: We have to figure out, why this returns "4.4.0" with source name kibana as id when we use a matchAllQuery
-    (it.hits, it.flatMap(_.id().toLongOpt()))
+    val highlight = requestBuilder
+      .addField(docContentField)
+      .addHighlightedField(docContentField)
+      .setHighlighterNumOfFragments(0)
+      .setHighlighterPreTags(startHighlight)
+      .setHighlighterPostTags(endHighlight)
+
+    val it = new SearchHitIterator(highlight)
+    // TODO: We have to figure out, why this returns "4.4.0" with source name Kibana as id when we use a matchAllQuery
+    (it.hits, it.flatMap { hit =>
+      hit.id().toLongOpt().map { id =>
+        val content = hit.field(docContentField).getValue.asInstanceOf[String]
+        val highlight = if (hit.highlightFields.contains(docContentField)) {
+          hit.highlightFields.get(docContentField).fragments().headOption.map(_.toString)
+        } else {
+          None
+        }
+        Document(id, content, LocalDateTime.now, highlight)
+      }
+    })
   }
 
   override def getNeighborCounts(facets: Facets, entityId: Long): Aggregation = {
@@ -550,11 +570,8 @@ object HistogramTestable extends App {
   val filter = Facets(List(), Map(), List(), None, None, Some(monthFrom), Some(monthTo))
   val overview = Facets(List(), Map(), List(), None, None, None, None)
 
-  var res = FacetedSearch.fromIndexName("enron").timeXHistogram(filter, LoD.month)
-  //var res = FacetedSearch.fromIndexName("enron").timeXHistogram(overview, LoD.overview)
-  //println(res)
-
-  println(FacetedSearch.fromIndexName("cars").aggregateEntitiesByType(Facets.empty, EntityType.Location, 10, Nil, Nil))
+  val res = FacetedSearch.fromIndexName("enron").timeXHistogram(filter, LoD.month)
+  println(res)
 }
 
 /* object Testable extends App {
